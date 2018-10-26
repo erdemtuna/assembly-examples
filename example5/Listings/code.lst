@@ -1,0 +1,171 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ********
+    2 00000000         ; Program PracticeLab.s
+    3 00000000         ; Clear memory locations 0x2000.0400 - 0x2000.041F,
+    4 00000000         ; then load these locations with consecutive numbers sta
+                       rting
+    5 00000000         ; with 00.
+    6 00000000         ; 'CONST' is the number of locations operated on.
+    7 00000000         ; 'FIRST' is the address of first memory address.
+    8 00000000         ;*******************************************************
+                       ********
+    9 00000000         
+   10 00000000         ;*******************************************************
+                       ********
+   11 00000000         ; EQU Directives
+   12 00000000         ; These directives do not allocate memory
+   13 00000000         ;*******************************************************
+                       ********
+   14 00000000         ;SYMBOL  DIRECTIVE VALUE   COMMENT
+   15 00000000 20000000 
+                       BASE_N  EQU              0x20000000
+   16 00000000 20004000 
+                       BASE_S  EQU              0x20004000
+   17 00000000 00003000 
+                       OFFSET  EQU              0x00003000
+   18 00000000         ;*******************************************************
+                       ********
+   19 00000000         ; Program section
+   20 00000000         ; (Data transfer) The length of the data array is in mem
+                       ory
+   21 00000000         ; location 0x20000000, the data originally starts in mem
+                       ory
+   22 00000000         ; location 0x20004000 (Source Address), and the destinat
+                       ion area
+   23 00000000         ; for the data starts in memory location 0x20008000 (Des
+                       tination
+   24 00000000         ; Address). Write a program to transfer the data.
+   25 00000000         ;*******************************************************
+                       ********
+   26 00000000         ;LABEL  DIRECTIVE VALUE   COMMENT
+   27 00000000                 AREA             main, READONLY, CODE
+   28 00000000                 THUMB
+   29 00000000                 EXPORT           __main
+   30 00000000 F04F 5000 
+                       __main  LDR              R0,= BASE_N ; R0 = arr
+   31 00000004 F36F 011F       BFC              R1, #0, #32 ; R1 = 0
+   32 00000008 4A05            LDR              R2, = BASE_S ; R2 = Stack start
+                                                            
+   33 0000000A 6801            LDR              R1, [R0]
+   34 0000000C 4805            LDR              R0, = (BASE_S + OFFSET)
+   35 0000000E E7FF            B                while_cond
+   36 00000010         
+   37 00000010 2900    while_cond
+                               CMP              R1, #0
+   38 00000012 D004            BEQ              done
+   39 00000014 D2FF            BCS              loop
+   40 00000016         
+   41 00000016 F840 2B04 
+                       loop    STR              R2, [R0], #4
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   42 0000001A 6852            LDR              R2, [R2, #4]
+   43 0000001C E7F8            B                while_cond
+   44 0000001E         
+   45 0000001E E7FE    done    B                done        ; end program
+   46 00000020         ;*******************************************************
+                       ********
+   47 00000020         ; End of the program section
+   48 00000020         ;*******************************************************
+                       ********
+   49 00000020         ;LABEL  DIRECTIVE VALUE   COMMENT
+   50 00000020                 END
+              20004000 
+              20007000 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\code.d -o.\objects\code.o -I.\RTE\_Target_1 -ID:\Keil
+_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\CMSIS\
+Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" --
+predefine="TM4C123GH6PM SETA 1" --list=.\listings\code.lst code.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 30 in file code.s
+   Uses
+      At line 29 in file code.s
+Comment: __main used once
+done 0000001E
+
+Symbol: done
+   Definitions
+      At line 45 in file code.s
+   Uses
+      At line 38 in file code.s
+      At line 45 in file code.s
+
+loop 00000016
+
+Symbol: loop
+   Definitions
+      At line 41 in file code.s
+   Uses
+      At line 39 in file code.s
+Comment: loop used once
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 27 in file code.s
+   Uses
+      None
+Comment: main unused
+while_cond 00000010
+
+Symbol: while_cond
+   Definitions
+      At line 37 in file code.s
+   Uses
+      At line 35 in file code.s
+      At line 43 in file code.s
+
+5 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+BASE_N 20000000
+
+Symbol: BASE_N
+   Definitions
+      At line 15 in file code.s
+   Uses
+      At line 30 in file code.s
+Comment: BASE_N used once
+BASE_S 20004000
+
+Symbol: BASE_S
+   Definitions
+      At line 16 in file code.s
+   Uses
+      At line 32 in file code.s
+      At line 34 in file code.s
+
+OFFSET 00003000
+
+Symbol: OFFSET
+   Definitions
+      At line 17 in file code.s
+   Uses
+      At line 34 in file code.s
+Comment: OFFSET used once
+3 symbols
+344 symbols in table

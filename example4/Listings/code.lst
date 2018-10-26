@@ -1,0 +1,202 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ********
+    2 00000000         ; Program PracticeLab.s
+    3 00000000         ; Clear memory locations 0x2000.0400 - 0x2000.041F,
+    4 00000000         ; then load these locations with consecutive numbers sta
+                       rting
+    5 00000000         ; with 00.
+    6 00000000         ; 'CONST' is the number of locations operated on.
+    7 00000000         ; 'FIRST' is the address of first memory address.
+    8 00000000         ;*******************************************************
+                       ********
+    9 00000000         
+   10 00000000         ;*******************************************************
+                       ********
+   11 00000000         ; EQU Directives
+   12 00000000         ; These directives do not allocate memory
+   13 00000000         ;*******************************************************
+                       ********
+   14 00000000         ;SYMBOL  DIRECTIVE VALUE   COMMENT
+   15 00000000 20000400 
+                       BASE    EQU              0x20000400
+   16 00000000 00000020 
+                       CONST   EQU              0x20
+   17 00000000         ;*******************************************************
+                       ********
+   18 00000000         ; Program section
+   19 00000000         ; (Addition of an array of n four-byte unsigned numbers)
+                       
+   20 00000000         ; Memory location 0x20000040 contains the length (NOT 0)
+                        of a set of
+   21 00000000         ; numbers. The set starts at memory location 0x20000044.
+                        Write a
+   22 00000000         ; program that stores the sum of numbers (< 2^64) starti
+                       ng from
+   23 00000000         ; memory location 0x20001000.
+   24 00000000         ;*******************************************************
+                       ********
+   25 00000000         ;LABEL  DIRECTIVE VALUE   COMMENT
+   26 00000000                 AREA             main, READONLY, CODE
+   27 00000000                 THUMB
+   28 00000000                 EXPORT           __main
+   29 00000000 480B    __main  LDR              R0,=BASE    ; R0 = arr
+   30 00000002 6801            LDR              R1, [R0]    ; R1 = n
+   31 00000004 F36F 021F       BFC              R2, #0, #32 ; R2 = 0
+   32 00000008 F36F 031F       BFC              R3, #0, #32 ; R3 = 0
+   33 0000000C         
+   34 0000000C 2900    while_cond
+                               CMP              R1, #0
+   35 0000000E D00B            BEQ              end
+   36 00000010 D2FF            BCS              in_while
+   37 00000012         
+   38 00000012         
+   39 00000012 F850 4F04 
+                       in_while
+                               LDR              R4, [R0,#4]!
+   40 00000016 1912            ADDS             R2, R2, R4
+   41 00000018 D200            BCS              extend_sum
+   42 0000001A D302            BCC              decr_count
+   43 0000001C         
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   44 0000001C         
+   45 0000001C F103 0301 
+                       extend_sum
+                               ADD              R3,#1
+   46 00000020 E7FF            B                decr_count
+   47 00000022         
+   48 00000022 F1A1 0101 
+                       decr_count
+                               SUB              R1, #1
+   49 00000026 E7F1            B                while_cond
+   50 00000028         
+   51 00000028 4802    end     LDR              R0, =0x20001000
+   52 0000002A E9C0 2300       STRD             R2, R3, [R0]
+   53 0000002E         
+   54 0000002E E7FE    done    B                done        ; end program
+   55 00000030         ;*******************************************************
+                       ********
+   56 00000030         ; End of the program section
+   57 00000030         ;*******************************************************
+                       ********
+   58 00000030         ;LABEL  DIRECTIVE VALUE   COMMENT
+   59 00000030                 END
+              20000400 
+              20001000 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\code.d -o.\objects\code.o -I.\RTE\_Target_1 -ID:\Keil
+_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\CMSIS\
+Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" --
+predefine="TM4C123GH6PM SETA 1" --list=.\listings\code.lst code.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 29 in file code.s
+   Uses
+      At line 28 in file code.s
+Comment: __main used once
+decr_count 00000022
+
+Symbol: decr_count
+   Definitions
+      At line 48 in file code.s
+   Uses
+      At line 42 in file code.s
+      At line 46 in file code.s
+
+done 0000002E
+
+Symbol: done
+   Definitions
+      At line 54 in file code.s
+   Uses
+      At line 54 in file code.s
+Comment: done used once
+end 00000028
+
+Symbol: end
+   Definitions
+      At line 51 in file code.s
+   Uses
+      At line 35 in file code.s
+Comment: end used once
+extend_sum 0000001C
+
+Symbol: extend_sum
+   Definitions
+      At line 45 in file code.s
+   Uses
+      At line 41 in file code.s
+Comment: extend_sum used once
+in_while 00000012
+
+Symbol: in_while
+   Definitions
+      At line 39 in file code.s
+   Uses
+      At line 36 in file code.s
+Comment: in_while used once
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 26 in file code.s
+   Uses
+      None
+Comment: main unused
+while_cond 0000000C
+
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+Symbol: while_cond
+   Definitions
+      At line 34 in file code.s
+   Uses
+      At line 49 in file code.s
+Comment: while_cond used once
+8 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+BASE 20000400
+
+Symbol: BASE
+   Definitions
+      At line 15 in file code.s
+   Uses
+      At line 29 in file code.s
+Comment: BASE used once
+CONST 00000020
+
+Symbol: CONST
+   Definitions
+      At line 16 in file code.s
+   Uses
+      None
+Comment: CONST unused
+2 symbols
+346 symbols in table

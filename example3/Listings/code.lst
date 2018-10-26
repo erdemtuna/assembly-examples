@@ -1,0 +1,128 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ********
+    2 00000000         ; Program PracticeLab.s
+    3 00000000         ; Clear memory locations 0x2000.0400 - 0x2000.041F,
+    4 00000000         ; then load these locations with consecutive numbers sta
+                       rting
+    5 00000000         ; with 00.
+    6 00000000         ; 'CONST' is the number of locations operated on.
+    7 00000000         ; 'FIRST' is the address of first memory address.
+    8 00000000         ;*******************************************************
+                       ********
+    9 00000000         
+   10 00000000         ;*******************************************************
+                       ********
+   11 00000000         ; EQU Directives
+   12 00000000         ; These directives do not allocate memory
+   13 00000000         ;*******************************************************
+                       ********
+   14 00000000         ;SYMBOL  DIRECTIVE VALUE   COMMENT
+   15 00000000 20000400 
+                       BASE    EQU              0x20000400
+   16 00000000 00000020 
+                       CONST   EQU              0x20
+   17 00000000         ;*******************************************************
+                       ********
+   18 00000000         ; Program section
+   19 00000000         ; Write a program which places the lower half word of th
+                       e 4
+   20 00000000         ; byte data saved starting from location 0x20000040 in l
+                       ocation
+   21 00000000         ; 0x20000050 and the higher half word in location 0x0000
+                       0060.
+   22 00000000         ;*******************************************************
+                       ********
+   23 00000000         ;LABEL  DIRECTIVE VALUE   COMMENT
+   24 00000000                 AREA             main, READONLY, CODE
+   25 00000000                 THUMB
+   26 00000000                 EXPORT           __main
+   27 00000000 4804    __main  LDR              R0,=BASE    ; Initialize regist
+                                                            ers
+   28 00000002 6801            LDR              R1, [R0]    ; load R1 with the 
+                                                            content of R0
+   29 00000004 F8A0 1100       STRH             R1, [R0, 0x100] ; save the HW t
+                                                            o R0+0x10
+   30 00000008 EA4F 4111       LSR              R1, R1, 16
+   31 0000000C F8A0 1200       STRH             R1, [R0, 0x200]
+   32 00000010 BF30    done    WFI                          ; Infinite loop to
+   33 00000012 E7FD            B                done        ; end program
+   34 00000014         ;*******************************************************
+                       ********
+   35 00000014         ; End of the program section
+   36 00000014         ;*******************************************************
+                       ********
+   37 00000014         ;LABEL  DIRECTIVE VALUE   COMMENT
+   38 00000014                 END
+              20000400 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\code.d -o.\objects\code.o -I.\RTE\_Target_1 -ID:\Keil
+_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\CMSIS\
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" --
+predefine="TM4C123GH6PM SETA 1" --list=.\listings\code.lst code.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 27 in file code.s
+   Uses
+      At line 26 in file code.s
+Comment: __main used once
+done 00000010
+
+Symbol: done
+   Definitions
+      At line 32 in file code.s
+   Uses
+      At line 33 in file code.s
+Comment: done used once
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 24 in file code.s
+   Uses
+      None
+Comment: main unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+BASE 20000400
+
+Symbol: BASE
+   Definitions
+      At line 15 in file code.s
+   Uses
+      At line 27 in file code.s
+Comment: BASE used once
+CONST 00000020
+
+Symbol: CONST
+   Definitions
+      At line 16 in file code.s
+   Uses
+      None
+Comment: CONST unused
+2 symbols
+341 symbols in table
