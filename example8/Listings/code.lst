@@ -1,0 +1,134 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ********
+    2 00000000         ; Program PracticeLab.s
+    3 00000000         ; Clear memory locations 0x2000.0400 - 0x2000.041F,
+    4 00000000         ; then load these locations with consecutive numbers sta
+                       rting
+    5 00000000         ; with 00.
+    6 00000000         ; 'CONST' is the number of locations operated on.
+    7 00000000         ; 'FIRST' is the address of first memory address.
+    8 00000000         ;*******************************************************
+                       ********
+    9 00000000         
+   10 00000000         ;*******************************************************
+                       ********
+   11 00000000         ; EQU Directives
+   12 00000000         ; These directives do not allocate memory
+   13 00000000         ;*******************************************************
+                       ********
+   14 00000000         ;SYMBOL  DIRECTIVE VALUE   COMMENT
+   15 00000000 20000040 
+                       WORD_N  EQU              0x20000040
+   16 00000000 20000144 
+                       WORD_2  EQU              0x20000144
+   17 00000000         
+   18 00000000         ;*******************************************************
+                       ********
+   19 00000000         ; Program section
+   20 00000000         ; (Maximum value) Length (NOT 0) of a memory array, whic
+                       h
+   21 00000000         ; contains unsigned numbers, is in 0x2000.0044 and the a
+                       rray
+   22 00000000         ; starts at 2x0000.0048. Write a program that places the
+                        maximum
+   23 00000000         ; value in the array in 0x2000.0040.
+   24 00000000         ;*******************************************************
+                       ********
+   25 00000000         ; int* max = 0x2000.0040;
+   26 00000000         ; max = ARR;
+   27 00000000         ; for (int i=0; i < N; i++){
+   28 00000000         ;  if(max < (ARR+i))
+   29 00000000         ;  max = (ARR+i)
+   30 00000000         ; }
+   31 00000000         ; 
+   32 00000000         ;LABEL  DIRECTIVE VALUE   COMMENT
+   33 00000000                 AREA             main, READONLY, CODE
+   34 00000000                 THUMB
+   35 00000000                 EXPORT           __main
+   36 00000000 4803    __main  LDR              R0, = 0x20000400
+   37 00000002 4904            LDR              R1, = 0x20000404
+   38 00000004 F04F 0205       MOV              R2, #5
+   39 00000008 EB02 0100       ADD              R1, R2, R0
+   40 0000000C         
+   41 0000000C E7FE    done    B                done        ; end program
+   42 0000000E         ;*******************************************************
+                       ********
+   43 0000000E         ; End of the program section
+   44 0000000E         ;*******************************************************
+                       ********
+   45 0000000E         ;LABEL  DIRECTIVE VALUE   COMMENT
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   46 0000000E                 END
+              00 00 20000400 
+              20000404 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\code.d -o.\objects\code.o -I.\RTE\_Target_1 -ID:\Keil
+_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\CMSIS\
+Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" --
+predefine="TM4C123GH6PM SETA 1" --list=.\listings\code.lst code.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 36 in file code.s
+   Uses
+      At line 35 in file code.s
+Comment: __main used once
+done 0000000C
+
+Symbol: done
+   Definitions
+      At line 41 in file code.s
+   Uses
+      At line 41 in file code.s
+Comment: done used once
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 33 in file code.s
+   Uses
+      None
+Comment: main unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+WORD_2 20000144
+
+Symbol: WORD_2
+   Definitions
+      At line 16 in file code.s
+   Uses
+      None
+Comment: WORD_2 unused
+WORD_N 20000040
+
+Symbol: WORD_N
+   Definitions
+      At line 15 in file code.s
+   Uses
+      None
+Comment: WORD_N unused
+2 symbols
+341 symbols in table

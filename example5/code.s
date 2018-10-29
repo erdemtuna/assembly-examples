@@ -12,9 +12,7 @@
 ; These directives do not allocate memory
 ;***************************************************************
 ;SYMBOL		DIRECTIVE	VALUE			COMMENT
-BASE_N 		EQU 		0x20000000
-BASE_S 		EQU 		0x20004000
-BASE_D 		EQU 		0x20004000
+
 ;***************************************************************
 ; Program section
 ; (Data transfer) The length of the data array is in memory
@@ -27,15 +25,10 @@ BASE_D 		EQU 		0x20004000
             AREA 		main, READONLY, CODE
             THUMB
             EXPORT 		__main
-__main 		LDR 		R0,= BASE_N 		; R0 = arr
-			LDR			R1, [R0]
-			LDR			R2, = BASE_S
-			LDR			R3, = BASE_D
+__main 		MOV 		R0, #3 			;OP2
+			MOV			R1, #3			;OP1
+			SUBS		R2, R1, R0
 			
-loop		LDR			R4, [R2], #4
-			STR			R4, [R3], #4
-			SUBS 		R1, #1
-			BNE			loop
             
 done 		B 			done 		    ; end program
 ;***************************************************************
