@@ -49,7 +49,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\Objects\</OutputDirectory>
-          <OutputName>example2</OutputName>
+          <OutputName>subroutines</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -383,19 +383,19 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
-              <FileName>Program_Directives.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\Program_Directives.s</FilePath>
-            </File>
-            <File>
-              <FileName>OutStr.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\OutStr.s</FilePath>
-            </File>
-            <File>
               <FileName>Startup.s</FileName>
               <FileType>2</FileType>
               <FilePath>..\_subroutines\Startup.s</FilePath>
+            </File>
+            <File>
+              <FileName>code.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\code.s</FilePath>
+            </File>
+            <File>
+              <FileName>subnop.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\subnop.s</FilePath>
             </File>
           </Files>
         </Group>

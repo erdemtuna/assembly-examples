@@ -12,26 +12,36 @@
 ; These directives do not allocate memory
 ;***************************************************************
 ;SYMBOL		DIRECTIVE	VALUE			COMMENT
-Stack 		EQU 		0x00000400
-input 		EQU 		6
+BASE 		EQU 		0x20000400
+CONST 		EQU 		0x20
 ;***************************************************************
 ; Program section
+;(Nibble separation) Write a program which takes the 32 bits
+;stored starting at the location 0x20000040 and stores the four least
+;significant bits (LSBs) of the least significant byte in location
+;0x20000044, i.e., separate these bits, and stores the four most
+;significant bits (MSB) of the least significant byte in location
+;0x20000045 as the least significant bits.
 ;***************************************************************
 ;LABEL		DIRECTIVE	VALUE			COMMENT
-			AREA 		main, READONLY, CODE
-StackMem 	SPACE 		Stack
-
+            AREA 		main, READONLY, CODE
+            THUMB
+			EXTERN		subnop
+            EXPORT 		__main
+			ENTRY
+			
 __main 		MOV 		R0,#0x42 ; Initialize R0 and R1
 			MOV 		R1,#0x55
-			PUSH 		{R0} ; Save them on stack
-			PUSH 		{R1}
+			PUSH 		{R0, R1} ; Save them on stack
+			
 			BL 			subnop ; Call subroutine
-			POP 		{R1} ; Pull off stack
-			POP 		{R0}
+			POP 		{R0, R1} ; Pull off stack
+			;POP 		{R0}
 done 		B 			done
-subnop 		NOP 			; Does nothing
-			NOP
-			BX 			LR ; Return to main program
+
+
+			
+			
 			END
 ;***************************************************************
 ; End of the program section
