@@ -1,0 +1,195 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ******** 
+    2 00000000         ; Program_Directives.s  
+    3 00000000         ; Copies the table from one location
+    4 00000000         ; to another memory location.           
+    5 00000000         ; Directives and Addressing modes are   
+    6 00000000         ; explained with this program.   
+    7 00000000         ;*******************************************************
+                       ******** 
+    8 00000000         ;*******************************************************
+                       ******** 
+    9 00000000         ; EQU Directives
+   10 00000000         ; These directives do not allocate memory
+   11 00000000         ;*******************************************************
+                       ********
+   12 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
+   13 00000000 20000000 
+                       BASE    EQU              0x20000000
+   14 00000000 22000000 
+                       ALIAS   EQU              0x22000000
+   15 00000000 00000010 
+                       CONST   EQU              16
+   16 00000000         
+   17 00000000         ;*******************************************************
+                       ********
+   18 00000000         ; Directives - This Data Section is part of the code
+   19 00000000         ; It is in the read only section  so values cannot be ch
+                       anged.
+   20 00000000         ;*******************************************************
+                       ********
+   21 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
+   22 00000000                 AREA             sdata, DATA, READONLY
+   23 00000000                 THUMB
+   24 00000000 10      CTR1    DCB              0x10
+   25 00000001 31 32 33 
+              34 35 36 
+              37 38 39 MSG     DCB              "123456789"
+   26 0000000A 0D              DCB              0x0D
+   27 0000000B 04              DCB              0x04
+   28 0000000C         ;*******************************************************
+                       ********
+   29 0000000C         ; Program section           
+   30 0000000C         ;*******************************************************
+                       ********
+   31 0000000C         ;LABEL  DIRECTIVE VALUE  COMMENT
+   32 0000000C                 AREA             main, READONLY, CODE
+   33 00000000                 THUMB
+   34 00000000                 EXTERN           OutStr      ; Reference externa
+                                                            l subroutine 
+   35 00000000                 EXPORT           __main      ; Make available
+   36 00000000         
+   37 00000000         __main
+   38 00000000 F04F 040A 
+                       start   LDR              R4, = 0xA
+   39 00000004 F04F 050F       LDR              R5, = 15
+   40 00000008 FB05 F604       MUL              R6, R5 ,R4
+   41 0000000C 3E96            SUBS             R6, #150
+   42 0000000E F105 050A       ADD              R5, 0xA
+   43 00000012 E7F5            B                start
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   44 00000014         ;*******************************************************
+                       ********
+   45 00000014         ; End of the program  section
+   46 00000014         ;*******************************************************
+                       ********
+   47 00000014         ;LABEL      DIRECTIVE       VALUE                       
+                           COMMENT
+   48 00000014                 ALIGN
+   49 00000014                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\program_directives.d -o.\objects\program_directives.o
+ -I.\RTE\_Target_1 -ID:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4
+C123 -ID:\Keil_v5\ARM\CMSIS\Include --predefine="__EVAL SETA 1" --predefine="__
+UVISION_VERSION SETA 526" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\p
+rogram_directives.lst ..\..\_subroutines\Program_Directives.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+CTR1 00000000
+
+Symbol: CTR1
+   Definitions
+      At line 24 in file ..\..\_subroutines\Program_Directives.s
+   Uses
+      None
+Comment: CTR1 unused
+MSG 00000001
+
+Symbol: MSG
+   Definitions
+      At line 25 in file ..\..\_subroutines\Program_Directives.s
+   Uses
+      None
+Comment: MSG unused
+sdata 00000000
+
+Symbol: sdata
+   Definitions
+      At line 22 in file ..\..\_subroutines\Program_Directives.s
+   Uses
+      None
+Comment: sdata unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 37 in file ..\..\_subroutines\Program_Directives.s
+   Uses
+      At line 35 in file ..\..\_subroutines\Program_Directives.s
+Comment: __main used once
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 32 in file ..\..\_subroutines\Program_Directives.s
+   Uses
+      None
+Comment: main unused
+start 00000000
+
+Symbol: start
+   Definitions
+      At line 38 in file ..\..\_subroutines\Program_Directives.s
+   Uses
+      At line 43 in file ..\..\_subroutines\Program_Directives.s
+Comment: start used once
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+ALIAS 22000000
+
+Symbol: ALIAS
+   Definitions
+      At line 14 in file ..\..\_subroutines\Program_Directives.s
+   Uses
+      None
+Comment: ALIAS unused
+BASE 20000000
+
+Symbol: BASE
+   Definitions
+      At line 13 in file ..\..\_subroutines\Program_Directives.s
+   Uses
+      None
+Comment: BASE unused
+CONST 00000010
+
+Symbol: CONST
+   Definitions
+      At line 15 in file ..\..\_subroutines\Program_Directives.s
+   Uses
+      None
+Comment: CONST unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+OutStr 00000000
+
+Symbol: OutStr
+   Definitions
+      At line 34 in file ..\..\_subroutines\Program_Directives.s
+   Uses
+      None
+Comment: OutStr unused
+1 symbol
+344 symbols in table

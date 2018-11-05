@@ -1,0 +1,155 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ********
+    2 00000000         ; Program PracticeLab.s
+    3 00000000         ; Clear memory locations 0x2000.0400 - 0x2000.041F,
+    4 00000000         ; then load these locations with consecutive numbers sta
+                       rting
+    5 00000000         ; with 00.
+    6 00000000         ; 'CONST' is the number of locations operated on.
+    7 00000000         ; 'FIRST' is the address of first memory address.
+    8 00000000         ;*******************************************************
+                       ********
+    9 00000000         
+   10 00000000         ;*******************************************************
+                       ********
+   11 00000000         ; EQU Directives
+   12 00000000         ; These directives do not allocate memory
+   13 00000000         ;*******************************************************
+                       ********
+   14 00000000         ;SYMBOL  DIRECTIVE VALUE   COMMENT
+   15 00000000 0000FFFF 
+                       BASE    EQU              0x0000FFFF
+   16 00000000 20001000 
+                       TARGET  EQU              0x20001000
+   17 00000000         ;*******************************************************
+                       ********
+   18 00000000         ; Program section
+   19 00000000         ;(Nibble separation) Write a program which takes the 32 
+                       bits
+   20 00000000         ;stored starting at the location 0x20000040 and stores t
+                       he four least
+   21 00000000         ;significant bits (LSBs) of the least significant byte i
+                       n location
+   22 00000000         ;0x20000044, i.e., separate these bits, and stores the f
+                       our most
+   23 00000000         ;significant bits (MSB) of the least significant byte in
+                        location
+   24 00000000         ;0x20000045 as the least significant bits.
+   25 00000000         ;*******************************************************
+                       ********
+   26 00000000         ;LABEL  DIRECTIVE VALUE   COMMENT
+   27 00000000                 AREA             main, READONLY, CODE
+   28 00000000                 THUMB
+   29 00000000                 EXTERN           CONVRT
+   30 00000000                 EXTERN           OutStr      ; Reference externa
+                                                            l subroutine 
+   31 00000000                 EXPORT           __main
+   32 00000000                 ENTRY
+   33 00000000         
+   34 00000000         __main
+   35 00000000 F64F 74FF       LDR              R4, = BASE
+   36 00000004 4D02            LDR              R5, = TARGET
+   37 00000006         
+   38 00000006 F7FF FFFE       BL               CONVRT
+   39 0000000A         
+   40 0000000A F7FF FFFE       BL               OutStr
+   41 0000000E         
+   42 0000000E E7FE    done    B                __main
+   43 00000010                 END
+              20001000 
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\code.d -o.\objects\code.o -I.\RTE\_Target_1 -ID:\Keil
+_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\CMSIS\
+Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" --
+predefine="TM4C123GH6PM SETA 1" --list=.\listings\code.lst code.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 34 in file code.s
+   Uses
+      At line 31 in file code.s
+      At line 42 in file code.s
+
+done 0000000E
+
+Symbol: done
+   Definitions
+      At line 42 in file code.s
+   Uses
+      None
+Comment: done unused
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 27 in file code.s
+   Uses
+      None
+Comment: main unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+BASE 0000FFFF
+
+Symbol: BASE
+   Definitions
+      At line 15 in file code.s
+   Uses
+      At line 35 in file code.s
+Comment: BASE used once
+TARGET 20001000
+
+Symbol: TARGET
+   Definitions
+      At line 16 in file code.s
+   Uses
+      At line 36 in file code.s
+Comment: TARGET used once
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+CONVRT 00000000
+
+Symbol: CONVRT
+   Definitions
+      At line 29 in file code.s
+   Uses
+      At line 38 in file code.s
+Comment: CONVRT used once
+OutStr 00000000
+
+Symbol: OutStr
+   Definitions
+      At line 30 in file code.s
+   Uses
+      At line 40 in file code.s
+Comment: OutStr used once
+2 symbols
+343 symbols in table
