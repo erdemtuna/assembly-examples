@@ -1,0 +1,214 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ********
+    2 00000000         ; DELAY100
+    3 00000000         ;*******************************************************
+                       ********
+    4 00000000 400053FC 
+                       GPIO_PORTB_DATA
+                               EQU              0x400053FC  ;Port B data addres
+                                                            s
+    5 00000000 40005400 
+                       GPIO_PORTB_DIR
+                               EQU              0x40005400
+    6 00000000 40005420 
+                       GPIO_PORTB_AFSEL
+                               EQU              0x40005420
+    7 00000000 4000551C 
+                       GPIO_PORTB_DEN
+                               EQU              0x4000551C
+    8 00000000 400FE608 
+                       SYSCTL_RCGCGPIO
+                               EQU              0x400FE608
+    9 00000000 000000F0 
+                       IOB     EQU              0xF0        ; LSB = input, MSB 
+                                                            = output
+   10 00000000         
+   11 00000000         ;GPIO_PORTE_DATA EQU 0x400243FC ;Port E data address
+   12 00000000         ;GPIO_PORTE_DIR EQU 0x40024400
+   13 00000000         ;GPIO_PORTE_AFSEL EQU 0x40024420
+   14 00000000         ;GPIO_PORTE_DEN EQU 0x4002451C
+   15 00000000         ;IOE EQU 0x00
+   16 00000000         
+   17 00000000         ;*******************************************************
+                       ********
+   18 00000000         ; Program section
+   19 00000000         ;*******************************************************
+                       ********
+   20 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
+   21 00000000                 AREA             routines, READONLY, CODE
+   22 00000000                 THUMB
+   23 00000000                 EXPORT           ConfGPIO    ; Make available
+   24 00000000         
+   25 00000000         ConfGPIO
+                               PROC
+   26 00000000 B403            PUSH{R0,         R1}
+   27 00000002         
+   28 00000002 490D    DO      LDR              R1, =SYSCTL_RCGCGPIO
+   29 00000004 6808            LDR              R0, [R1]
+   30 00000006 F040 0012       ORR              R0, R0, #0x12
+   31 0000000A 6008            STR              R0, [R1]
+   32 0000000C BF00            NOP
+   33 0000000E BF00            NOP
+   34 00000010 BF00            NOP
+   35 00000012         ;configure port B
+   36 00000012 490A            LDR              R1, =GPIO_PORTB_DIR
+   37 00000014 6808            LDR              R0, [R1]
+   38 00000016 F020 00FF       BIC              R0, #0xFF
+   39 0000001A F040 00F0       ORR              R0, #IOB    ;11110000
+   40 0000001E 6008            STR              R0, [R1]
+   41 00000020         ;configure port B
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   42 00000020         ;clear Alt. Function Select
+   43 00000020 4907            LDR              R1, =GPIO_PORTB_AFSEL
+   44 00000022 6808            LDR              R0, [R1]
+   45 00000024 F020 00FF       BIC              R0, #0xFF
+   46 00000028 6008            STR              R0, [R1]
+   47 0000002A         ;clear Alt. Function Select
+   48 0000002A         ; enable digital inputs
+   49 0000002A 4906            LDR              R1, =GPIO_PORTB_DEN
+   50 0000002C 6808            LDR              R0, [R1]
+   51 0000002E F040 00FF       ORR              R0, #0xFF
+   52 00000032 6008            STR              R0, [R1]
+   53 00000034         ; enable digital inputs
+   54 00000034         
+   55 00000034         
+   56 00000034         ; LDR R1, =GPIO_PORTE_DIR
+   57 00000034         ; LDR R0, [R1]
+   58 00000034         ; ORR R0, #IOE
+   59 00000034         ; STR R0, [R1]
+   60 00000034         ; LDR R1, =GPIO_PORTE_AFSEL
+   61 00000034         ; LDR R0, [R1]
+   62 00000034         ; BIC R0, #0xFF
+   63 00000034         ; STR R0, [R1]
+   64 00000034         ; LDR R1, =GPIO_PORTE_DEN
+   65 00000034         ; LDR R0, [R1]
+   66 00000034         ; ORR R0, #0xFF
+   67 00000034         ; STR R0, [R1]
+   68 00000034         
+   69 00000034 BC03    EXI     POP{R0,          R1}
+   70 00000036 4770            BX               LR
+   71 00000038                 ENDP
+   72 00000038         ;*******************************************************
+                       ********
+   73 00000038         ; End of the program  section
+   74 00000038         ;*******************************************************
+                       ********
+   75 00000038         ;LABEL      DIRECTIVE       VALUE                       
+                           COMMENT
+   76 00000038                 ALIGN
+   77 00000038                 END
+              400FE608 
+              40005400 
+              40005420 
+              4000551C 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\confgpio.d -o.\objects\confgpio.o -I.\RTE\_q2 -ID:\Ke
+il_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\CMSI
+S\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" 
+--predefine="TM4C123GH6PM SETA 1" --list=.\listings\confgpio.lst ConfGPIO.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+ConfGPIO 00000000
+
+Symbol: ConfGPIO
+   Definitions
+      At line 25 in file ConfGPIO.s
+   Uses
+      At line 23 in file ConfGPIO.s
+Comment: ConfGPIO used once
+DO 00000002
+
+Symbol: DO
+   Definitions
+      At line 28 in file ConfGPIO.s
+   Uses
+      None
+Comment: DO unused
+EXI 00000034
+
+Symbol: EXI
+   Definitions
+      At line 69 in file ConfGPIO.s
+   Uses
+      None
+Comment: EXI unused
+routines 00000000
+
+Symbol: routines
+   Definitions
+      At line 21 in file ConfGPIO.s
+   Uses
+      None
+Comment: routines unused
+4 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_PORTB_AFSEL 40005420
+
+Symbol: GPIO_PORTB_AFSEL
+   Definitions
+      At line 6 in file ConfGPIO.s
+   Uses
+      At line 43 in file ConfGPIO.s
+Comment: GPIO_PORTB_AFSEL used once
+GPIO_PORTB_DATA 400053FC
+
+Symbol: GPIO_PORTB_DATA
+   Definitions
+      At line 4 in file ConfGPIO.s
+   Uses
+      None
+Comment: GPIO_PORTB_DATA unused
+GPIO_PORTB_DEN 4000551C
+
+Symbol: GPIO_PORTB_DEN
+   Definitions
+      At line 7 in file ConfGPIO.s
+   Uses
+      At line 49 in file ConfGPIO.s
+Comment: GPIO_PORTB_DEN used once
+GPIO_PORTB_DIR 40005400
+
+Symbol: GPIO_PORTB_DIR
+   Definitions
+      At line 5 in file ConfGPIO.s
+   Uses
+      At line 36 in file ConfGPIO.s
+Comment: GPIO_PORTB_DIR used once
+IOB 000000F0
+
+Symbol: IOB
+   Definitions
+      At line 9 in file ConfGPIO.s
+   Uses
+      At line 39 in file ConfGPIO.s
+Comment: IOB used once
+SYSCTL_RCGCGPIO 400FE608
+
+Symbol: SYSCTL_RCGCGPIO
+   Definitions
+      At line 8 in file ConfGPIO.s
+   Uses
+      At line 28 in file ConfGPIO.s
+Comment: SYSCTL_RCGCGPIO used once
+6 symbols
+346 symbols in table

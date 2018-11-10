@@ -1,0 +1,165 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ********
+    2 00000000         ; CONVRT
+    3 00000000         ; Converts the HEX number stored in R4 to 
+    4 00000000         ; the decimal equivalent, stores the characters
+    5 00000000         ; at the location specified by R5.
+    6 00000000         ;*******************************************************
+                       ********
+    7 00000000         ;*******************************************************
+                       ********
+    8 00000000         ; EQU Directives
+    9 00000000         ; These directives do not allocate memory
+   10 00000000         ;*******************************************************
+                       ********
+   11 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
+   12 00000000         ;OFFSET   EQU      0x10
+   13 00000000         ;FIRST     EQU      0x20000400
+   14 00000000         ;*******************************************************
+                       ********
+   15 00000000         ; Directives - This Data Section is part of the code
+   16 00000000         ; It is in the read only section  so values cannot be ch
+                       anged.
+   17 00000000         ;*******************************************************
+                       ********
+   18 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
+   19 00000000         ;            AREA        sdata, DATA, READONLY
+   20 00000000         ;            THUMB
+   21 00000000         ;CTR1     DCB      0x10
+   22 00000000         ;MSG      DCB      "Copying table..."
+   23 00000000         ;   DCB   0x0D
+   24 00000000         ;   DCB   0x04
+   25 00000000         ;*******************************************************
+                       ********
+   26 00000000         ; Program section
+   27 00000000         ;*******************************************************
+                       ********
+   28 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
+   29 00000000                 AREA             routines, READONLY, CODE
+   30 00000000                 THUMB
+   31 00000000                 EXPORT           CONVRT      ; Make available
+   32 00000000         
+   33 00000000         CONVRT  PROC
+   34 00000000 462F            MOV              R7, R5
+   35 00000002 F04F 010A       LDR              R1, = 10
+   36 00000006 F04F 060A       LDR              R6, = 10
+   37 0000000A 4620            MOV              R0, R4      ; Number itself
+   38 0000000C 2900            CMP              R1, #0      ;clear carry
+   39 0000000E         
+   40 0000000E D00C    LOOP    BEQ              NEXT
+   41 00000010 FBB0 F2F1       UDIV             R2, R0, R1  ; R2 = R0/10
+   42 00000014 4614            MOV              R4, R2
+   43 00000016 FB02 F201       MUL              R2, R1      ; R2 *= 10
+   44 0000001A EBA0 0302       SUB              R3, R0, R2  ; R3 = R0-R2
+   45 0000001E 4620            MOV              R0, R4
+   46 00000020 F103 0330       ADD              R3, #0x30
+   47 00000024         
+   48 00000024 B408            PUSH             {R3}
+   49 00000026 3E01            SUBS             R6, #1
+   50 00000028 E7F1            B                LOOP
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   51 0000002A         
+   52 0000002A F04F 000A 
+                       NEXT    LDR              R0, = 10    ; new counter
+   53 0000002E F04F 0130       LDR              R1, = 0x30
+   54 00000032 3801            SUBS             R0, #1      ; clear xPSR
+   55 00000034 E000            B                RETRIEVE
+   56 00000036         
+   57 00000036 3801    ctr     SUBS             R0, #1
+   58 00000038         RETRIEVE
+   59 00000038 BC10            POP              {R4}
+   60 0000003A 42A1            CMP              R1, R4
+   61 0000003C D0FB            BEQ              ctr
+   62 0000003E F805 4B01       STRB             R4, [R5], #1
+   63 00000042 F04F 0129       LDR              R1, =0x29
+   64 00000046 2800            CMP              R0, #0
+   65 00000048 D1F5            BNE              ctr
+   66 0000004A F04F 060D       LDR              R6, =0x0D
+   67 0000004E F805 6B01       STRB             R6 , [R5], #1
+   68 00000052 F04F 0604       LDR              R6, =0x04
+   69 00000056 F805 6B01       STRB             R6, [R5], #1
+   70 0000005A 463D            MOV              R5, R7
+   71 0000005C 4770            BX               LR
+   72 0000005E                 ENDP
+   73 0000005E         ;*******************************************************
+                       ********
+   74 0000005E         ; End of the program  section
+   75 0000005E         ;*******************************************************
+                       ********
+   76 0000005E         ;LABEL      DIRECTIVE       VALUE                       
+                           COMMENT
+   77 0000005E 00 00           ALIGN
+   78 00000060                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\convrt.d -o.\objects\convrt.o -I.\RTE\_Target_1 -ID:\
+Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\CM
+SIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526
+" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\convrt.lst convrt.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+CONVRT 00000000
+
+Symbol: CONVRT
+   Definitions
+      At line 33 in file convrt.s
+   Uses
+      At line 31 in file convrt.s
+Comment: CONVRT used once
+LOOP 0000000E
+
+Symbol: LOOP
+   Definitions
+      At line 40 in file convrt.s
+   Uses
+      At line 50 in file convrt.s
+Comment: LOOP used once
+NEXT 0000002A
+
+Symbol: NEXT
+   Definitions
+      At line 52 in file convrt.s
+   Uses
+      At line 40 in file convrt.s
+Comment: NEXT used once
+RETRIEVE 00000038
+
+Symbol: RETRIEVE
+   Definitions
+      At line 58 in file convrt.s
+   Uses
+      At line 55 in file convrt.s
+Comment: RETRIEVE used once
+ctr 00000036
+
+Symbol: ctr
+   Definitions
+      At line 57 in file convrt.s
+   Uses
+      At line 61 in file convrt.s
+      At line 65 in file convrt.s
+
+routines 00000000
+
+Symbol: routines
+   Definitions
+      At line 29 in file convrt.s
+   Uses
+      None
+Comment: routines unused
+6 symbols
+340 symbols in table

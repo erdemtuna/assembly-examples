@@ -148,7 +148,7 @@
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>0</SubType>
-          <ItemText>0x200003f8</ItemText>
+          <ItemText>0x20001000</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
@@ -210,8 +210,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\_subroutines\Startup.s</PathWithFileName>
-      <FilenameWithoutPath>Startup.s</FilenameWithoutPath>
+      <PathWithFileName>.\code.s</PathWithFileName>
+      <FilenameWithoutPath>code.s</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -222,8 +222,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\code.s</PathWithFileName>
-      <FilenameWithoutPath>code.s</FilenameWithoutPath>
+      <PathWithFileName>.\convrt.s</PathWithFileName>
+      <FilenameWithoutPath>convrt.s</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -234,8 +234,20 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\subnop.s</PathWithFileName>
-      <FilenameWithoutPath>subnop.s</FilenameWithoutPath>
+      <PathWithFileName>..\..\_subroutines\Startup.s</PathWithFileName>
+      <FilenameWithoutPath>Startup.s</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>4</FileNumber>
+      <FileType>2</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\..\_subroutines\OutStr.s</PathWithFileName>
+      <FilenameWithoutPath>OutStr.s</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

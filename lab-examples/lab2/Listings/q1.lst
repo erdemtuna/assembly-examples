@@ -1,0 +1,166 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ********
+    2 00000000         ; EQU Directives
+    3 00000000         ; These directives do not allocate memory
+    4 00000000         ;*******************************************************
+                       ********
+    5 00000000         ;SYMBOL  DIRECTIVE VALUE   COMMENT
+    6 00000000 20000700 
+                       BASE    EQU              0x20000700
+    7 00000000 20000700 
+                       TARGET  EQU              0x20000700
+    8 00000000         ;LABEL DIRECTIVE VALUE COMMENT
+    9 00000000                 AREA             sdata , DATA, READONLY
+   10 00000000                 THUMB
+   11 00000000 64 65 6C 
+              61 79 69 
+              6E 67 2E 
+              2E 2E    MSG     DCB              "delaying..."
+   12 0000000B 0D              DCB              0x0D
+   13 0000000C 04              DCB              0x04
+   14 0000000D         
+   15 0000000D         ;*******************************************************
+                       ********
+   16 0000000D         ; Program section
+   17 0000000D         ;*******************************************************
+                       ********
+   18 0000000D         ;LABEL  DIRECTIVE VALUE   COMMENT
+   19 0000000D                 AREA             main, READONLY, CODE
+   20 00000000                 THUMB
+   21 00000000                 EXTERN           CONVRT
+   22 00000000                 EXTERN           DELAY100
+   23 00000000                 EXTERN           OutStr      ; Reference externa
+                                                            l subroutine 
+   24 00000000                 EXTERN           InChar      ; Reference externa
+                                                            l subroutine 
+   25 00000000                 EXPORT           __main
+   26 00000000                 ENTRY
+   27 00000000         
+   28 00000000 4D02    __main  LDR              R5,=MSG
+   29 00000002 F7FF FFFE       BL               OutStr      ; Copy message
+   30 00000006 F7FF FFFE       BL               DELAY100
+   31 0000000A E7FE            B                __main
+   32 0000000C         
+   33 0000000C                 END
+              00000000 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\q1.d -o.\objects\q1.o -I.\RTE\_q1 -ID:\Keil_v5\ARM\PA
+CK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\CMSIS\Include --
+predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" --predefine=
+"TM4C123GH6PM SETA 1" --list=.\listings\q1.lst q1.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+MSG 00000000
+
+Symbol: MSG
+   Definitions
+      At line 11 in file q1.s
+   Uses
+      At line 28 in file q1.s
+Comment: MSG used once
+sdata 00000000
+
+Symbol: sdata
+   Definitions
+      At line 9 in file q1.s
+   Uses
+      None
+Comment: sdata unused
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 28 in file q1.s
+   Uses
+      At line 25 in file q1.s
+      At line 31 in file q1.s
+
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 19 in file q1.s
+   Uses
+      None
+Comment: main unused
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+BASE 20000700
+
+Symbol: BASE
+   Definitions
+      At line 6 in file q1.s
+   Uses
+      None
+Comment: BASE unused
+TARGET 20000700
+
+Symbol: TARGET
+   Definitions
+      At line 7 in file q1.s
+   Uses
+      None
+Comment: TARGET unused
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+CONVRT 00000000
+
+Symbol: CONVRT
+   Definitions
+      At line 21 in file q1.s
+   Uses
+      None
+Comment: CONVRT unused
+DELAY100 00000000
+
+Symbol: DELAY100
+   Definitions
+      At line 22 in file q1.s
+   Uses
+      At line 30 in file q1.s
+Comment: DELAY100 used once
+InChar 00000000
+
+Symbol: InChar
+   Definitions
+      At line 24 in file q1.s
+   Uses
+      None
+Comment: InChar unused
+OutStr 00000000
+
+Symbol: OutStr
+   Definitions
+      At line 23 in file q1.s
+   Uses
+      At line 29 in file q1.s
+Comment: OutStr used once
+4 symbols
+346 symbols in table

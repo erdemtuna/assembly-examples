@@ -1,0 +1,238 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ********
+    2 00000000         ; EQU Directives
+    3 00000000         ; These directives do not allocate memory
+    4 00000000         ;*******************************************************
+                       ********
+    5 00000000         ;SYMBOL  DIRECTIVE VALUE   COMMENT
+    6 00000000 400053FC 
+                       GPIO_PORTB_DATA
+                               EQU              0x400053FC  ;Port B data addres
+                                                            s
+    7 00000000         
+    8 00000000         ;LABEL DIRECTIVE VALUE COMMENT
+    9 00000000                 AREA             sdata , DATA, READONLY
+   10 00000000                 THUMB
+   11 00000000 52 65 61 
+              64 69 6E 
+              67 20 49 
+              6E 70 75 
+              74       R_I     DCB              "Reading Input"
+   12 0000000D 0D              DCB              0x0D
+   13 0000000E 04              DCB              0x04
+   14 0000000F         
+   15 0000000F 57 72 69 
+              74 69 6E 
+              67 20 4F 
+              75 74 70 
+              75 74    W_O     DCB              "Writing Output"
+   16 0000001D 0D              DCB              0x0D
+   17 0000001E 04              DCB              0x04
+   18 0000001F         
+   19 0000001F         ;*******************************************************
+                       ********
+   20 0000001F         ; Program section
+   21 0000001F         ;*******************************************************
+                       ********
+   22 0000001F         ;LABEL  DIRECTIVE VALUE   COMMENT
+   23 0000001F                 AREA             main, READONLY, CODE
+   24 00000000                 THUMB
+   25 00000000                 EXTERN           CONVRT
+   26 00000000                 EXTERN           DELAY5s
+   27 00000000                 EXTERN           DELAY100ms
+   28 00000000                 EXTERN           PRC_PINS
+   29 00000000                 EXTERN           ConfGPIO
+   30 00000000                 EXTERN           OutStr      ; Reference externa
+                                                            l subroutine 
+   31 00000000                 EXTERN           InChar      ; Reference externa
+                                                            l subroutine 
+   32 00000000                 EXPORT           __main
+   33 00000000                 ENTRY
+   34 00000000         
+   35 00000000         __main
+   36 00000000 F7FF FFFE       BL               ConfGPIO
+   37 00000004         
+   38 00000004 4D06    hi      LDR              R5, = R_I
+   39 00000006 F7FF FFFE       BL               OutStr      ; Copy message
+   40 0000000A 4806            LDR              R0, = GPIO_PORTB_DATA 
+                                                            ; load addr
+   41 0000000C 7801            LDRB             R1, [R0]    ; read the pin valu
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+                                                            es
+   42 0000000E F7FF FFFE       BL               PRC_PINS
+   43 00000012 4D05            LDR              R5, = W_O
+   44 00000014 F7FF FFFE       BL               OutStr      ; Copy message
+   45 00000018 7001            STRB             R1, [R0]
+   46 0000001A F7FF FFFE       BL               DELAY5s
+   47 0000001E         done
+   48 0000001E E7F1            B                hi
+   49 00000020                 END
+              00000000 
+              400053FC 
+              00000000 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\q2.d -o.\objects\q2.o -I.\RTE\_q2 -ID:\Keil_v5\ARM\PA
+CK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\CMSIS\Include --
+predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" --predefine=
+"TM4C123GH6PM SETA 1" --list=.\listings\q2.lst q2.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+R_I 00000000
+
+Symbol: R_I
+   Definitions
+      At line 11 in file q2.s
+   Uses
+      At line 38 in file q2.s
+Comment: R_I used once
+W_O 0000000F
+
+Symbol: W_O
+   Definitions
+      At line 15 in file q2.s
+   Uses
+      At line 43 in file q2.s
+Comment: W_O used once
+sdata 00000000
+
+Symbol: sdata
+   Definitions
+      At line 9 in file q2.s
+   Uses
+      None
+Comment: sdata unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 35 in file q2.s
+   Uses
+      At line 32 in file q2.s
+Comment: __main used once
+done 0000001E
+
+Symbol: done
+   Definitions
+      At line 47 in file q2.s
+   Uses
+      None
+Comment: done unused
+hi 00000004
+
+Symbol: hi
+   Definitions
+      At line 38 in file q2.s
+   Uses
+      At line 48 in file q2.s
+Comment: hi used once
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 23 in file q2.s
+   Uses
+      None
+Comment: main unused
+4 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_PORTB_DATA 400053FC
+
+Symbol: GPIO_PORTB_DATA
+   Definitions
+      At line 6 in file q2.s
+   Uses
+      At line 40 in file q2.s
+Comment: GPIO_PORTB_DATA used once
+1 symbol
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+CONVRT 00000000
+
+Symbol: CONVRT
+   Definitions
+      At line 25 in file q2.s
+   Uses
+      None
+Comment: CONVRT unused
+ConfGPIO 00000000
+
+Symbol: ConfGPIO
+   Definitions
+      At line 29 in file q2.s
+   Uses
+      At line 36 in file q2.s
+Comment: ConfGPIO used once
+DELAY100ms 00000000
+
+Symbol: DELAY100ms
+   Definitions
+      At line 27 in file q2.s
+   Uses
+      None
+Comment: DELAY100ms unused
+DELAY5s 00000000
+
+Symbol: DELAY5s
+   Definitions
+      At line 26 in file q2.s
+   Uses
+      At line 46 in file q2.s
+Comment: DELAY5s used once
+InChar 00000000
+
+Symbol: InChar
+   Definitions
+      At line 31 in file q2.s
+   Uses
+      None
+Comment: InChar unused
+OutStr 00000000
+
+Symbol: OutStr
+   Definitions
+      At line 30 in file q2.s
+   Uses
+      At line 39 in file q2.s
+      At line 44 in file q2.s
+
+PRC_PINS 00000000
+
+Symbol: PRC_PINS
+   Definitions
+      At line 28 in file q2.s
+   Uses
+      At line 42 in file q2.s
+Comment: PRC_PINS used once
+7 symbols
+351 symbols in table

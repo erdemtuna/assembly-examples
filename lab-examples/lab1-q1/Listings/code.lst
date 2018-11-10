@@ -1,0 +1,126 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ********
+    2 00000000         ; EQU Directives
+    3 00000000         ; These directives do not allocate memory
+    4 00000000         ;*******************************************************
+                       ********
+    5 00000000         ;SYMBOL  DIRECTIVE VALUE   COMMENT
+    6 00000000 000A03EF 
+                       BASE    EQU              0x000A03EF
+    7 00000000 20001000 
+                       TARGET  EQU              0x20001000
+    8 00000000         ;*******************************************************
+                       ********
+    9 00000000         ; Program section
+   10 00000000         ;*******************************************************
+                       ********
+   11 00000000         ;LABEL  DIRECTIVE VALUE   COMMENT
+   12 00000000                 AREA             main, READONLY, CODE
+   13 00000000                 THUMB
+   14 00000000                 EXTERN           CONVRT
+   15 00000000                 EXTERN           OutStr      ; Reference externa
+                                                            l subroutine 
+   16 00000000                 EXPORT           __main
+   17 00000000                 ENTRY
+   18 00000000         
+   19 00000000         __main
+   20 00000000 4C03            LDR              R4, = BASE  ; load the number t
+                                                            o R4
+   21 00000002 4D04            LDR              R5, = TARGET ; load the saving
+   22 00000004         ; location to R5
+   23 00000004 F7FF FFFE       BL               CONVRT
+   24 00000008 F7FF FFFE       BL               OutStr
+   25 0000000C E7FE    done    B                __main
+   26 0000000E                 END
+              00 00 000A03EF 
+              20001000 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\code.d -o.\objects\code.o -I.\RTE\_Target_1 -ID:\Keil
+_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\CMSIS\
+Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" --
+predefine="TM4C123GH6PM SETA 1" --list=.\listings\code.lst code.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 19 in file code.s
+   Uses
+      At line 16 in file code.s
+      At line 25 in file code.s
+
+done 0000000C
+
+Symbol: done
+   Definitions
+      At line 25 in file code.s
+   Uses
+      None
+Comment: done unused
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 12 in file code.s
+   Uses
+      None
+Comment: main unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+BASE 000A03EF
+
+Symbol: BASE
+   Definitions
+      At line 6 in file code.s
+   Uses
+      At line 20 in file code.s
+Comment: BASE used once
+TARGET 20001000
+
+Symbol: TARGET
+   Definitions
+      At line 7 in file code.s
+   Uses
+      At line 21 in file code.s
+Comment: TARGET used once
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+CONVRT 00000000
+
+Symbol: CONVRT
+   Definitions
+      At line 14 in file code.s
+   Uses
+      At line 23 in file code.s
+Comment: CONVRT used once
+OutStr 00000000
+
+Symbol: OutStr
+   Definitions
+      At line 15 in file code.s
+   Uses
+      At line 24 in file code.s
+Comment: OutStr used once
+2 symbols
+343 symbols in table
