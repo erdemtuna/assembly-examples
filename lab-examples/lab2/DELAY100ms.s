@@ -23,11 +23,11 @@ CYCLES	EQU	0x61A7E	; 399998
 			EXPORT  	DELAY100ms	; Make available
 
 DELAY100ms PROC
-		PUSH{R0}
+		PUSH{R0, LR}
 		LDR	R0, = CYCLES
 DECR	SUBS R0, #1
 		BNE	DECR
-		POP{R0}
+		POP{R0, LR}
 		BX LR
 		ENDP
 ;***************************************************************

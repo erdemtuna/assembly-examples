@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\lab2.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\lab2.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Nov 12 13:25:55 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Nov 12 21:38:14 2018
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -13,7 +13,7 @@ Call chain for Maximum Stack Depth:</H3>
 Functions with no stack information
 </H3><UL>
  <LI><a href="#[7c]">Reset_Handler</a>
- <LI><a href="#[7f]">OutStr</a>
+ <LI><a href="#[82]">OutStr</a>
  <LI><a href="#[7d]">__main</a>
 </UL>
 </UL>
@@ -577,35 +577,43 @@ Global Symbols
 <P><STRONG><a name="[38]"></a>uDMA_Handler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup.o(RESET))
 <BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
 </UL>
-<P><STRONG><a name="[7f]"></a>OutStr</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, outstr.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+<P><STRONG><a name="[82]"></a>OutStr</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, outstr.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ScanKeys
 </UL>
 
-<P><STRONG><a name="[82]"></a>__use_two_region_memory</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+<P><STRONG><a name="[83]"></a>__use_two_region_memory</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
 
-<P><STRONG><a name="[83]"></a>__rt_heap_escrow$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+<P><STRONG><a name="[84]"></a>__rt_heap_escrow$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
 
-<P><STRONG><a name="[84]"></a>__rt_heap_expand$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
+<P><STRONG><a name="[85]"></a>__rt_heap_expand$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
 
-<P><STRONG><a name="[7d]"></a>__main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, q2.o(main))
-<BR><BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PRC_PINS
-<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DELAY5s
-<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConfGPIO
-<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutStr
+<P><STRONG><a name="[7d]"></a>__main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, q3.o(main))
+<BR><BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ScanKeys
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DELAY100ms
+<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConfGPIOkeypad
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Reset_Handler
 </UL>
 
-<P><STRONG><a name="[81]"></a>DELAY5s</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, delay5s.o(routines))
+<P><STRONG><a name="[80]"></a>DELAY100ms</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, delay100ms.o(routines))
+<BR><BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ScanKeys
+<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+</UL>
+
+<P><STRONG><a name="[7e]"></a>ConfGPIOkeypad</STRONG> (Thumb, 94 bytes, Stack size 0 bytes, confgpiokeypad.o(routines))
 <BR><BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
 </UL>
 
-<P><STRONG><a name="[7e]"></a>ConfGPIO</STRONG> (Thumb, 56 bytes, Stack size 0 bytes, confgpio.o(routines))
-<BR><BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+<P><STRONG><a name="[81]"></a>CONVRT</STRONG> (Thumb, 110 bytes, Stack size 0 bytes, convrt.o(routines))
+<BR><BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ScanKeys
 </UL>
 
-<P><STRONG><a name="[80]"></a>PRC_PINS</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, prc_pins.o(routines))
-<BR><BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+<P><STRONG><a name="[7f]"></a>ScanKeys</STRONG> (Thumb, 130 bytes, Stack size 0 bytes, scan_keys2.o(routines))
+<BR><BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CONVRT
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DELAY100ms
+<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutStr
+</UL>
+<BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
 </UL>
 <P>
 <H3>

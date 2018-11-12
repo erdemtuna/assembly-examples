@@ -1,0 +1,243 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ********
+    2 00000000         ; EQU Directives
+    3 00000000         ; These directives do not allocate memory
+    4 00000000         ;*******************************************************
+                       ********
+    5 00000000         ;SYMBOL  DIRECTIVE VALUE   COMMENT
+    6 00000000 400053FC 
+                       GPIO_PORTB_DATA
+                               EQU              0x400053FC  ;Port B data addres
+                                                            s
+    7 00000000         
+    8 00000000         ;LABEL DIRECTIVE VALUE COMMENT
+    9 00000000                 AREA             sdata , DATA, READONLY
+   10 00000000                 THUMB
+   11 00000000 52 65 61 
+              64 69 6E 
+              67 20 49 
+              6E 70 75 
+              74       R_I     DCB              "Reading Input"
+   12 0000000D 0D              DCB              0x0D
+   13 0000000E 04              DCB              0x04
+   14 0000000F         
+   15 0000000F 57 72 69 
+              74 69 6E 
+              67 20 4F 
+              75 74 70 
+              75 74    W_O     DCB              "Writing Output"
+   16 0000001D 0D              DCB              0x0D
+   17 0000001E 04              DCB              0x04
+   18 0000001F         
+   19 0000001F         ;*******************************************************
+                       ********
+   20 0000001F         ; Program section
+   21 0000001F         ;*******************************************************
+                       ********
+   22 0000001F         ;LABEL  DIRECTIVE VALUE   COMMENT
+   23 0000001F                 AREA             main, READONLY, CODE
+   24 00000000                 THUMB
+   25 00000000                 EXTERN           CONVRT
+   26 00000000                 EXTERN           DELAY5s
+   27 00000000                 EXTERN           DELAY100ms
+   28 00000000                 EXTERN           ScanKeys
+   29 00000000                 EXTERN           PRC_PINS
+   30 00000000                 EXTERN           ConfGPIOkeypad
+   31 00000000                 EXTERN           OutStr      ; Reference externa
+                                                            l subroutine 
+   32 00000000                 EXTERN           InChar      ; Reference externa
+                                                            l subroutine 
+   33 00000000                 EXPORT           __main
+   34 00000000                 ENTRY
+   35 00000000         
+   36 00000000         __main
+   37 00000000 F7FF FFFE       BL               ConfGPIOkeypad
+   38 00000004         
+   39 00000004         hi
+   40 00000004 F7FF FFFE       BL               ScanKeys
+   41 00000008         ; BL PRC_PINS
+   42 00000008 F7FF FFFE       BL               DELAY100ms
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   43 0000000C         
+   44 0000000C         done
+   45 0000000C E7FA            B                hi
+   46 0000000E                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\q3.d -o.\objects\q3.o -I.\RTE\_q3 -ID:\Keil_v5\ARM\PA
+CK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\CMSIS\Include --
+predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" --predefine=
+"TM4C123GH6PM SETA 1" --list=.\listings\q3.lst q3.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+R_I 00000000
+
+Symbol: R_I
+   Definitions
+      At line 11 in file q3.s
+   Uses
+      None
+Comment: R_I unused
+W_O 0000000F
+
+Symbol: W_O
+   Definitions
+      At line 15 in file q3.s
+   Uses
+      None
+Comment: W_O unused
+sdata 00000000
+
+Symbol: sdata
+   Definitions
+      At line 9 in file q3.s
+   Uses
+      None
+Comment: sdata unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 36 in file q3.s
+   Uses
+      At line 33 in file q3.s
+Comment: __main used once
+done 0000000C
+
+Symbol: done
+   Definitions
+      At line 44 in file q3.s
+   Uses
+      None
+Comment: done unused
+hi 00000004
+
+Symbol: hi
+   Definitions
+      At line 39 in file q3.s
+   Uses
+      At line 45 in file q3.s
+Comment: hi used once
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 23 in file q3.s
+   Uses
+      None
+Comment: main unused
+4 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_PORTB_DATA 400053FC
+
+Symbol: GPIO_PORTB_DATA
+   Definitions
+      At line 6 in file q3.s
+   Uses
+      None
+Comment: GPIO_PORTB_DATA unused
+1 symbol
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+CONVRT 00000000
+
+Symbol: CONVRT
+   Definitions
+      At line 25 in file q3.s
+   Uses
+      None
+Comment: CONVRT unused
+ConfGPIOkeypad 00000000
+
+Symbol: ConfGPIOkeypad
+   Definitions
+      At line 30 in file q3.s
+   Uses
+      At line 37 in file q3.s
+Comment: ConfGPIOkeypad used once
+DELAY100ms 00000000
+
+Symbol: DELAY100ms
+   Definitions
+      At line 27 in file q3.s
+   Uses
+      At line 42 in file q3.s
+Comment: DELAY100ms used once
+DELAY5s 00000000
+
+Symbol: DELAY5s
+   Definitions
+      At line 26 in file q3.s
+   Uses
+      None
+Comment: DELAY5s unused
+InChar 00000000
+
+Symbol: InChar
+   Definitions
+      At line 32 in file q3.s
+   Uses
+      None
+Comment: InChar unused
+OutStr 00000000
+
+Symbol: OutStr
+   Definitions
+      At line 31 in file q3.s
+   Uses
+      None
+Comment: OutStr unused
+PRC_PINS 00000000
+
+Symbol: PRC_PINS
+   Definitions
+      At line 29 in file q3.s
+   Uses
+      None
+Comment: PRC_PINS unused
+ScanKeys 00000000
+
+Symbol: ScanKeys
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+External symbols
+
+   Definitions
+      At line 28 in file q3.s
+   Uses
+      At line 40 in file q3.s
+Comment: ScanKeys used once
+8 symbols
+350 symbols in table

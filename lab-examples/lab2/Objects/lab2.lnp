@@ -3,11 +3,13 @@
 ".\objects\outchar.o"
 ".\objects\outstr.o"
 ".\objects\startup.o"
-".\objects\q2.o"
+".\objects\q3.o"
 ".\objects\delay5s.o"
 ".\objects\delay100ms.o"
-".\objects\confgpio.o"
 ".\objects\prc_pins.o"
+".\objects\confgpiokeypad.o"
+".\objects\convrt.o"
+".\objects\scan_keys2.o"
 --ro-base 0x00000000 --entry 0x00000000 --rw-base 0x20000000 --entry Reset_Handler --first __Vectors --strict --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\Listings\lab2.map" -o .\Objects\lab2.axf

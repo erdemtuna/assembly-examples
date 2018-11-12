@@ -589,6 +589,21 @@
               <FileType>2</FileType>
               <FilePath>.\PRC_PINS.s</FilePath>
             </File>
+            <File>
+              <FileName>ConfGPIOkeypad.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\ConfGPIOkeypad.s</FilePath>
+            </File>
+            <File>
+              <FileName>convrt.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\convrt.s</FilePath>
+            </File>
+            <File>
+              <FileName>Scan_Keys2.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Scan_Keys2.s</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -1100,6 +1115,21 @@
               <FileType>2</FileType>
               <FilePath>.\PRC_PINS.s</FilePath>
             </File>
+            <File>
+              <FileName>ConfGPIOkeypad.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\ConfGPIOkeypad.s</FilePath>
+            </File>
+            <File>
+              <FileName>convrt.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\convrt.s</FilePath>
+            </File>
+            <File>
+              <FileName>Scan_Keys2.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Scan_Keys2.s</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
@@ -1108,6 +1138,7 @@
       <TargetName>q3</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
+      <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -1355,17 +1386,17 @@
                 <Size>0x0</Size>
               </XRAM>
               <OCR_RVCT1>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT1>
               <OCR_RVCT2>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT2>
               <OCR_RVCT3>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT3>
@@ -1375,7 +1406,7 @@
                 <Size>0x40000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT5>
@@ -1647,6 +1678,21 @@
               <FileName>PRC_PINS.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\PRC_PINS.s</FilePath>
+            </File>
+            <File>
+              <FileName>ConfGPIOkeypad.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\ConfGPIOkeypad.s</FilePath>
+            </File>
+            <File>
+              <FileName>convrt.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\convrt.s</FilePath>
+            </File>
+            <File>
+              <FileName>Scan_Keys2.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Scan_Keys2.s</FilePath>
             </File>
           </Files>
         </Group>
