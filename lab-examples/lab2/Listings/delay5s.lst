@@ -21,8 +21,8 @@ ARM Macro Assembler    Page 1
    14 00000000         ; N = 399998
    15 00000000         ;*******************************************************
                        ********
-   16 00000000 018CBA7E 
-                       CYCLES  EQU              0x18CBA7E   ; 19999999
+   16 00000000 01312CFF 
+                       CYCLES  EQU              0x1312CFF   ; 19999999
    17 00000000         ;*******************************************************
                        ********
    18 00000000         ; Program section
@@ -52,7 +52,7 @@ ARM Macro Assembler    Page 1
                            COMMENT
    39 0000000C                 ALIGN
    40 0000000C                 END
-              018CBA7E 
+              01312CFF 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\objects\delay5s.d -o.\objects\delay5s.o -I.\RTE\_q2 -ID:\Keil
 _v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\CMSIS\
@@ -95,7 +95,7 @@ Comment: routines unused
 ARM Macro Assembler    Page 1 Alphabetic symbol ordering
 Absolute symbols
 
-CYCLES 018CBA7E
+CYCLES 01312CFF
 
 Symbol: CYCLES
    Definitions

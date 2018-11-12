@@ -40,10 +40,10 @@ hi	LDR R5, = R_I
 	LDR	R0, = GPIO_PORTB_DATA ; load addr
 	LDRB R1, [R0] ; read the pin values
 	BL	PRC_PINS
+	BL	DELAY5s
 	LDR R5, = W_O
 	BL OutStr ; Copy message
 	STRB R1, [R0]
-	BL	DELAY5s
 done	
 	B	hi	
 	END 

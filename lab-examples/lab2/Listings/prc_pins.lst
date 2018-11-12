@@ -59,7 +59,7 @@ ARM Macro Assembler    Page 1
    33 00000006         DO
    34 00000006 EA00 0001       AND              R0, R0, R1
    35 0000000A EA4F 1000       LSL              R0, R0 ,#4
-   36 0000000E F36F 0003       BFC              R0, #0, #4
+   36 0000000E EA4F 1111       LSR              R1, R1, #4
    37 00000012 EA41 0100       ORR              R1,R1,R0
    38 00000016         
    39 00000016         EXI

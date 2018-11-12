@@ -71,10 +71,10 @@ ARM Macro Assembler    Page 2
 
                                                             es
    42 0000000E F7FF FFFE       BL               PRC_PINS
-   43 00000012 4D05            LDR              R5, = W_O
-   44 00000014 F7FF FFFE       BL               OutStr      ; Copy message
-   45 00000018 7001            STRB             R1, [R0]
-   46 0000001A F7FF FFFE       BL               DELAY5s
+   43 00000012 F7FF FFFE       BL               DELAY5s
+   44 00000016 4D04            LDR              R5, = W_O
+   45 00000018 F7FF FFFE       BL               OutStr      ; Copy message
+   46 0000001C 7001            STRB             R1, [R0]
    47 0000001E         done
    48 0000001E E7F1            B                hi
    49 00000020                 END
@@ -106,7 +106,7 @@ Symbol: W_O
    Definitions
       At line 15 in file q2.s
    Uses
-      At line 43 in file q2.s
+      At line 44 in file q2.s
 Comment: W_O used once
 sdata 00000000
 
@@ -207,7 +207,7 @@ Symbol: DELAY5s
    Definitions
       At line 26 in file q2.s
    Uses
-      At line 46 in file q2.s
+      At line 43 in file q2.s
 Comment: DELAY5s used once
 InChar 00000000
 
@@ -224,7 +224,7 @@ Symbol: OutStr
       At line 30 in file q2.s
    Uses
       At line 39 in file q2.s
-      At line 44 in file q2.s
+      At line 45 in file q2.s
 
 PRC_PINS 00000000
 

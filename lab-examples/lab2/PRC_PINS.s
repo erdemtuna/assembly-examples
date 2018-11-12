@@ -33,7 +33,7 @@ PRC_PINS PROC
 DO	
 	AND	R0, R0, R1
 	LSL	R0, R0 ,#4
-	BFC	R0, #0, #4
+	LSR	R1, R1, #4
 	ORR	R1,R1,R0
 	
 EXI	
