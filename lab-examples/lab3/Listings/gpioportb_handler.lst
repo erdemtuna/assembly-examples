@@ -31,60 +31,67 @@ ARM Macro Assembler    Page 1
    12 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
    13 00000000                 AREA             routines, READONLY, CODE
    14 00000000                 THUMB
-   15 00000000                 EXPORT           GPIOPortB_Handler
-   16 00000000         
-   17 00000000         GPIOPortB_Handler
+   15 00000000                 EXTERN           DELAY100us
+   16 00000000                 EXPORT           GPIOPortB_Handler
+   17 00000000         
+   18 00000000         GPIOPortB_Handler
                                PROC
-   18 00000000         ;PUSH{R0,R1}
-   19 00000000 490D            LDR              R1, = GPIO_PORTB_IN
-   20 00000002 480E            LDR              R0, = GPIO_PORTB_OUT
-   21 00000004         Detect_IN
-   22 00000004 680A            LDR              R2, [R1]
-   23 00000006 2A0B            CMP              R2, #0xB
-   24 00000008 D00B            BEQ              S_L
-   25 0000000A 2A0D            CMP              R2, #0xD
-   26 0000000C D000            BEQ              S_R
-   27 0000000E 4770            BX               LR
-   28 00000010         
-   29 00000010         S_R
-   30 00000010 F04F 3188       LDR              R1, = shift_r
-   31 00000014         S_R_Loop
-   32 00000014 7001            STRB             R1, [R0]
-   33 00000016 EA4F 0171       ROR              R1, R1, #1
-   34 0000001A F1B1 3F88       CMP              R1, #shift_r
-   35 0000001E         ;B S_R_Loop
-   36 0000001E D1F9            BNE              S_R_Loop
-   37 00000020 D008            BEQ              QUIT
-   38 00000022         
-   39 00000022         S_L
-   40 00000022 F04F 3111       LDR              R1, = shift_l
-   41 00000026         S_L_Loop
-   42 00000026 7001            STRB             R1, [R0]
-   43 00000028 EA4F 01F1       ROR              R1, R1, #3
-   44 0000002C F1B1 3F11       CMP              R1, #shift_l
-   45 00000030         ;B S_L_Loop
+   19 00000000         ;PUSH{R0,R1}
+   20 00000000 4912            LDR              R1, = GPIO_PORTB_IN
+   21 00000002 4813            LDR              R0, = GPIO_PORTB_OUT
+   22 00000004         Detect_IN
+   23 00000004 680A            LDR              R2, [R1]
+   24 00000006 2A0B            CMP              R2, #0xB
+   25 00000008 D010            BEQ              S_L
+   26 0000000A 2A0D            CMP              R2, #0xD
+   27 0000000C D000            BEQ              S_R
+   28 0000000E 4770            BX               LR
+   29 00000010         
+   30 00000010         S_R
+   31 00000010 F04F 3188       LDR              R1, = shift_r
+   32 00000014         S_R_Loop
+   33 00000014 7001            STRB             R1, [R0]
+   34 00000016 EA4F 0171       ROR              R1, R1, #1
+   35 0000001A B500            PUSH             {LR}
+   36 0000001C F7FF FFFE       BL               DELAY100us
+   37 00000020 F85D EB04       POP{LR}
+   38 00000024 F1B1 3F88       CMP              R1, #shift_r
+   39 00000028         ;B S_R_Loop
+   40 00000028 D1F4            BNE              S_R_Loop
+   41 0000002A D00D            BEQ              QUIT
+   42 0000002C         
+   43 0000002C         S_L
+   44 0000002C F04F 3111       LDR              R1, = shift_l
+   45 00000030         S_L_Loop
 
 
 
 ARM Macro Assembler    Page 2 
 
 
-   46 00000030 D1F9            BNE              S_L_Loop
-   47 00000032 D0FF            BEQ              QUIT
-   48 00000034         QUIT
-   49 00000034         ;PUSH{LR}
-   50 00000034         ;POP{R0,R1}
-   51 00000034 4770            BX               LR
-   52 00000036                 ENDP
-   53 00000036         ;*******************************************************
+   46 00000030 7001            STRB             R1, [R0]
+   47 00000032 EA4F 01F1       ROR              R1, R1, #3
+   48 00000036 B500            PUSH             {LR}
+   49 00000038 F7FF FFFE       BL               DELAY100us
+   50 0000003C F85D EB04       POP              {LR}
+   51 00000040 F1B1 3F11       CMP              R1, #shift_l
+   52 00000044         ;B S_L_Loop
+   53 00000044 D1F4            BNE              S_L_Loop
+   54 00000046 D0FF            BEQ              QUIT
+   55 00000048         QUIT
+   56 00000048         ;PUSH{LR}
+   57 00000048         ;POP{R0,R1}
+   58 00000048 4770            BX               LR
+   59 0000004A                 ENDP
+   60 0000004A         ;*******************************************************
                        ********
-   54 00000036         ; End of the program  section
-   55 00000036         ;*******************************************************
+   61 0000004A         ; End of the program  section
+   62 0000004A         ;*******************************************************
                        ********
-   56 00000036         ;LABEL      DIRECTIVE       VALUE                       
+   63 0000004A         ;LABEL      DIRECTIVE       VALUE                       
                            COMMENT
-   57 00000036 00 00           ALIGN
-   58 00000038                 END
+   64 0000004A 00 00           ALIGN
+   65 0000004C                 END
               4000503C 
               400053C0 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
@@ -103,7 +110,7 @@ Detect_IN 00000004
 
 Symbol: Detect_IN
    Definitions
-      At line 21 in file GPIOPortB_Handler.s
+      At line 22 in file GPIOPortB_Handler.s
    Uses
       None
 Comment: Detect_IN unused
@@ -111,50 +118,50 @@ GPIOPortB_Handler 00000000
 
 Symbol: GPIOPortB_Handler
    Definitions
-      At line 17 in file GPIOPortB_Handler.s
+      At line 18 in file GPIOPortB_Handler.s
    Uses
-      At line 15 in file GPIOPortB_Handler.s
+      At line 16 in file GPIOPortB_Handler.s
 Comment: GPIOPortB_Handler used once
-QUIT 00000034
+QUIT 00000048
 
 Symbol: QUIT
    Definitions
-      At line 48 in file GPIOPortB_Handler.s
+      At line 55 in file GPIOPortB_Handler.s
    Uses
-      At line 37 in file GPIOPortB_Handler.s
-      At line 47 in file GPIOPortB_Handler.s
+      At line 41 in file GPIOPortB_Handler.s
+      At line 54 in file GPIOPortB_Handler.s
 
-S_L 00000022
+S_L 0000002C
 
 Symbol: S_L
    Definitions
-      At line 39 in file GPIOPortB_Handler.s
+      At line 43 in file GPIOPortB_Handler.s
    Uses
-      At line 24 in file GPIOPortB_Handler.s
+      At line 25 in file GPIOPortB_Handler.s
 Comment: S_L used once
-S_L_Loop 00000026
+S_L_Loop 00000030
 
 Symbol: S_L_Loop
    Definitions
-      At line 41 in file GPIOPortB_Handler.s
+      At line 45 in file GPIOPortB_Handler.s
    Uses
-      At line 46 in file GPIOPortB_Handler.s
+      At line 53 in file GPIOPortB_Handler.s
 Comment: S_L_Loop used once
 S_R 00000010
 
 Symbol: S_R
    Definitions
-      At line 29 in file GPIOPortB_Handler.s
+      At line 30 in file GPIOPortB_Handler.s
    Uses
-      At line 26 in file GPIOPortB_Handler.s
+      At line 27 in file GPIOPortB_Handler.s
 Comment: S_R used once
 S_R_Loop 00000014
 
 Symbol: S_R_Loop
    Definitions
-      At line 31 in file GPIOPortB_Handler.s
+      At line 32 in file GPIOPortB_Handler.s
    Uses
-      At line 36 in file GPIOPortB_Handler.s
+      At line 40 in file GPIOPortB_Handler.s
 Comment: S_R_Loop used once
 routines 00000000
 
@@ -191,7 +198,7 @@ Symbol: GPIO_PORTB_IN
    Definitions
       At line 8 in file GPIOPortB_Handler.s
    Uses
-      At line 19 in file GPIOPortB_Handler.s
+      At line 20 in file GPIOPortB_Handler.s
 Comment: GPIO_PORTB_IN used once
 GPIO_PORTB_OUT 400053C0
 
@@ -199,7 +206,7 @@ Symbol: GPIO_PORTB_OUT
    Definitions
       At line 7 in file GPIOPortB_Handler.s
    Uses
-      At line 20 in file GPIOPortB_Handler.s
+      At line 21 in file GPIOPortB_Handler.s
 Comment: GPIO_PORTB_OUT used once
 IOB 000000F0
 
@@ -215,8 +222,8 @@ Symbol: shift_l
    Definitions
       At line 10 in file GPIOPortB_Handler.s
    Uses
-      At line 40 in file GPIOPortB_Handler.s
       At line 44 in file GPIOPortB_Handler.s
+      At line 51 in file GPIOPortB_Handler.s
 
 shift_r 88888888
 
@@ -224,8 +231,24 @@ Symbol: shift_r
    Definitions
       At line 9 in file GPIOPortB_Handler.s
    Uses
-      At line 30 in file GPIOPortB_Handler.s
-      At line 34 in file GPIOPortB_Handler.s
+      At line 31 in file GPIOPortB_Handler.s
+      At line 38 in file GPIOPortB_Handler.s
 
 6 symbols
-350 symbols in table
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+DELAY100us 00000000
+
+Symbol: DELAY100us
+   Definitions
+      At line 15 in file GPIOPortB_Handler.s
+   Uses
+      At line 36 in file GPIOPortB_Handler.s
+      At line 49 in file GPIOPortB_Handler.s
+
+1 symbol
+351 symbols in table

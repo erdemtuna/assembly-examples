@@ -13,16 +13,16 @@
 ;	BX = 1 + 2 Cycles	
 ;	N = 399998
 ;***************************************************************
-CYCLES	EQU	0x61A7E	; 399998
+CYCLES	EQU	0x190	; 400
 ;***************************************************************
 ; Program section
 ;***************************************************************
 ;LABEL		DIRECTIVE	VALUE		COMMENT
 			AREA    	routines, READONLY, CODE
 			THUMB
-			EXPORT  	DELAY100ms	; Make available
+			EXPORT  	DELAY100us	; Make available
 
-DELAY100ms PROC
+DELAY100us PROC
 		PUSH{R0, LR}
 		LDR	R0, = CYCLES
 DECR	SUBS R0, #1

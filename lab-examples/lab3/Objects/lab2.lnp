@@ -9,7 +9,6 @@
 ".\objects\prc_pins.o"
 ".\objects\confgpiokeypad.o"
 ".\objects\convrt.o"
-".\objects\scan_keys2.o"
 ".\objects\conf_gpio_port_b.o"
 ".\objects\gpioportb_handler.o"
 ".\objects\stepshifter.o"

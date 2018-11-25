@@ -12,6 +12,7 @@ shift_l EQU 0x11111111
 ;LABEL		DIRECTIVE	VALUE		COMMENT
 			AREA    	routines, READONLY, CODE
 			THUMB
+			EXTERN		DELAY100us
 			EXPORT  	GPIOPortB_Handler
 
 GPIOPortB_Handler PROC
@@ -31,6 +32,9 @@ S_R
 S_R_Loop	
 	STRB R1, [R0]
 	ROR R1, R1, #1
+	PUSH {LR}
+	BL DELAY100us
+	POP{LR}
 	CMP R1, #shift_r
 	;B S_R_Loop
 	BNE S_R_Loop
@@ -41,6 +45,9 @@ S_L
 S_L_Loop	
 	STRB R1, [R0]
 	ROR R1, R1, #3
+	PUSH {LR}
+	BL DELAY100us
+	POP {LR}
 	CMP R1, #shift_l
 	;B S_L_Loop
 	BNE S_L_Loop
