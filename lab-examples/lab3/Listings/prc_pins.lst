@@ -1,0 +1,191 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ********
+    2 00000000         ; PRC_PINS
+    3 00000000         ; R1 is the input register.
+    4 00000000         ; R1 is the output register.
+    5 00000000         
+    6 00000000         ;*******************************************************
+                       ********
+    7 00000000 400053FC 
+                       GPIO_PORTB_DATA
+                               EQU              0x400053FC  ;Port B data addres
+                                                            s
+    8 00000000 40005400 
+                       GPIO_PORTB_DIR
+                               EQU              0x40005400
+    9 00000000 40005420 
+                       GPIO_PORTB_AFSEL
+                               EQU              0x40005420
+   10 00000000 4000551C 
+                       GPIO_PORTB_DEN
+                               EQU              0x4000551C
+   11 00000000 400FE608 
+                       SYSCTL_RCGCGPIO
+                               EQU              0x400FE608
+   12 00000000 000000F0 
+                       IOB     EQU              0xF0        ; LSB = input, MSB 
+                                                            = output
+   13 00000000         
+   14 00000000 00000001 
+                       Bit_Check
+                               EQU              0x1
+   15 00000000         
+   16 00000000         ;GPIO_PORTE_DATA EQU 0x400243FC ;Port E data address
+   17 00000000         ;GPIO_PORTE_DIR EQU 0x40024400
+   18 00000000         ;GPIO_PORTE_AFSEL EQU 0x40024420
+   19 00000000         ;GPIO_PORTE_DEN EQU 0x4002451C
+   20 00000000         ;IOE EQU 0x00
+   21 00000000         
+   22 00000000         ;*******************************************************
+                       ********
+   23 00000000         ; Program section
+   24 00000000         ;*******************************************************
+                       ********
+   25 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
+   26 00000000                 AREA             routines, READONLY, CODE
+   27 00000000                 THUMB
+   28 00000000                 EXPORT           PRC_PINS    ; Make available
+   29 00000000         
+   30 00000000         PRC_PINS
+                               PROC
+   31 00000000 B401            PUSH{R0}
+   32 00000002 F04F 00FF       LDR              R0, = 0xFF
+   33 00000006         DO
+   34 00000006 EA00 0001       AND              R0, R0, R1
+   35 0000000A EA4F 1000       LSL              R0, R0 ,#4
+   36 0000000E EA4F 1111       LSR              R1, R1, #4
+   37 00000012 EA41 0100       ORR              R1,R1,R0
+   38 00000016         
+   39 00000016         EXI
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   40 00000016 BC01            POP{R0}
+   41 00000018 4770            BX               LR
+   42 0000001A                 ENDP
+   43 0000001A         ;*******************************************************
+                       ********
+   44 0000001A         ; End of the program  section
+   45 0000001A         ;*******************************************************
+                       ********
+   46 0000001A         ;LABEL      DIRECTIVE       VALUE                       
+                           COMMENT
+   47 0000001A 00 00           ALIGN
+   48 0000001C                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\prc_pins.d -o.\objects\prc_pins.o -I.\RTE\_q1 -ID:\Ke
+il_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\CMSI
+S\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" 
+--predefine="TM4C123GH6PM SETA 1" --list=.\listings\prc_pins.lst PRC_PINS.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+DO 00000006
+
+Symbol: DO
+   Definitions
+      At line 33 in file PRC_PINS.s
+   Uses
+      None
+Comment: DO unused
+EXI 00000016
+
+Symbol: EXI
+   Definitions
+      At line 39 in file PRC_PINS.s
+   Uses
+      None
+Comment: EXI unused
+PRC_PINS 00000000
+
+Symbol: PRC_PINS
+   Definitions
+      At line 30 in file PRC_PINS.s
+   Uses
+      At line 28 in file PRC_PINS.s
+Comment: PRC_PINS used once
+routines 00000000
+
+Symbol: routines
+   Definitions
+      At line 26 in file PRC_PINS.s
+   Uses
+      None
+Comment: routines unused
+4 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+Bit_Check 00000001
+
+Symbol: Bit_Check
+   Definitions
+      At line 14 in file PRC_PINS.s
+   Uses
+      None
+Comment: Bit_Check unused
+GPIO_PORTB_AFSEL 40005420
+
+Symbol: GPIO_PORTB_AFSEL
+   Definitions
+      At line 9 in file PRC_PINS.s
+   Uses
+      None
+Comment: GPIO_PORTB_AFSEL unused
+GPIO_PORTB_DATA 400053FC
+
+Symbol: GPIO_PORTB_DATA
+   Definitions
+      At line 7 in file PRC_PINS.s
+   Uses
+      None
+Comment: GPIO_PORTB_DATA unused
+GPIO_PORTB_DEN 4000551C
+
+Symbol: GPIO_PORTB_DEN
+   Definitions
+      At line 10 in file PRC_PINS.s
+   Uses
+      None
+Comment: GPIO_PORTB_DEN unused
+GPIO_PORTB_DIR 40005400
+
+Symbol: GPIO_PORTB_DIR
+   Definitions
+      At line 8 in file PRC_PINS.s
+   Uses
+      None
+Comment: GPIO_PORTB_DIR unused
+IOB 000000F0
+
+Symbol: IOB
+   Definitions
+      At line 12 in file PRC_PINS.s
+   Uses
+      None
+Comment: IOB unused
+SYSCTL_RCGCGPIO 400FE608
+
+Symbol: SYSCTL_RCGCGPIO
+   Definitions
+      At line 11 in file PRC_PINS.s
+   Uses
+      None
+Comment: SYSCTL_RCGCGPIO unused
+7 symbols
+345 symbols in table

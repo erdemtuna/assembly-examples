@@ -20,64 +20,80 @@ ARM Macro Assembler    Page 1
    11 00000000         ;*******************************************************
                        ********
    12 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
-   13 00000000 20000000 
-                       BASE    EQU              0x20000000
-   14 00000000 22000000 
-                       ALIAS   EQU              0x22000000
-   15 00000000 00000010 
-                       CONST   EQU              16
-   16 00000000         
-   17 00000000         ;*******************************************************
+   13 00000000 00000010 
+                       OFFSET  EQU              0x10
+   14 00000000 20000400 
+                       FIRST   EQU              0x20000400
+   15 00000000         ;*******************************************************
                        ********
-   18 00000000         ; Directives - This Data Section is part of the code
-   19 00000000         ; It is in the read only section  so values cannot be ch
+   16 00000000         ; Directives - This Data Section is part of the code
+   17 00000000         ; It is in the read only section  so values cannot be ch
                        anged.
-   20 00000000         ;*******************************************************
+   18 00000000         ;*******************************************************
                        ********
-   21 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
-   22 00000000                 AREA             sdata, DATA, READONLY
-   23 00000000                 THUMB
-   24 00000000 10      CTR1    DCB              0x10
-   25 00000001 31 32 33 
-              34 35 36 
-              37 38 39 MSG     DCB              "123456789"
-   26 0000000A 0D              DCB              0x0D
-   27 0000000B 04              DCB              0x04
-   28 0000000C         ;*******************************************************
+   19 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
+   20 00000000                 AREA             sdata, DATA, READONLY
+   21 00000000                 THUMB
+   22 00000000 10      CTR1    DCB              0x10
+   23 00000001 43 6F 70 
+              79 69 6E 
+              67 20 74 
+              61 62 6C 
+              65 2E 2E 
+              2E       MSG     DCB              "Copying table..."
+   24 00000011 0D              DCB              0x0D
+   25 00000012 04              DCB              0x04
+   26 00000013         ;*******************************************************
                        ********
-   29 0000000C         ; Program section           
-   30 0000000C         ;*******************************************************
+   27 00000013         ; Program section           
+   28 00000013         ;*******************************************************
                        ********
-   31 0000000C         ;LABEL  DIRECTIVE VALUE  COMMENT
-   32 0000000C                 AREA             main, READONLY, CODE
-   33 00000000                 THUMB
-   34 00000000                 EXTERN           OutStr      ; Reference externa
+   29 00000013         ;LABEL  DIRECTIVE VALUE  COMMENT
+   30 00000013                 AREA             main, READONLY, CODE
+   31 00000000                 THUMB
+   32 00000000                 EXTERN           OutStr      ; Reference externa
                                                             l subroutine 
-   35 00000000                 EXPORT           __main      ; Make available
-   36 00000000         
-   37 00000000         __main
-   38 00000000 F04F 040A 
-                       start   LDR              R4, = 0xA
-   39 00000004 F04F 050F       LDR              R5, = 15
-   40 00000008 FB05 F604       MUL              R6, R5 ,R4
-   41 0000000C 3E96            SUBS             R6, #150
-   42 0000000E F105 050A       ADD              R5, 0xA
-   43 00000012 E7F5            B                start
+   33 00000000                 EXPORT           __main      ; Make available
+   34 00000000         
+   35 00000000         __main
+   36 00000000 F04F 0000 
+                       start   MOV              R0,#0
+   37 00000004 490B            LDR              R1,=FIRST
+   38 00000006 4A0C            LDR              R2,=CTR1
+   39 00000008 7812            LDRB             R2,[R2]
+   40 0000000A 7008    loop1   STRB             R0,[R1]
+   41 0000000C F100 0001       ADD              R0,R0,#1
 
 
 
 ARM Macro Assembler    Page 2 
 
 
-   44 00000014         ;*******************************************************
+   42 00000010 F101 0101       ADD              R1,R1,#1    ; Store table
+   43 00000014 1E52            SUBS             R2,R2,#1
+   44 00000016 D1F8            BNE              loop1
+   45 00000018 4D08            LDR              R5,=MSG
+   46 0000001A F7FF FFFE       BL               OutStr      ; Copy message
+   47 0000001E 4905            LDR              R1,=FIRST
+   48 00000020 F04F 0210       MOV              R2,#0x10
+   49 00000024 7808    loop2   LDRB             R0,[R1]
+   50 00000026 7408            STRB             R0,[R1,#OFFSET]
+   51 00000028 F101 0101       ADD              R1,R1,#1    ; Copy table
+   52 0000002C 1E52            SUBS             R2,R2,#1
+   53 0000002E D1F9            BNE              loop2
+   54 00000030 E7E6            B                start
+   55 00000032         ;*******************************************************
                        ********
-   45 00000014         ; End of the program  section
-   46 00000014         ;*******************************************************
+   56 00000032         ; End of the program  section
+   57 00000032         ;*******************************************************
                        ********
-   47 00000014         ;LABEL      DIRECTIVE       VALUE                       
+   58 00000032         ;LABEL      DIRECTIVE       VALUE                       
                            COMMENT
-   48 00000014                 ALIGN
-   49 00000014                 END
+   59 00000032 00 00           ALIGN
+   60 00000034                 END
+              20000400 
+              00000000 
+              00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\objects\program_directives.d -o.\objects\program_directives.o
  -I.\RTE\_Target_1 -ID:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4
@@ -94,23 +110,23 @@ CTR1 00000000
 
 Symbol: CTR1
    Definitions
-      At line 24 in file ..\..\_subroutines\Program_Directives.s
+      At line 22 in file ..\..\_subroutines\Program_Directives.s
    Uses
-      None
-Comment: CTR1 unused
+      At line 38 in file ..\..\_subroutines\Program_Directives.s
+Comment: CTR1 used once
 MSG 00000001
 
 Symbol: MSG
    Definitions
-      At line 25 in file ..\..\_subroutines\Program_Directives.s
+      At line 23 in file ..\..\_subroutines\Program_Directives.s
    Uses
-      None
-Comment: MSG unused
+      At line 45 in file ..\..\_subroutines\Program_Directives.s
+Comment: MSG used once
 sdata 00000000
 
 Symbol: sdata
    Definitions
-      At line 22 in file ..\..\_subroutines\Program_Directives.s
+      At line 20 in file ..\..\_subroutines\Program_Directives.s
    Uses
       None
 Comment: sdata unused
@@ -125,15 +141,31 @@ __main 00000000
 
 Symbol: __main
    Definitions
-      At line 37 in file ..\..\_subroutines\Program_Directives.s
-   Uses
       At line 35 in file ..\..\_subroutines\Program_Directives.s
+   Uses
+      At line 33 in file ..\..\_subroutines\Program_Directives.s
 Comment: __main used once
+loop1 0000000A
+
+Symbol: loop1
+   Definitions
+      At line 40 in file ..\..\_subroutines\Program_Directives.s
+   Uses
+      At line 44 in file ..\..\_subroutines\Program_Directives.s
+Comment: loop1 used once
+loop2 00000024
+
+Symbol: loop2
+   Definitions
+      At line 49 in file ..\..\_subroutines\Program_Directives.s
+   Uses
+      At line 53 in file ..\..\_subroutines\Program_Directives.s
+Comment: loop2 used once
 main 00000000
 
 Symbol: main
    Definitions
-      At line 32 in file ..\..\_subroutines\Program_Directives.s
+      At line 30 in file ..\..\_subroutines\Program_Directives.s
    Uses
       None
 Comment: main unused
@@ -141,42 +173,35 @@ start 00000000
 
 Symbol: start
    Definitions
-      At line 38 in file ..\..\_subroutines\Program_Directives.s
+      At line 36 in file ..\..\_subroutines\Program_Directives.s
    Uses
-      At line 43 in file ..\..\_subroutines\Program_Directives.s
+      At line 54 in file ..\..\_subroutines\Program_Directives.s
 Comment: start used once
-3 symbols
+5 symbols
 
 
 
 ARM Macro Assembler    Page 1 Alphabetic symbol ordering
 Absolute symbols
 
-ALIAS 22000000
+FIRST 20000400
 
-Symbol: ALIAS
+Symbol: FIRST
    Definitions
       At line 14 in file ..\..\_subroutines\Program_Directives.s
    Uses
-      None
-Comment: ALIAS unused
-BASE 20000000
+      At line 37 in file ..\..\_subroutines\Program_Directives.s
+      At line 47 in file ..\..\_subroutines\Program_Directives.s
 
-Symbol: BASE
+OFFSET 00000010
+
+Symbol: OFFSET
    Definitions
       At line 13 in file ..\..\_subroutines\Program_Directives.s
    Uses
-      None
-Comment: BASE unused
-CONST 00000010
-
-Symbol: CONST
-   Definitions
-      At line 15 in file ..\..\_subroutines\Program_Directives.s
-   Uses
-      None
-Comment: CONST unused
-3 symbols
+      At line 50 in file ..\..\_subroutines\Program_Directives.s
+Comment: OFFSET used once
+2 symbols
 
 
 
@@ -187,9 +212,9 @@ OutStr 00000000
 
 Symbol: OutStr
    Definitions
-      At line 34 in file ..\..\_subroutines\Program_Directives.s
+      At line 32 in file ..\..\_subroutines\Program_Directives.s
    Uses
-      None
-Comment: OutStr unused
+      At line 46 in file ..\..\_subroutines\Program_Directives.s
+Comment: OutStr used once
 1 symbol
-344 symbols in table
+347 symbols in table

@@ -1,0 +1,167 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ********
+    2 00000000         ; EQU Directives
+    3 00000000         ; These directives do not allocate memory
+    4 00000000         ;*******************************************************
+                       ********
+    5 00000000         ;SYMBOL  DIRECTIVE VALUE   COMMENT
+    6 00000000 20000700 
+                       BASE    EQU              0x20000700
+    7 00000000 20000700 
+                       TARGET  EQU              0x20000700
+    8 00000000         ;LABEL DIRECTIVE VALUE COMMENT
+    9 00000000                 AREA             sdata , DATA, READONLY
+   10 00000000                 THUMB
+   11 00000000         ;MSG  DCB     "delaying..."
+   12 00000000         
+   13 00000000         ;*******************************************************
+                       ********
+   14 00000000         ; Program section
+   15 00000000         ;*******************************************************
+                       ********
+   16 00000000         ;LABEL  DIRECTIVE VALUE   COMMENT
+   17 00000000                 AREA             main, READONLY, CODE
+   18 00000000                 THUMB
+   19 00000000                 EXTERN           CONVRT
+   20 00000000                 EXTERN           ConfGPIOstepper
+   21 00000000                 EXTERN           OutStr      ; Reference externa
+                                                            l subroutine 
+   22 00000000                 EXTERN           InChar      ; Reference externa
+                                                            l subroutine 
+   23 00000000                 EXPORT           __main
+   24 00000000                 ENTRY
+   25 00000000         
+   26 00000000         __main
+   27 00000000 F7FF FFFE       BL               ConfGPIOstepper
+   28 00000004         
+   29 00000004 4D04            LDR              R5, = 0XE000E100
+   30 00000006 F24F 040F 
+              F2C0 040F        MOV32            R4, #0x00FF00F
+   31 0000000E 602C            STR              R4, [R5]
+   32 00000010 F04F 0000       MOV              R0, #0
+   33 00000014         ;BL StepShifter
+   34 00000014         done
+   35 00000014 E7FE            B                done
+   36 00000016         
+   37 00000016                 END
+              00 00 E000E100 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\q1.d -o.\objects\q1.o -I.\RTE\_q1 -ID:\Keil_v5\ARM\PA
+CK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\CMSIS\Include --
+predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" --predefine=
+"TM4C123GH6PM SETA 1" --list=.\listings\q1.lst q1.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+sdata 00000000
+
+Symbol: sdata
+   Definitions
+      At line 9 in file q1.s
+   Uses
+      None
+Comment: sdata unused
+1 symbol
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 26 in file q1.s
+   Uses
+      At line 23 in file q1.s
+Comment: __main used once
+done 00000014
+
+Symbol: done
+   Definitions
+      At line 34 in file q1.s
+   Uses
+      At line 35 in file q1.s
+Comment: done used once
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 17 in file q1.s
+   Uses
+      None
+Comment: main unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+BASE 20000700
+
+Symbol: BASE
+   Definitions
+      At line 6 in file q1.s
+   Uses
+      None
+Comment: BASE unused
+TARGET 20000700
+
+Symbol: TARGET
+   Definitions
+      At line 7 in file q1.s
+   Uses
+      None
+Comment: TARGET unused
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+CONVRT 00000000
+
+Symbol: CONVRT
+   Definitions
+      At line 19 in file q1.s
+   Uses
+      None
+Comment: CONVRT unused
+ConfGPIOstepper 00000000
+
+Symbol: ConfGPIOstepper
+   Definitions
+      At line 20 in file q1.s
+   Uses
+      At line 27 in file q1.s
+Comment: ConfGPIOstepper used once
+InChar 00000000
+
+Symbol: InChar
+   Definitions
+      At line 22 in file q1.s
+   Uses
+      None
+Comment: InChar unused
+OutStr 00000000
+
+Symbol: OutStr
+   Definitions
+      At line 21 in file q1.s
+   Uses
+      None
+Comment: OutStr unused
+4 symbols
+346 symbols in table
