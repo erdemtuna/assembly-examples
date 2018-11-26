@@ -3,18 +3,12 @@
 ; These directives do not allocate memory
 ;***************************************************************
 ;SYMBOL		DIRECTIVE	VALUE			COMMENT
-GPIO_PORTB_DATA EQU 0x400053FC ;Port B data address
-
+BASE 	EQU		0x20000700
+TARGET	EQU 	0x20000700
 ;LABEL DIRECTIVE VALUE COMMENT
 		AREA sdata , DATA, READONLY
 		THUMB
-R_I		DCB    	"Reading Input"
-		DCB		0x0D
-		DCB		0x04
-		
-W_O		DCB    	"Writing Output"
-		DCB		0x0D
-		DCB		0x04
+;MSG		DCB    	"delaying..."
 
 ;***************************************************************
 ; Program section
@@ -22,25 +16,28 @@ W_O		DCB    	"Writing Output"
 ;LABEL		DIRECTIVE	VALUE			COMMENT
 		AREA 		main, READONLY, CODE
 		THUMB
-		EXTERN		CONVRT
-		EXTERN		DELAY5s
-		EXTERN		DELAY100ms
-		EXTERN		ScanKeys
-		EXTERN		PRC_PINS
-		EXTERN		ConfGPIOkeypad
-		EXTERN		OutStr	; Reference external subroutine	
-		EXTERN		InChar	; Reference external subroutine	
+		EXTERN		ConfGPIOstepper
+		EXTERN		Conf_SysTick
 		EXPORT 		__main
 		ENTRY
 			
 __main 	
-	BL ConfGPIOkeypad
-	
-hi	
-	BL	ScanKeys
-;	BL	PRC_PINS
-	BL	DELAY100ms
+	BL ConfGPIOstepper
+	MOV32 R7, #4000000; initial delay 1s
+	BL Conf_SysTick
+	LDR R5, = 0XE000E100
+	MOV32 R4, #0x00FF00F
+	STR R4, [R5]
+	MOV R0, #0
 
-done	
-	B	hi	
-	END 
+	;BL StepShifter
+done
+
+	B done
+
+	END
+;***************************************************************
+; End of the program section
+;***************************************************************
+;LABEL		DIRECTIVE	VALUE			COMMENT
+            END

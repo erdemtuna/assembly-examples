@@ -1,0 +1,391 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ********
+    2 00000000         ;*******************************************************
+                       ********
+    3 00000000         ;*******************************************************
+                       ********
+    4 00000000         ; Program section
+    5 00000000 40005400 
+                       GPIO_PORTB_DIR
+                               EQU              0x40005400
+    6 00000000 000000F0 
+                       IOB     EQU              0xF0        ; 11110000
+    7 00000000 400053C0 
+                       GPIO_PORTB_OUT
+                               EQU              0x400053C0
+    8 00000000 4000503C 
+                       GPIO_PORTB_IN
+                               EQU              0x4000503C
+    9 00000000 4000541C 
+                       PORT_B_IClear
+                               EQU              0x4000541C
+   10 00000000 40005414 
+                       PORT_B_IRawS
+                               EQU              0x40005414
+   11 00000000 E000E018 
+                       STCTRL  EQU              0xE000E018
+   12 00000000 88888888 
+                       shift_r EQU              0x88888888
+   13 00000000 11111111 
+                       shift_l EQU              0x11111111
+   14 00000000         ;*******************************************************
+                       ********
+   15 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
+   16 00000000                 AREA             routines, READONLY, CODE
+   17 00000000                 THUMB
+   18 00000000                 EXTERN           Conf_SysTick
+   19 00000000                 EXPORT           GPIOPortB_Handler
+   20 00000000         
+   21 00000000         GPIOPortB_Handler
+                               PROC
+   22 00000000         ;PUSH{R0,R1}
+   23 00000000 492B            LDR              R1, = PORT_B_IRawS
+   24 00000002 482C            LDR              R0, = GPIO_PORTB_OUT
+   25 00000004 4C2C            LDR              R4, = STCTRL
+   26 00000006         Detect_IN
+   27 00000006 680A            LDR              R2, [R1]
+   28 00000008 2A01            CMP              R2, #0x1
+   29 0000000A D035            BEQ              Slower
+   30 0000000C 2A08            CMP              R2, #0x8
+   31 0000000E D03E            BEQ              Faster
+   32 00000010 2A02            CMP              R2, #0x2
+   33 00000012 D018            BEQ              S_L
+   34 00000014 2A04            CMP              R2, #0x4
+   35 00000016 D006            BEQ              S_R
+   36 00000018 4828            LDR              R0, = PORT_B_IClear
+   37 0000001A F240 01FF 
+              F2C0 0100        MOV32            R1, #0xff
+   38 00000022 6001            STR              R1, [R0]
+   39 00000024 4770            BX               LR
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   40 00000026         
+   41 00000026         S_R
+   42 00000026 F04F 3188       LDR              R1, = shift_r
+   43 0000002A         S_R_Loop
+   44 0000002A 7001            STRB             R1, [R0]
+   45 0000002C EA4F 0171       ROR              R1, R1, #1
+   46 00000030         Wait_Clock_R
+   47 00000030 B500            PUSH             {LR}
+   48 00000032 F000 F81F       BL               Check_Count
+   49 00000036 F85D EB04       POP{LR}
+   50 0000003A 2D01            CMP              R5, #1
+   51 0000003C D1F8            BNE              Wait_Clock_R
+   52 0000003E F1B1 3F88       CMP              R1, #shift_r
+   53 00000042         ;B S_R_Loop
+   54 00000042 D1F2            BNE              S_R_Loop
+   55 00000044 D00F            BEQ              QUIT
+   56 00000046         
+   57 00000046         S_L
+   58 00000046 F04F 3111       LDR              R1, = shift_l
+   59 0000004A         S_L_Loop
+   60 0000004A 7001            STRB             R1, [R0]
+   61 0000004C EA4F 01F1       ROR              R1, R1, #3
+   62 00000050         Wait_Clock_L
+   63 00000050 B500            PUSH             {LR}
+   64 00000052 F000 F80F       BL               Check_Count
+   65 00000056 F85D EB04       POP{LR}
+   66 0000005A 2D01            CMP              R5, #1
+   67 0000005C D1F8            BNE              Wait_Clock_L
+   68 0000005E F1B1 3F11       CMP              R1, #shift_l
+   69 00000062         ;B S_L_Loop
+   70 00000062 D1F2            BNE              S_L_Loop
+   71 00000064 D0FF            BEQ              QUIT
+   72 00000066         QUIT
+   73 00000066         ;PUSH{LR}
+   74 00000066         ;POP{R0,R1}
+   75 00000066 4815            LDR              R0, = PORT_B_IClear
+   76 00000068 F240 01FF 
+              F2C0 0100        MOV32            R1, #0xff
+   77 00000070 6001            STR              R1, [R0]
+   78 00000072 4770            BX               LR
+   79 00000074         
+   80 00000074         Check_Count
+   81 00000074 6825            LDR              R5, [R4]
+   82 00000076 4770            BX               LR
+   83 00000078         
+   84 00000078         Slower
+   85 00000078 F5B7 7FC8       CMP              R7, #400    ; min delay 100us
+   86 0000007C DDF3            BLE              QUIT
+   87 0000007E EA4F 0757       LSR              R7, R7, #1
+   88 00000082 B500            PUSH             {LR}
+   89 00000084 F7FF FFFE       BL               Conf_SysTick ;reconf systick
+   90 00000088 F85D EB04       POP              {LR}
+   91 0000008C E7EB            B                QUIT
+   92 0000008E         
+   93 0000008E         Faster
+   94 0000008E EA4F 0947       LSL              R9, R7, #1
+   95 00000092 F64F 78FF 
+              F2C0 08FF        MOV32            R8, #16777215
+   96 0000009A 45C1            CMP              R9, R8      ; max delay 24bits
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+   97 0000009C DAE3            BGE              QUIT
+   98 0000009E EA4F 0747       LSL              R7, R7, #1
+   99 000000A2 B500            PUSH             {LR}
+  100 000000A4 F7FF FFFE       BL               Conf_SysTick ;reconf systick
+  101 000000A8 F85D EB04       POP              {LR}
+  102 000000AC E7DB            B                QUIT
+  103 000000AE         
+  104 000000AE                 ENDP
+  105 000000AE         ;*******************************************************
+                       ********
+  106 000000AE         ; End of the program  section
+  107 000000AE         ;*******************************************************
+                       ********
+  108 000000AE         ;LABEL      DIRECTIVE       VALUE                       
+                           COMMENT
+  109 000000AE 00 00           ALIGN
+  110 000000B0                 END
+              40005414 
+              400053C0 
+              E000E018 
+              4000541C 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\gpioportb_handler_q4.d -o.\objects\gpioportb_handler_
+q4.o -I.\RTE\_q3 -ID:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C1
+23 -ID:\Keil_v5\ARM\CMSIS\Include --predefine="__EVAL SETA 1" --predefine="__UV
+ISION_VERSION SETA 526" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\gpi
+oportb_handler_q4.lst GPIOPortB_Handler_q4.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+Check_Count 00000074
+
+Symbol: Check_Count
+   Definitions
+      At line 80 in file GPIOPortB_Handler_q4.s
+   Uses
+      At line 48 in file GPIOPortB_Handler_q4.s
+      At line 64 in file GPIOPortB_Handler_q4.s
+
+Detect_IN 00000006
+
+Symbol: Detect_IN
+   Definitions
+      At line 26 in file GPIOPortB_Handler_q4.s
+   Uses
+      None
+Comment: Detect_IN unused
+Faster 0000008E
+
+Symbol: Faster
+   Definitions
+      At line 93 in file GPIOPortB_Handler_q4.s
+   Uses
+      At line 31 in file GPIOPortB_Handler_q4.s
+Comment: Faster used once
+GPIOPortB_Handler 00000000
+
+Symbol: GPIOPortB_Handler
+   Definitions
+      At line 21 in file GPIOPortB_Handler_q4.s
+   Uses
+      At line 19 in file GPIOPortB_Handler_q4.s
+Comment: GPIOPortB_Handler used once
+QUIT 00000066
+
+Symbol: QUIT
+   Definitions
+      At line 72 in file GPIOPortB_Handler_q4.s
+   Uses
+      At line 55 in file GPIOPortB_Handler_q4.s
+      At line 71 in file GPIOPortB_Handler_q4.s
+      At line 86 in file GPIOPortB_Handler_q4.s
+      At line 91 in file GPIOPortB_Handler_q4.s
+      At line 97 in file GPIOPortB_Handler_q4.s
+      At line 102 in file GPIOPortB_Handler_q4.s
+
+S_L 00000046
+
+Symbol: S_L
+   Definitions
+      At line 57 in file GPIOPortB_Handler_q4.s
+   Uses
+      At line 33 in file GPIOPortB_Handler_q4.s
+Comment: S_L used once
+S_L_Loop 0000004A
+
+Symbol: S_L_Loop
+   Definitions
+      At line 59 in file GPIOPortB_Handler_q4.s
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+   Uses
+      At line 70 in file GPIOPortB_Handler_q4.s
+Comment: S_L_Loop used once
+S_R 00000026
+
+Symbol: S_R
+   Definitions
+      At line 41 in file GPIOPortB_Handler_q4.s
+   Uses
+      At line 35 in file GPIOPortB_Handler_q4.s
+Comment: S_R used once
+S_R_Loop 0000002A
+
+Symbol: S_R_Loop
+   Definitions
+      At line 43 in file GPIOPortB_Handler_q4.s
+   Uses
+      At line 54 in file GPIOPortB_Handler_q4.s
+Comment: S_R_Loop used once
+Slower 00000078
+
+Symbol: Slower
+   Definitions
+      At line 84 in file GPIOPortB_Handler_q4.s
+   Uses
+      At line 29 in file GPIOPortB_Handler_q4.s
+Comment: Slower used once
+Wait_Clock_L 00000050
+
+Symbol: Wait_Clock_L
+   Definitions
+      At line 62 in file GPIOPortB_Handler_q4.s
+   Uses
+      At line 67 in file GPIOPortB_Handler_q4.s
+Comment: Wait_Clock_L used once
+Wait_Clock_R 00000030
+
+Symbol: Wait_Clock_R
+   Definitions
+      At line 46 in file GPIOPortB_Handler_q4.s
+   Uses
+      At line 51 in file GPIOPortB_Handler_q4.s
+Comment: Wait_Clock_R used once
+routines 00000000
+
+Symbol: routines
+   Definitions
+      At line 16 in file GPIOPortB_Handler_q4.s
+   Uses
+      None
+Comment: routines unused
+13 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_PORTB_DIR 40005400
+
+Symbol: GPIO_PORTB_DIR
+   Definitions
+      At line 5 in file GPIOPortB_Handler_q4.s
+   Uses
+      None
+Comment: GPIO_PORTB_DIR unused
+GPIO_PORTB_IN 4000503C
+
+Symbol: GPIO_PORTB_IN
+   Definitions
+      At line 8 in file GPIOPortB_Handler_q4.s
+   Uses
+      None
+Comment: GPIO_PORTB_IN unused
+GPIO_PORTB_OUT 400053C0
+
+Symbol: GPIO_PORTB_OUT
+   Definitions
+      At line 7 in file GPIOPortB_Handler_q4.s
+   Uses
+      At line 24 in file GPIOPortB_Handler_q4.s
+Comment: GPIO_PORTB_OUT used once
+IOB 000000F0
+
+Symbol: IOB
+   Definitions
+      At line 6 in file GPIOPortB_Handler_q4.s
+   Uses
+      None
+Comment: IOB unused
+PORT_B_IClear 4000541C
+
+Symbol: PORT_B_IClear
+   Definitions
+      At line 9 in file GPIOPortB_Handler_q4.s
+   Uses
+      At line 36 in file GPIOPortB_Handler_q4.s
+      At line 75 in file GPIOPortB_Handler_q4.s
+
+PORT_B_IRawS 40005414
+
+Symbol: PORT_B_IRawS
+   Definitions
+      At line 10 in file GPIOPortB_Handler_q4.s
+   Uses
+      At line 23 in file GPIOPortB_Handler_q4.s
+Comment: PORT_B_IRawS used once
+STCTRL E000E018
+
+Symbol: STCTRL
+   Definitions
+      At line 11 in file GPIOPortB_Handler_q4.s
+   Uses
+      At line 25 in file GPIOPortB_Handler_q4.s
+Comment: STCTRL used once
+shift_l 11111111
+
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Absolute symbols
+
+Symbol: shift_l
+   Definitions
+      At line 13 in file GPIOPortB_Handler_q4.s
+   Uses
+      At line 58 in file GPIOPortB_Handler_q4.s
+      At line 68 in file GPIOPortB_Handler_q4.s
+
+shift_r 88888888
+
+Symbol: shift_r
+   Definitions
+      At line 12 in file GPIOPortB_Handler_q4.s
+   Uses
+      At line 42 in file GPIOPortB_Handler_q4.s
+      At line 52 in file GPIOPortB_Handler_q4.s
+
+9 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+Conf_SysTick 00000000
+
+Symbol: Conf_SysTick
+   Definitions
+      At line 18 in file GPIOPortB_Handler_q4.s
+   Uses
+      At line 89 in file GPIOPortB_Handler_q4.s
+      At line 100 in file GPIOPortB_Handler_q4.s
+
+1 symbol
+359 symbols in table

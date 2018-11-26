@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\lab2.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\lab2.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sun Nov 25 21:47:38 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Nov 26 02:57:12 2018
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -56,7 +56,7 @@ Function Pointers
  <LI><a href="#[64]">Fan0_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[27]">FlashCtl_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[a]">GPIOPortA_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
- <LI><a href="#[b]">GPIOPortB_Handler</a> from gpioportb_handler_q3.o(routines) referenced from startup.o(RESET)
+ <LI><a href="#[b]">GPIOPortB_Handler</a> from lastq.o(main) referenced from startup.o(RESET)
  <LI><a href="#[c]">GPIOPortC_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[d]">GPIOPortD_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[e]">GPIOPortE_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
@@ -579,25 +579,27 @@ Global Symbols
 
 <P><STRONG><a name="[82]"></a>__rt_heap_expand$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
 
-<P><STRONG><a name="[7d]"></a>__main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, q2.o(main))
-<BR><BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConfGPIOstepper
+<P><STRONG><a name="[7d]"></a>__main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lastq.o(main))
+<BR><BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Conf_SysTick
+<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConfGPIOstepper
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Reset_Handler
 </UL>
 
-<P><STRONG><a name="[7f]"></a>DELAY100us</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, delay100ms.o(routines))
-<BR><BR>[Called By]<UL><LI><a href="#[b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPortB_Handler
+<P><STRONG><a name="[b]"></a>GPIOPortB_Handler</STRONG> (Thumb, 174 bytes, Stack size 0 bytes, lastq.o(main))
+<BR><BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Conf_SysTick
 </UL>
-
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
 <P><STRONG><a name="[7e]"></a>ConfGPIOstepper</STRONG> (Thumb, 106 bytes, Stack size 0 bytes, conf_gpio_port_b_q3.o(routines))
 <BR><BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
 </UL>
 
-<P><STRONG><a name="[b]"></a>GPIOPortB_Handler</STRONG> (Thumb, 98 bytes, Stack size 0 bytes, gpioportb_handler_q3.o(routines))
-<BR><BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DELAY100us
+<P><STRONG><a name="[7f]"></a>Conf_SysTick</STRONG> (Thumb, 52 bytes, Stack size 0 bytes, conf_systick.o(routines))
+<BR><BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+<LI><a href="#[b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPortB_Handler
 </UL>
-<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
-</UL><P>
+<P>
 <H3>
 Local Symbols
 </H3><P>

@@ -16,16 +16,13 @@ TARGET	EQU 	0x20000700
 ;LABEL		DIRECTIVE	VALUE			COMMENT
 		AREA 		main, READONLY, CODE
 		THUMB
-		EXTERN		CONVRT
 		EXTERN		ConfGPIOstepper
-		EXTERN		OutStr	; Reference external subroutine	
-		EXTERN		InChar	; Reference external subroutine	
 		EXPORT 		__main
 		ENTRY
 			
 __main 	
 	BL ConfGPIOstepper
-	
+	MOV32 R7, #3D0900 ; for initial 1s delay
 	LDR R5, = 0XE000E100
 	MOV32 R4, #0x00FF00F
 	STR R4, [R5]
