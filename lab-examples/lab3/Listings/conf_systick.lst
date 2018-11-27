@@ -82,11 +82,11 @@ ARM Macro Assembler    Page 2
               E000E018 
               E000ED20 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
-erwork --depend=.\objects\conf_systick.d -o.\objects\conf_systick.o -I.\RTE\_la
-stq -ID:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_
-v5\ARM\CMSIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION
- SETA 526" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\conf_systick.lst
- Conf_SysTick.s
+erwork --depend=.\objects\conf_systick.d -o.\objects\conf_systick.o -I.\RTE\_q1
+ -ID:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\
+ARM\CMSIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SE
+TA 526" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\conf_systick.lst Co
+nf_SysTick.s
 
 
 
