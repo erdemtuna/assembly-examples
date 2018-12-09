@@ -1,0 +1,155 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ********
+    2 00000000         ; EQU Directives
+    3 00000000         ; These directives do not allocate memory
+    4 00000000         ;*******************************************************
+                       ********
+    5 00000000         ;SYMBOL  DIRECTIVE VALUE   COMMENT
+    6 00000000 20000700 
+                       BASE    EQU              0x20000700
+    7 00000000 20000700 
+                       TARGET  EQU              0x20000700
+    8 00000000         ;LABEL DIRECTIVE VALUE COMMENT
+    9 00000000                 AREA             sdata , DATA, READONLY
+   10 00000000                 THUMB
+   11 00000000         ;MSG  DCB     "delaying..."
+   12 00000000         
+   13 00000000         ;*******************************************************
+                       ********
+   14 00000000         ; Program section
+   15 00000000         ;*******************************************************
+                       ********
+   16 00000000         ;LABEL  DIRECTIVE VALUE   COMMENT
+   17 00000000                 AREA             main, READONLY, CODE
+   18 00000000                 THUMB
+   19 00000000                 EXTERN           PULSE_INIT
+   20 00000000                 EXTERN           OutStr      ; Reference externa
+                                                            l subroutine 
+   21 00000000                 EXTERN           InChar      ; Reference externa
+                                                            l subroutine 
+   22 00000000                 EXPORT           __main
+   23 00000000                 ENTRY
+   24 00000000         
+   25 00000000         __main
+   26 00000000 F7FF FFFE       BL               PULSE_INIT
+   27 00000004 B662            CPSIE            I           ; Enable Interrupts
+                                                            
+   28 00000006         
+   29 00000006         wait_int
+   30 00000006 BF30            WFI                          ; Wait for next int
+                                                            errupt
+   31 00000008 E7FD            B                wait_int
+   32 0000000A         
+   33 0000000A                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\q1.d -o.\objects\q1.o -I.\RTE\_q1 -ID:\Keil_v5\ARM\PA
+CK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\CMSIS\Include --
+predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" --predefine=
+"TM4C123GH6PM SETA 1" --list=.\listings\q1.lst q1.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+sdata 00000000
+
+Symbol: sdata
+   Definitions
+      At line 9 in file q1.s
+   Uses
+      None
+Comment: sdata unused
+1 symbol
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 25 in file q1.s
+   Uses
+      At line 22 in file q1.s
+Comment: __main used once
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 17 in file q1.s
+   Uses
+      None
+Comment: main unused
+wait_int 00000006
+
+Symbol: wait_int
+   Definitions
+      At line 29 in file q1.s
+   Uses
+      At line 31 in file q1.s
+Comment: wait_int used once
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+BASE 20000700
+
+Symbol: BASE
+   Definitions
+      At line 6 in file q1.s
+   Uses
+      None
+Comment: BASE unused
+TARGET 20000700
+
+Symbol: TARGET
+   Definitions
+      At line 7 in file q1.s
+   Uses
+      None
+Comment: TARGET unused
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+InChar 00000000
+
+Symbol: InChar
+   Definitions
+      At line 21 in file q1.s
+   Uses
+      None
+Comment: InChar unused
+OutStr 00000000
+
+Symbol: OutStr
+   Definitions
+      At line 20 in file q1.s
+   Uses
+      None
+Comment: OutStr unused
+PULSE_INIT 00000000
+
+Symbol: PULSE_INIT
+   Definitions
+      At line 19 in file q1.s
+   Uses
+      At line 26 in file q1.s
+Comment: PULSE_INIT used once
+3 symbols
+343 symbols in table
