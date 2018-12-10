@@ -7,15 +7,15 @@
 ; Timer Gate Control and Timer Registers
 
 SYSCTL_RCGCTIMER EQU 0x400FE604 ; Timer Clock Gating
-TIMER0_CFG EQU 0x40032000 ; Configuration Register
-TIMER0_TAMR EQU 0x40032004 ; Mode Register
-TIMER0_CTL EQU 0x4003200C ; Control Register
-TIMER0_RIS EQU 0x4003201C ; Raw interrupt Status
-TIMER0_ICR EQU 0x40032024 ; Interrupt Clear Register
-TIMER0_TAILR EQU 0x40032028 ; Interval Load Register
-TIMER0_TAMATCHR EQU 0x40032030 ; Match Register
-TIMER0_TAPR EQU 0x40032038 ; Prescaling Divider
-TIMER0_TAR EQU 0x40032048 ; Counter Register
+TIMER2_CFG EQU 0x40032000 ; Configuration Register
+TIMER2_TAMR EQU 0x40032004 ; Mode Register
+TIMER2_CTL EQU 0x4003200C ; Control Register
+TIMER2_RIS EQU 0x4003201C ; Raw interrupt Status
+TIMER2_ICR EQU 0x40032024 ; Interrupt Clear Register
+TIMER2_TAILR EQU 0x40032028 ; Interval Load Register
+TIMER2_TAMATCHR EQU 0x40032030 ; Match Register
+TIMER2_TAPR EQU 0x40032038 ; Prescaling Divider
+TIMER2_TAR EQU 0x40032048 ; Counter Register
 	
 ;GPIO Gate Control and GPIO Registers
 SYSCTL_RCGCGPIO EQU 0x400FE608
@@ -57,7 +57,7 @@ DCYCLE     	DCB     	"DutyCycle(%): "
 			
 __main 	
 	BL setup_port_b
-	BL setup_timer_0
+	BL setup_timer_2
 	BL PULSE_INIT
 	CPSIE	I; DISABLE Interrupts
 	MOV R3, #0 ;result keeper
@@ -70,15 +70,15 @@ __main
 	MOV32 R10, #0x3B9ACA00 ; 1e9
 
 	; Await edge capture event
-loop LDR R1, =TIMER0_RIS
+loop LDR R1, =TIMER2_RIS
 	LDR R2, [R1]
 	ANDS R2, #0X4 ; isolate CAERIS bit
 	BEQ loop ; if no capture, then loop
-	LDR R1, = TIMER0_ICR ; clear CAERIS
+	LDR R1, = TIMER2_ICR ; clear CAERIS
 	LDR R0, [R1]
 	ORR R0, R0, #0x04
 	STR R0, [R1]
-	LDR R1, =TIMER0_TAR ; address of timer register
+	LDR R1, =TIMER2_TAR ; address of timer register
 	
 	CMP R9, #1
 	BEQ edge_2
@@ -219,39 +219,39 @@ setup_port_b
 	STR R0, [R1]
 	BX LR
 	
-setup_timer_0
-	; Start Timer 0 clock
+setup_timer_2
+	; Start Timer 2 clock
 	LDR R1, =SYSCTL_RCGCTIMER
-	LDR R2, [R1] ; Start timer 0
-	ORR R2, R2, #0x04 ; Timer module = bit position (0)
+	LDR R2, [R1] ; Start timer 2
+	ORR R2, R2, #0x04 ; Timer module = bit position (2)
 	STR R2, [R1]
 	NOP
 	NOP
 	NOP ; allow clock to settle
 	; disable timer during setup
-	LDR R1, =TIMER0_CTL 
+	LDR R1, =TIMER2_CTL 
 	LDR R2, [R1]
-	BIC R2, R2, #0x01 ; clear bit 0 to disable Timer 0
+	BIC R2, R2, #0x01 ; clear bit 0 to disable Timer 2
 	STR R2, [R1]
 	; set to 16bit Timer Mode
-	LDR R1, =TIMER0_CFG
+	LDR R1, =TIMER2_CFG
 	MOV R2, #0x04 ; set bits 2:0 to 0x04 for 16bit timer
 	STR R2, [R1]
 	; set for edge time and capture mode
-	LDR R1, =TIMER0_TAMR
+	LDR R1, =TIMER2_TAMR
 	MOV R2, #0x07 ; set bit2 to 0x01 for Edge Time Mode,
 	STR R2, [R1] ; set bits 1:0 to 0x03 for Capture Mode
 	;; set edge detection to both
-	LDR R1, =TIMER0_CTL
+	LDR R1, =TIMER2_CTL
 	LDR R2, [R1]
 	ORR R2, R2, #0x0C ; set bits 3:2 to 0x03
 	STR R2, [R1]
 	; set start value
-	LDR R1, =TIMER0_TAILR ; counter counts down,
+	LDR R1, =TIMER2_TAILR ; counter counts down,
 	MOV R0, #0xFFFFFFFF ; so start counter at max value
 	STR R0, [R1]
 	; Enable timer
-	LDR R1, =TIMER0_CTL ;
+	LDR R1, =TIMER2_CTL ;
 	LDR R2, [R1] ;
 	ORR R2, R2, #0x03 ; set bit 0 to enable
 	STR R2, [R1] 
