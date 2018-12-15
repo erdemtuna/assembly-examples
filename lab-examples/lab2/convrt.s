@@ -36,14 +36,12 @@ CONVRT 		PROC
 			B			SAVE
 				
 SAVE
-			PUSH{R0}
-			PUSH{R1}
-			PUSH{R5}			; save the address of R5
+			PUSH{R0-R12}
 			B START
 			
 START		LDR			R1, = 10
 			LDR			R6, = 10
-			MOV			R0, R4		; Number itself
+			MOV			R0, R3		; Number itself
 			CMP			R1, #0		;clear carry
 
 LOOP		BEQ			NEXT
@@ -78,10 +76,8 @@ RETRIEVE
 			STRB		R6, [R5], #1
 			B			EXIT
 			
-EXIT			POP{R5}
-			POP{R1}		; retrieve the address
-			POP{R0}		; retrieve the address
- 					; retrieve the address
+EXIT		
+			POP{R0-R12}
 			BX			LR
 			ENDP
 ;***************************************************************

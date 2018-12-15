@@ -31,10 +31,17 @@
 			EXPORT  	CONVRT	; Make available
 
 CONVRT 		PROC
-			MOV			R7, R5
-			LDR			R1, = 10
+			
+			NOP
+			B			SAVE
+				
+SAVE
+			PUSH{R0-R12}
+			B START
+			
+START		LDR			R1, = 10
 			LDR			R6, = 10
-			MOV			R0, R4		; Number itself
+			MOV			R0, R3		; Number itself
 			CMP			R1, #0		;clear carry
 
 LOOP		BEQ			NEXT
@@ -67,7 +74,10 @@ RETRIEVE
 			STRB		R6 , [R5], #1
 			LDR			R6, =0x04
 			STRB		R6, [R5], #1
- 			MOV 		R5, R7
+			B			EXIT
+			
+EXIT		
+			POP{R0-R12}
 			BX			LR
 			ENDP
 ;***************************************************************

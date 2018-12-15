@@ -42,6 +42,8 @@ SAVE
 START		LDR			R1, = 10
 			LDR			R6, = 10
 			MOV			R0, R3		; Number itself
+			CMP			R0, #0
+			BEQ			zero_Case
 			CMP			R1, #0		;clear carry
 
 LOOP		BEQ			NEXT
@@ -70,6 +72,15 @@ RETRIEVE
 			LDR			R1, =0x29
 			CMP			R0, #0
 			BNE			ctr
+			LDR			R6, =0x0D
+			STRB		R6 , [R5], #1
+			LDR			R6, =0x04
+			STRB		R6, [R5], #1
+			B			EXIT
+			
+zero_Case
+			LDR R6, = 0x30
+			STRB		R6 , [R5], #1
 			LDR			R6, =0x0D
 			STRB		R6 , [R5], #1
 			LDR			R6, =0x04
