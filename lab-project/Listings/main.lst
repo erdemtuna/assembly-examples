@@ -1,0 +1,203 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ********
+    2 00000000         ; EQU Directives
+    3 00000000         ; These directives do not allocate memory
+    4 00000000         ;*******************************************************
+                       ********
+    5 00000000         ;SYMBOL  DIRECTIVE VALUE   COMMENT
+    6 00000000         ; ADC Registers
+    7 00000000         ;RCGCADC    EQU 0x400FE638 ; ADC clock register
+    8 00000000         ;ADC_0_ACTSS   EQU 0x40038000 ; Sample sequencer (ADC_0 
+                       base address)
+    9 00000000         ;ADC_0_RIS   EQU 0x40038004 ; Interrupt status
+   10 00000000         ;ADC_0_IM    EQU 0x40038008 ; Interrupt select
+   11 00000000         ;ADC_0_EMUX   EQU 0x40038014 ; Trigger select
+   12 00000000         ;ADC_0_PSSI   EQU 0x40038028 ; Initiate sample
+   13 00000000         ;ADC_0_SSMUX0   EQU 0x40038040 ; Input channel select
+   14 00000000         ;ADC_0_SSCTL0   EQU 0x40038044 ; Sample sequence control
+                       
+   15 00000000         ;ADC_0_SSFIFO3  EQU 0x400380A8 ; Channel 3 results
+   16 00000000         ;ADC_0_PC    EQU 0x40038FC4 ; Sample rate
+   17 00000000         ; 
+   18 00000000         ;; GPIO Registers 
+   19 00000000         ;RCGCGPIO     EQU 0x400FE608 ; GPIO clock register
+   20 00000000         ;; PORT E base address = 0x40024000
+   21 00000000         ;GPIO_PORTE_DEN   EQU 0x4002451C ; Digital Enable
+   22 00000000         ;GPIO_PORTE_PCTL     EQU 0x4002452C ; Alternate function
+                        select
+   23 00000000         ;GPIO_PORTE_AFSEL    EQU 0x40024420 ; Enable Alt functio
+                       ns
+   24 00000000         ;GPIO_PORTE_AMSEL    EQU 0x40024528 ; Enable analog
+   25 00000000         
+   26 00000000 20001000 
+                       TARGET  EQU              0x20001000
+   27 00000000         ;LABEL DIRECTIVE VALUE COMMENT
+   28 00000000                 AREA             sdata , DATA, READONLY
+   29 00000000                 THUMB
+   30 00000000 56 6F 6C 
+              74 61 67 
+              65 28 6D 
+              56 29 3A 
+              20       Volt_Text
+                               DCB              "Voltage(mV): "
+   31 0000000D 0D              DCB              0x0D
+   32 0000000E 04              DCB              0x04
+   33 0000000F 2E      DOT     DCB              0x2E
+   34 00000010 0D              DCB              0x0D
+   35 00000011 04              DCB              0x04
+   36 00000012         
+   37 00000012         ;MSG  DCB     "delaying..."
+   38 00000012         
+   39 00000012         ;*******************************************************
+                       ********
+   40 00000012         ; Program section
+   41 00000012         ;*******************************************************
+                       ********
+   42 00000012         ;LABEL  DIRECTIVE VALUE   COMMENT
+   43 00000012                 AREA             main, READONLY, CODE
+   44 00000000                 THUMB
+   45 00000000                 EXTERN           Start
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   46 00000000                 EXTERN           CONVRT
+   47 00000000                 EXTERN           OutStr      ; Reference externa
+                                                            l subroutine 
+   48 00000000                 EXTERN           InChar      ; Reference externa
+                                                            l subroutine 
+   49 00000000                 EXPORT           __main
+   50 00000000                 ENTRY
+   51 00000000         
+   52 00000000         __main
+   53 00000000 F7FF FFFE       BL               Start
+   54 00000004         
+   55 00000004         ;*******************************************************
+                       ********
+   56 00000004         ; End of the program section
+   57 00000004         ;*******************************************************
+                       ********
+   58 00000004         ;LABEL  DIRECTIVE VALUE   COMMENT
+   59 00000004                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\main.d -o.\main.o -I.\RTE\_Target_1 -ID:\Keil_v5\ARM\PACK\Kei
+l\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\CMSIS\Include --predef
+ine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" --predefine="TM4C1
+23GH6PM SETA 1" --list=.\listings\main.lst main.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+DOT 0000000F
+
+Symbol: DOT
+   Definitions
+      At line 33 in file main.s
+   Uses
+      None
+Comment: DOT unused
+Volt_Text 00000000
+
+Symbol: Volt_Text
+   Definitions
+      At line 30 in file main.s
+   Uses
+      None
+Comment: Volt_Text unused
+sdata 00000000
+
+Symbol: sdata
+   Definitions
+      At line 28 in file main.s
+   Uses
+      None
+Comment: sdata unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 52 in file main.s
+   Uses
+      At line 49 in file main.s
+Comment: __main used once
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 43 in file main.s
+   Uses
+      None
+Comment: main unused
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+TARGET 20001000
+
+Symbol: TARGET
+   Definitions
+      At line 26 in file main.s
+   Uses
+      None
+Comment: TARGET unused
+1 symbol
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+CONVRT 00000000
+
+Symbol: CONVRT
+   Definitions
+      At line 46 in file main.s
+   Uses
+      None
+Comment: CONVRT unused
+InChar 00000000
+
+Symbol: InChar
+   Definitions
+      At line 48 in file main.s
+   Uses
+      None
+Comment: InChar unused
+OutStr 00000000
+
+Symbol: OutStr
+   Definitions
+      At line 47 in file main.s
+   Uses
+      None
+Comment: OutStr unused
+Start 00000000
+
+Symbol: Start
+   Definitions
+      At line 45 in file main.s
+   Uses
+      At line 53 in file main.s
+Comment: Start used once
+4 symbols
+344 symbols in table
