@@ -151,9 +151,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>107</LineNumber>
+          <LineNumber>118</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>1672</Address>
+          <Address>1678</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -162,55 +162,39 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\NokiaTest-Class-main.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\projectExecute\NokiaTest-Class-main.s\107</Expression>
+          <Expression>\\projectExecute\NokiaTest-Class-main.s\118</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>299</LineNumber>
+          <LineNumber>122</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>2514</Address>
+          <Address>1692</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\Nokia5110-Class.s</Filename>
+          <Filename>.\NokiaTest-Class-main.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\projectExecute\Nokia5110-Class.s\299</Expression>
+          <Expression>\\projectExecute\NokiaTest-Class-main.s\122</Expression>
         </Bp>
         <Bp>
           <Number>2</Number>
           <Type>0</Type>
-          <LineNumber>300</LineNumber>
+          <LineNumber>120</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>0</Address>
+          <Address>1686</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>0</BreakIfRCount>
-          <Filename>.\Nokia5110-Class.s</Filename>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\NokiaTest-Class-main.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression></Expression>
-        </Bp>
-        <Bp>
-          <Number>3</Number>
-          <Type>0</Type>
-          <LineNumber>301</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>0</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>0</BreakIfRCount>
-          <Filename>.\Nokia5110-Class.s</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression></Expression>
+          <Expression>\\projectExecute\NokiaTest-Class-main.s\120</Expression>
         </Bp>
       </Breakpoint>
       <MemoryWindow1>

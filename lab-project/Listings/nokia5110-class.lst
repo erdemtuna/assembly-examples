@@ -436,422 +436,424 @@ ARM Macro Assembler    Page 7
   156 000001DC         ;"
   157 000001DC         ;DCB  0XFF, 0x81, 0xfd, 0xd5, 0xd5, 0x9a, 0x81, 0xff ;//
                         Battleship
-  158 000001DC         ;*******************************************************
+  158 000001DC         ;DCB  0xFF, 0x81, 0xFD, 0xC5, 0xC5, 0xA9, 0x81, 0XFF ;//
+                        Civilianship
+  159 000001DC         ;*******************************************************
                        **********
-  159 000001DC         ; Initializes Nokia display
-  160 000001DC         Nokia_Init
-  161 000001DC B500            PUSH             {LR}
-  162 000001DE         ;Setup GPIO
-  163 000001DE 4995            LDR              R1, =SYSCTL_RCGCGPIO 
+  160 000001DC         ; Initializes Nokia display
+  161 000001DC         Nokia_Init
+  162 000001DC B500            PUSH             {LR}
+  163 000001DE         ;Setup GPIO
+  164 000001DE 4995            LDR              R1, =SYSCTL_RCGCGPIO 
                                                             ; start GPIO clock
-  164 000001E0 6808            LDR              R0, [R1]
-  165 000001E2 F040 0001       ORR              R0, #0x1    ; set bit 0 
-  166 000001E6 6008            STR              R0, [R1]
-  167 000001E8 BF00            NOP                          ; allow clock to se
+  165 000001E0 6808            LDR              R0, [R1]
+  166 000001E2 F040 0001       ORR              R0, #0x1    ; set bit 0 
+  167 000001E6 6008            STR              R0, [R1]
+  168 000001E8 BF00            NOP                          ; allow clock to se
                                                             ttle
-  168 000001EA BF00            NOP
-  169 000001EC BF00            NOP
-  170 000001EE 4992            LDR              R1,=GPIO_PORTA_DIR ; make PA2,3
-                                                            ,5,6,7 output
+  169 000001EA BF00            NOP
+  170 000001EC BF00            NOP
 
 
 
 ARM Macro Assembler    Page 8 
 
 
-  171 000001F0 F04F 00EC       LDR              R0, = 2_11101100 ; and make PA4
+  171 000001EE 4992            LDR              R1,=GPIO_PORTA_DIR ; make PA2,3
+                                                            ,5,6,7 output
+  172 000001F0 F04F 00EC       LDR              R0, = 2_11101100 ; and make PA4
                                                              input
-  172 000001F4 6008            STR              R0,[R1]
-  173 000001F6 4991            LDR              R1,=GPIO_PORTA_AFSEL ; enable a
+  173 000001F4 6008            STR              R0,[R1]
+  174 000001F6 4991            LDR              R1,=GPIO_PORTA_AFSEL ; enable a
                                                             lt funct on PA2,3,4
                                                             ,5
-  174 000001F8 F04F 003C       MOV              R0, #0x3C
-  175 000001FC 6008            STR              R0,[R1]
-  176 000001FE 4990            LDR              R1,=GPIO_PORTA_DEN ; enable dig
+  175 000001F8 F04F 003C       MOV              R0, #0x3C
+  176 000001FC 6008            STR              R0,[R1]
+  177 000001FE 4990            LDR              R1,=GPIO_PORTA_DEN ; enable dig
                                                             ital I/O at PA2,3,4
                                                             ,5,6,7
-  177 00000200 F04F 00FC       MOV              R0, #0xFC
-  178 00000204 6008            STR              R0,[R1]
-  179 00000206 498F            LDR              R1,=GPIO_PORTA_PCTL ; configure
+  178 00000200 F04F 00FC       MOV              R0, #0xFC
+  179 00000204 6008            STR              R0,[R1]
+  180 00000206 498F            LDR              R1,=GPIO_PORTA_PCTL ; configure
                                                              PA2,3,4,5 as SSI
-  180 00000208 488F            LDR              R0, = 0x00222200
-  181 0000020A 6008            STR              R0,[R1]
-  182 0000020C 498F            LDR              R1,=GPIO_PORTA_AMSEL ; disable 
+  181 00000208 488F            LDR              R0, = 0x00222200
+  182 0000020A 6008            STR              R0,[R1]
+  183 0000020C 498F            LDR              R1,=GPIO_PORTA_AMSEL ; disable 
                                                             analog functionalit
                                                             y
-  183 0000020E F04F 0000       MOV              R0, #0x0
-  184 00000212 6008            STR              R0,[R1]
-  185 00000214         
-  186 00000214         ;Setup SSI 
-  187 00000214 498E            LDR              R1,=SYSCTL_RCGCSSI 
+  184 0000020E F04F 0000       MOV              R0, #0x0
+  185 00000212 6008            STR              R0,[R1]
+  186 00000214         
+  187 00000214         ;Setup SSI 
+  188 00000214 498E            LDR              R1,=SYSCTL_RCGCSSI 
                                                             ; start SSI clock
-  188 00000216 6808            LDR              R0,[R1]
-  189 00000218 F04F 0001       MOV              R0, #0x1    ; set bit 0 for SSI
+  189 00000216 6808            LDR              R0,[R1]
+  190 00000218 F04F 0001       MOV              R0, #0x1    ; set bit 0 for SSI
                                                             0
-  190 0000021C 6008            STR              R0,[R1]
-  191 0000021E         ; small delay
-  192 0000021E F04F 000F       MOV              R0,#0x0F
-  193 00000222         waitSSIClk                           ; allow clock to se
+  191 0000021C 6008            STR              R0,[R1]
+  192 0000021E         ; small delay
+  193 0000021E F04F 000F       MOV              R0,#0x0F
+  194 00000222         waitSSIClk                           ; allow clock to se
                                                             ttle
-  194 00000222 1E40            SUBS             R0,R0,#0x01
-  195 00000224 D1FD            BNE              waitSSIClk
-  196 00000226         
-  197 00000226 498B            LDR              R1,=SSI0_CR1 ; disable SSI duri
+  195 00000222 1E40            SUBS             R0,R0,#0x01
+  196 00000224 D1FD            BNE              waitSSIClk
+  197 00000226         
+  198 00000226 498B            LDR              R1,=SSI0_CR1 ; disable SSI duri
                                                             ng setup and also s
                                                             et to Master
-  198 00000228 6808            LDR              R0, [R1]    ; clear bit 1 and  
+  199 00000228 6808            LDR              R0, [R1]    ; clear bit 1 and  
                                                             clear bit 2 (you ca
                                                             n clear all bits)
-  199 0000022A F020 0006       BIC              R0, #0x06
-  200 0000022E 6008            STR              R0,[R1]
-  201 00000230         
-  202 00000230         ; Configure baud rate PIOSC=16MHz,Baud=2MHz,CPSDVSR=4,SC
+  200 0000022A F020 0006       BIC              R0, #0x06
+  201 0000022E 6008            STR              R0,[R1]
+  202 00000230         
+  203 00000230         ; Configure baud rate PIOSC=16MHz,Baud=2MHz,CPSDVSR=4,SC
                        R=1
-  203 00000230         ; BR=SysClk/(CPSDVSR * (1 + SCR))
-  204 00000230 4989            LDR              R1,=SSI0_CC ; use PIOSC (16MHz)
+  204 00000230         ; BR=SysClk/(CPSDVSR * (1 + SCR))
+  205 00000230 4989            LDR              R1,=SSI0_CC ; use PIOSC (16MHz)
                                                               
-  205 00000232 6808            LDR              R0, [R1]    ; set bits 3:0 of t
+  206 00000232 6808            LDR              R0, [R1]    ; set bits 3:0 of t
                                                             he SSICC to 0x5 
-  206 00000234 F040 0005       ORR              R0, #0x05
-  207 00000238 6008            STR              R0,[R1]
-  208 0000023A 4988            LDR              R1,=SSI0_CR0 ; set SCR bits to 
+  207 00000234 F040 0005       ORR              R0, #0x05
+  208 00000238 6008            STR              R0,[R1]
+  209 0000023A 4988            LDR              R1,=SSI0_CR0 ; set SCR bits to 
                                                             0x01
-  209 0000023C 6808            LDR              R0,[R1]
-  210 0000023E         ;  ________________    ;
 
 
 
 ARM Macro Assembler    Page 9 
 
 
-  211 0000023E 6008            STR              R0,[R1]
-  212 00000240 4987            LDR              R1,=SSI0_CPSR ; set CPSDVSR (pr
+  210 0000023C 6808            LDR              R0,[R1]
+  211 0000023E         ;  ________________    ;
+  212 0000023E 6008            STR              R0,[R1]
+  213 00000240 4987            LDR              R1,=SSI0_CPSR ; set CPSDVSR (pr
                                                             escale) to 0x04
-  213 00000242 F04F 0004       MOV              R0, #0x04
-  214 00000246 6008            STR              R0,[R1]
-  215 00000248 4984            LDR              R1,=SSI0_CR0 ; clear SPH,SPO
-  216 0000024A 6808            LDR              R0,[R1]     ; choose Freescale 
+  214 00000242 F04F 0004       MOV              R0, #0x04
+  215 00000246 6008            STR              R0,[R1]
+  216 00000248 4984            LDR              R1,=SSI0_CR0 ; clear SPH,SPO
+  217 0000024A 6808            LDR              R0,[R1]     ; choose Freescale 
                                                             frame format
-  217 0000024C F020 0030       BIC              R0, #0x30   ; clear bits 5:4  
-  218 00000250 F040 0007       ORR              R0, #0x7    ; choose 8-bit data
+  218 0000024C F020 0030       BIC              R0, #0x30   ; clear bits 5:4  
+  219 00000250 F040 0007       ORR              R0, #0x7    ; choose 8-bit data
                                                              (set DSS bits to 0
                                                             x07)
-  219 00000254 6008            STR              R0,[R1]
-  220 00000256 497F            LDR              R1,=SSI0_CR1 ; enable SSI
-  221 00000258 6808            LDR              R0,[R1]
-  222 0000025A F040 0002       ORR              R0, #0x02   ; set bit 1
-  223 0000025E 6008            STR              R0,[R1]
-  224 00000260         ; DC = PA7
-  225 00000260         ; Reset LCD memory - reset already low
-  226 00000260         ; ensure reset is low
-  227 00000260 4980            LDR              R1,=GPIO_PORTA_DATA
-  228 00000262 6808            LDR              R0, [R1]    ; clear reset(PA7) 
+  220 00000254 6008            STR              R0,[R1]
+  221 00000256 497F            LDR              R1,=SSI0_CR1 ; enable SSI
+  222 00000258 6808            LDR              R0,[R1]
+  223 0000025A F040 0002       ORR              R0, #0x02   ; set bit 1
+  224 0000025E 6008            STR              R0,[R1]
+  225 00000260         ; DC = PA7
+  226 00000260         ; Reset LCD memory - reset already low
+  227 00000260         ; ensure reset is low
+  228 00000260 4980            LDR              R1,=GPIO_PORTA_DATA
+  229 00000262 6808            LDR              R0, [R1]    ; clear reset(PA7) 
                                                              
-  229 00000264 F020 0080       BIC              R0, #0x80
-  230 00000268 6008            STR              R0,[R1]
-  231 0000026A         
-  232 0000026A F04F 000A       MOV              R0,#10
-  233 0000026E         delReset
-  234 0000026E 1E40            SUBS             R0,R0,#1
-  235 00000270 D1FD            BNE              delReset
-  236 00000272         
-  237 00000272 497C            LDR              R1,=GPIO_PORTA_DATA ; 
-  238 00000274 6808            LDR              R0, [R1]    ; set reset(PA7)
-  239 00000276 F040 0080       ORR              R0, #0x80
-  240 0000027A 6008            STR              R0,[R1]     ;
-  241 0000027C         
-  242 0000027C         ; Setup LCD
-  243 0000027C 4979            LDR              R1,=GPIO_PORTA_DATA ; set PA6 l
+  230 00000264 F020 0080       BIC              R0, #0x80
+  231 00000268 6008            STR              R0,[R1]
+  232 0000026A         
+  233 0000026A F04F 000A       MOV              R0,#10
+  234 0000026E         delReset
+  235 0000026E 1E40            SUBS             R0,R0,#1
+  236 00000270 D1FD            BNE              delReset
+  237 00000272         
+  238 00000272 497C            LDR              R1,=GPIO_PORTA_DATA ; 
+  239 00000274 6808            LDR              R0, [R1]    ; set reset(PA7)
+  240 00000276 F040 0080       ORR              R0, #0x80
+  241 0000027A 6008            STR              R0,[R1]     ;
+  242 0000027C         
+  243 0000027C         ; Setup LCD
+  244 0000027C 4979            LDR              R1,=GPIO_PORTA_DATA ; set PA6 l
                                                             ow for Command
-  244 0000027E 6808            LDR              R0,[R1]
-  245 00000280 F020 0040       BIC              R0, #0x40
-  246 00000284 6008            STR              R0,[R1]
-  247 00000286         
-  248 00000286         ;chip active (PD=0)
-  249 00000286         ;horizontal addressing (V=0)
-  250 00000286         ;extended instruction set (H=1)
-  251 00000286 F04F 0521       MOV              R5,#0x21
-  252 0000028A F7FF FFFE       BL               Out1BNokia
-  253 0000028E         ;set contrast
-  254 0000028E F04F 05B8       MOV              R5,#0xB8
-  255 00000292 F7FF FFFE       BL               Out1BNokia
-  256 00000296         ;set temp coefficient
-  257 00000296 F04F 0504       MOV              R5,#0x04
-  258 0000029A F7FF FFFE       BL               Out1BNokia
-  259 0000029E         ;set bias 1:48: try 0x13 or 0x14
-  260 0000029E F04F 0514       MOV              R5,#0x14
-  261 000002A2 F7FF FFFE       BL               Out1BNokia
-  262 000002A6         ;change H=0
-  263 000002A6 F04F 0520       MOV              R5,#0x20
+  245 0000027E 6808            LDR              R0,[R1]
+  246 00000280 F020 0040       BIC              R0, #0x40
+  247 00000284 6008            STR              R0,[R1]
+  248 00000286         
+  249 00000286         ;chip active (PD=0)
+  250 00000286         ;horizontal addressing (V=0)
+  251 00000286         ;extended instruction set (H=1)
+  252 00000286 F04F 0521       MOV              R5,#0x21
+  253 0000028A F7FF FFFE       BL               Out1BNokia
+  254 0000028E         ;set contrast
+  255 0000028E F04F 05B8       MOV              R5,#0xB8
+  256 00000292 F7FF FFFE       BL               Out1BNokia
+  257 00000296         ;set temp coefficient
+  258 00000296 F04F 0504       MOV              R5,#0x04
+  259 0000029A F7FF FFFE       BL               Out1BNokia
+  260 0000029E         ;set bias 1:48: try 0x13 or 0x14
+  261 0000029E F04F 0514       MOV              R5,#0x14
+  262 000002A2 F7FF FFFE       BL               Out1BNokia
 
 
 
 ARM Macro Assembler    Page 10 
 
 
-  264 000002AA F7FF FFFE       BL               Out1BNokia
-  265 000002AE         ;set control mode to normal
-  266 000002AE F04F 050C       MOV              R5,#0x0C
-  267 000002B2 F7FF FFFE       BL               Out1BNokia
-  268 000002B6         ; clear screen
-  269 000002B6         ; screen memory is undefined after startup
-  270 000002B6 F7FF FFFE       BL               ClearNokia
-  271 000002BA         
-  272 000002BA         waitCMDDone
-  273 000002BA 496B            LDR              R1,=SSI0_SR ; wait until SSI is
+  263 000002A6         ;change H=0
+  264 000002A6 F04F 0520       MOV              R5,#0x20
+  265 000002AA F7FF FFFE       BL               Out1BNokia
+  266 000002AE         ;set control mode to normal
+  267 000002AE F04F 050C       MOV              R5,#0x0C
+  268 000002B2 F7FF FFFE       BL               Out1BNokia
+  269 000002B6         ; clear screen
+  270 000002B6         ; screen memory is undefined after startup
+  271 000002B6 F7FF FFFE       BL               ClearNokia
+  272 000002BA         
+  273 000002BA         waitCMDDone
+  274 000002BA 496B            LDR              R1,=SSI0_SR ; wait until SSI is
                                                              done
-  274 000002BC 6808            LDR              R0,[R1]
-  275 000002BE F010 0010       ANDS             R0,R0,#0x10
-  276 000002C2 D1FA            BNE              waitCMDDone
-  277 000002C4         
-  278 000002C4 F85D EB04       POP{LR}
-  279 000002C8 4770            BX               LR
-  280 000002CA         ;*******************************************************
+  275 000002BC 6808            LDR              R0,[R1]
+  276 000002BE F010 0010       ANDS             R0,R0,#0x10
+  277 000002C2 D1FA            BNE              waitCMDDone
+  278 000002C4         
+  279 000002C4 F85D EB04       POP{LR}
+  280 000002C8 4770            BX               LR
+  281 000002CA         ;*******************************************************
                        **********  
-  281 000002CA         
-  282 000002CA         ;*******************************************************
+  282 000002CA         
+  283 000002CA         ;*******************************************************
                        ********** 
-  283 000002CA         ; SSI Send routine. Bits to be sent passed via R5
-  284 000002CA         Out1BNokia
-  285 000002CA B403            PUSH             {R0,R1}
-  286 000002CC         waitSendNokia
-  287 000002CC 4966            LDR              R1,=SSI0_SR ; wait if buffer is
+  284 000002CA         ; SSI Send routine. Bits to be sent passed via R5
+  285 000002CA         Out1BNokia
+  286 000002CA B403            PUSH             {R0,R1}
+  287 000002CC         waitSendNokia
+  288 000002CC 4966            LDR              R1,=SSI0_SR ; wait if buffer is
                                                              full
-  288 000002CE 6808            LDR              R0,[R1]
-  289 000002D0 F010 0002       ANDS             R0,R0,#0x02
-  290 000002D4 D0FA            BEQ              waitSendNokia
-  291 000002D6 4965            LDR              R1,=SSI0_DR
-  292 000002D8 700D            STRB             R5,[R1]
-  293 000002DA BC03            POP              {R0,R1}
-  294 000002DC 4770            BX               LR
-  295 000002DE         ;*******************************************************
+  289 000002CE 6808            LDR              R0,[R1]
+  290 000002D0 F010 0002       ANDS             R0,R0,#0x02
+  291 000002D4 D0FA            BEQ              waitSendNokia
+  292 000002D6 4965            LDR              R1,=SSI0_DR
+  293 000002D8 700D            STRB             R5,[R1]
+  294 000002DA BC03            POP              {R0,R1}
+  295 000002DC 4770            BX               LR
+  296 000002DE         ;*******************************************************
                        **********   
-  296 000002DE         
-  297 000002DE         ;*******************************************************
+  297 000002DE         
+  298 000002DE         ;*******************************************************
                        **********
-  298 000002DE         ; Send Image to Nokia routine 
-  299 000002DE         OutImgNokia
-  300 000002DE B51F            PUSH             {R0-R4,LR}
-  301 000002E0 B420            PUSH             {R5}        ; save Img address
-  302 000002E2 4960            LDR              R1,=GPIO_PORTA_DATA ; set PA6 l
+  299 000002DE         ; Send Image to Nokia routine 
+  300 000002DE         OutImgNokia
+  301 000002DE B51F            PUSH             {R0-R4,LR}
+  302 000002E0 B420            PUSH             {R5}        ; save Img address
+  303 000002E2 4960            LDR              R1,=GPIO_PORTA_DATA ; set PA6 l
                                                             ow for Command
-  303 000002E4 6808            LDR              R0,[R1]
-  304 000002E6 F020 0040       BIC              R0,#0x40
-  305 000002EA 6008            STR              R0,[R1]
-  306 000002EC F04F 0520       MOV              R5,#0x20    ; ensure H=0
-  307 000002F0 F7FF FFFE       BL               Out1BNokia
-  308 000002F4 F04F 0540       MOV              R5,#0x40    ; set Y address to 
+  304 000002E4 6808            LDR              R0,[R1]
+  305 000002E6 F020 0040       BIC              R0,#0x40
+  306 000002EA 6008            STR              R0,[R1]
+  307 000002EC F04F 0520       MOV              R5,#0x20    ; ensure H=0
+  308 000002F0 F7FF FFFE       BL               Out1BNokia
+  309 000002F4 F04F 0540       MOV              R5,#0x40    ; set Y address to 
                                                             0
-  309 000002F8 F7FF FFFE       BL               Out1BNokia
-  310 000002FC F04F 0580       MOV              R5,#0x80    ; set X address to 
+  310 000002F8 F7FF FFFE       BL               Out1BNokia
+  311 000002FC F04F 0580       MOV              R5,#0x80    ; set X address to 
                                                             0
-  311 00000300 F7FF FFFE       BL               Out1BNokia
-  312 00000304         waitImgReady
-  313 00000304 4958            LDR              R1,=SSI0_SR ; wait until SSI is
+  312 00000300 F7FF FFFE       BL               Out1BNokia
 
 
 
 ARM Macro Assembler    Page 11 
 
 
+  313 00000304         waitImgReady
+  314 00000304 4958            LDR              R1,=SSI0_SR ; wait until SSI is
                                                              done
-  314 00000306 6808            LDR              R0,[R1]
-  315 00000308 F010 0010       ANDS             R0,R0,#0x10
-  316 0000030C D1FA            BNE              waitImgReady
-  317 0000030E 4955            LDR              R1,=GPIO_PORTA_DATA ; ready: se
+  315 00000306 6808            LDR              R0,[R1]
+  316 00000308 F010 0010       ANDS             R0,R0,#0x10
+  317 0000030C D1FA            BNE              waitImgReady
+  318 0000030E 4955            LDR              R1,=GPIO_PORTA_DATA ; ready: se
                                                             t PA6 high for Data
                                                             
-  318 00000310 6808            LDR              R0,[R1]
-  319 00000312 F040 0040       ORR              R0,#0x40
-  320 00000316 6008            STR              R0,[R1]
-  321 00000318 BC20            POP              {R5}
-  322 0000031A F44F 70FC       MOV              R0,#504     ; 504 bytes in full
+  319 00000310 6808            LDR              R0,[R1]
+  320 00000312 F040 0040       ORR              R0,#0x40
+  321 00000316 6008            STR              R0,[R1]
+  322 00000318 BC20            POP              {R5}
+  323 0000031A F44F 70FC       MOV              R0,#504     ; 504 bytes in full
                                                              image
-  323 0000031E 4629            MOV              R1,R5       ; put img address i
+  324 0000031E 4629            MOV              R1,R5       ; put img address i
                                                             n R1
-  324 00000320         sendNxtByteNokia
-  325 00000320 F811 5B01       LDRB             R5,[R1],#1  ; load R5 with byte
+  325 00000320         sendNxtByteNokia
+  326 00000320 F811 5B01       LDRB             R5,[R1],#1  ; load R5 with byte
                                                             , post inc address
-  326 00000324 F7FF FFFE       BL               Out1BNokia
-  327 00000328 3801            SUBS             R0,#1
-  328 0000032A D1F9            BNE              sendNxtByteNokia
-  329 0000032C E8BD 401F       POP              {R0-R4,LR}
-  330 00000330 4770            BX               LR
-  331 00000332         ;*******************************************************
+  327 00000324 F7FF FFFE       BL               Out1BNokia
+  328 00000328 3801            SUBS             R0,#1
+  329 0000032A D1F9            BNE              sendNxtByteNokia
+  330 0000032C E8BD 401F       POP              {R0-R4,LR}
+  331 00000330 4770            BX               LR
+  332 00000332         ;*******************************************************
                        **********
-  332 00000332         
-  333 00000332         ;*******************************************************
+  333 00000332         
+  334 00000332         ;*******************************************************
                        **********
-  334 00000332         ; Set X,Y coordinates of LCD  
-  335 00000332         SetXYNokia
-  336 00000332         ; X values 0-83 (decimal) passed via R0
-  337 00000332         ; Y values 0-5 (decimal) passed via R1
-  338 00000332         ; DC is left high, so data can be sent after
-  339 00000332 B53C            PUSH             {R2-R5,LR}
-  340 00000334 B403            PUSH             {R0-R1}
-  341 00000336 494B            LDR              R1,=GPIO_PORTA_DATA ; set PA6 l
+  335 00000332         ; Set X,Y coordinates of LCD  
+  336 00000332         SetXYNokia
+  337 00000332         ; X values 0-83 (decimal) passed via R0
+  338 00000332         ; Y values 0-5 (decimal) passed via R1
+  339 00000332         ; DC is left high, so data can be sent after
+  340 00000332 B53C            PUSH             {R2-R5,LR}
+  341 00000334 B403            PUSH             {R0-R1}
+  342 00000336 494B            LDR              R1,=GPIO_PORTA_DATA ; set PA6 l
                                                             ow for Command
-  342 00000338 6808            LDR              R0,[R1]
-  343 0000033A F020 0040       BIC              R0,#0x40
-  344 0000033E 6008            STR              R0,[R1]
-  345 00000340 F04F 0520       MOV              R5,#0x20    ; ensure H=0
-  346 00000344 F7FF FFFE       BL               Out1BNokia
-  347 00000348 BC03            POP              {R0-R1}
-  348 0000034A 460D            MOV              R5,R1       ; set Y address
-  349 0000034C F045 0540       ORR              R5,#0x40
-  350 00000350 F7FF FFFE       BL               Out1BNokia
-  351 00000354 4605            MOV              R5,R0       ; set X address
-  352 00000356 F045 0580       ORR              R5,#0x80
-  353 0000035A F7FF FFFE       BL               Out1BNokia
-  354 0000035E         waitXYCMD
-  355 0000035E 4942            LDR              R1,=SSI0_SR ; wait until SSI is
+  343 00000338 6808            LDR              R0,[R1]
+  344 0000033A F020 0040       BIC              R0,#0x40
+  345 0000033E 6008            STR              R0,[R1]
+  346 00000340 F04F 0520       MOV              R5,#0x20    ; ensure H=0
+  347 00000344 F7FF FFFE       BL               Out1BNokia
+  348 00000348 BC03            POP              {R0-R1}
+  349 0000034A 460D            MOV              R5,R1       ; set Y address
+  350 0000034C F045 0540       ORR              R5,#0x40
+  351 00000350 F7FF FFFE       BL               Out1BNokia
+  352 00000354 4605            MOV              R5,R0       ; set X address
+  353 00000356 F045 0580       ORR              R5,#0x80
+  354 0000035A F7FF FFFE       BL               Out1BNokia
+  355 0000035E         waitXYCMD
+  356 0000035E 4942            LDR              R1,=SSI0_SR ; wait until SSI is
                                                              done
-  356 00000360 6808            LDR              R0,[R1]
-  357 00000362 F010 0010       ANDS             R0,R0,#0x10
-  358 00000366 D1FA            BNE              waitXYCMD
-  359 00000368 493E            LDR              R1,=GPIO_PORTA_DATA ; set PA6 h
+  357 00000360 6808            LDR              R0,[R1]
+  358 00000362 F010 0010       ANDS             R0,R0,#0x10
+  359 00000366 D1FA            BNE              waitXYCMD
+  360 00000368 493E            LDR              R1,=GPIO_PORTA_DATA ; set PA6 h
                                                             igh for Data
-  360 0000036A 6808            LDR              R0,[R1]
-  361 0000036C F040 0040       ORR              R0,#0x40
 
 
 
 ARM Macro Assembler    Page 12 
 
 
-  362 00000370 6008            STR              R0,[R1]
-  363 00000372 E8BD 403C       POP              {R2-R5,LR}
-  364 00000376 4770            BX               LR
-  365 00000378         ;*******************************************************
+  361 0000036A 6808            LDR              R0,[R1]
+  362 0000036C F040 0040       ORR              R0,#0x40
+  363 00000370 6008            STR              R0,[R1]
+  364 00000372 E8BD 403C       POP              {R2-R5,LR}
+  365 00000376 4770            BX               LR
+  366 00000378         ;*******************************************************
                        **********
-  366 00000378         
-  367 00000378         ;*******************************************************
+  367 00000378         
+  368 00000378         ;*******************************************************
                        **********
-  368 00000378         ; output ASCII character to LCD screen
-  369 00000378         ; ASCII hex value passed via R5
-  370 00000378         ; This routine assumes coordinates have already been set
+  369 00000378         ; output ASCII character to LCD screen
+  370 00000378         ; ASCII hex value passed via R5
+  371 00000378         ; This routine assumes coordinates have already been set
                        
-  371 00000378         OutCharNokia
-  372 00000378 B51F            PUSH             {R0-R4,LR}
-  373 0000037A 493A            LDR              R1,=GPIO_PORTA_DATA ; set PA6 h
+  372 00000378         OutCharNokia
+  373 00000378 B51F            PUSH             {R0-R4,LR}
+  374 0000037A 493A            LDR              R1,=GPIO_PORTA_DATA ; set PA6 h
                                                             igh for Data
-  374 0000037C 6808            LDR              R0,[R1]
-  375 0000037E F040 0040       ORR              R0,#0x40
-  376 00000382 6008            STR              R0,[R1]
-  377 00000384 493A            LDR              R1,=ASCII   ; load address of A
+  375 0000037C 6808            LDR              R0,[R1]
+  376 0000037E F040 0040       ORR              R0,#0x40
+  377 00000382 6008            STR              R0,[R1]
+  378 00000384 493A            LDR              R1,=ASCII   ; load address of A
                                                             SCII table
-  378 00000386 F1A5 0220       SUB              R2,R5,#0x20 ; calculate offset 
+  379 00000386 F1A5 0220       SUB              R2,R5,#0x20 ; calculate offset 
                                                             of char
-  379 0000038A F04F 0305       MOV              R3,#0x05
-  380 0000038E FB02 F203       MUL              R2,R2,R3
-  381 00000392 4411            ADD              R1,R1,R2
-  382 00000394 B420            PUSH             {R5}        ; save state of R5
-  383 00000396 F04F 0005       MOV              R0,#0x05    ; 5 bytes in every 
+  380 0000038A F04F 0305       MOV              R3,#0x05
+  381 0000038E FB02 F203       MUL              R2,R2,R3
+  382 00000392 4411            ADD              R1,R1,R2
+  383 00000394 B420            PUSH             {R5}        ; save state of R5
+  384 00000396 F04F 0005       MOV              R0,#0x05    ; 5 bytes in every 
                                                             char
-  384 0000039A F04F 0200       MOV              R2,#0x00    ; 1 empty column be
+  385 0000039A F04F 0200       MOV              R2,#0x00    ; 1 empty column be
                                                             tween chars
-  385 0000039E         sendCharByte
-  386 0000039E F811 5B01       LDRB             R5,[R1],#1
-  387 000003A2 F7FF FFFE       BL               Out1BNokia  ; send each byte of
+  386 0000039E         sendCharByte
+  387 0000039E F811 5B01       LDRB             R5,[R1],#1
+  388 000003A2 F7FF FFFE       BL               Out1BNokia  ; send each byte of
                                                              char
-  388 000003A6 1E40            SUBS             R0,R0,#1
-  389 000003A8 D1F9            BNE              sendCharByte
-  390 000003AA 4615            MOV              R5,R2
-  391 000003AC F7FF FFFE       BL               Out1BNokia  ; tack space on aft
+  389 000003A6 1E40            SUBS             R0,R0,#1
+  390 000003A8 D1F9            BNE              sendCharByte
+  391 000003AA 4615            MOV              R5,R2
+  392 000003AC F7FF FFFE       BL               Out1BNokia  ; tack space on aft
                                                             er char
-  392 000003B0         waitCharDone
-  393 000003B0 492D            LDR              R1,=SSI0_SR ; wait until SSI is
+  393 000003B0         waitCharDone
+  394 000003B0 492D            LDR              R1,=SSI0_SR ; wait until SSI is
                                                              done
-  394 000003B2 6808            LDR              R0,[R1]
-  395 000003B4 F010 0010       ANDS             R0,R0,#0x10
-  396 000003B8 D1FA            BNE              waitCharDone
-  397 000003BA BC20            POP              {R5}
-  398 000003BC E8BD 401F       POP              {R0-R4,LR}
-  399 000003C0 4770            BX               LR
-  400 000003C2         ;*******************************************************
+  395 000003B2 6808            LDR              R0,[R1]
+  396 000003B4 F010 0010       ANDS             R0,R0,#0x10
+  397 000003B8 D1FA            BNE              waitCharDone
+  398 000003BA BC20            POP              {R5}
+  399 000003BC E8BD 401F       POP              {R0-R4,LR}
+  400 000003C0 4770            BX               LR
+  401 000003C2         ;*******************************************************
                        ********** 
-  401 000003C2         
-  402 000003C2         ;*******************************************************
+  402 000003C2         
+  403 000003C2         ;*******************************************************
                        **********
-  403 000003C2         ; output ASCII string to LCD screen
-  404 000003C2         ; Address of start of message passed via R5
-  405 000003C2         ; Ended using EOT character 0x04
-  406 000003C2         OutStrNokia
-  407 000003C2 B53F            PUSH             {R0-R5,LR}
+  404 000003C2         ; output ASCII string to LCD screen
+  405 000003C2         ; Address of start of message passed via R5
+  406 000003C2         ; Ended using EOT character 0x04
 
 
 
 ARM Macro Assembler    Page 13 
 
 
-  408 000003C4 4629            MOV              R1,R5
-  409 000003C6         nextStrChar
-  410 000003C6 F811 5B01       LDRB             R5,[R1],#1
-  411 000003CA 2D04            CMP              R5,#0x04
-  412 000003CC D002            BEQ              doneStrNokia
-  413 000003CE F7FF FFFE       BL               OutCharNokia
-  414 000003D2 E7F8            B                nextStrChar
-  415 000003D4         doneStrNokia
-  416 000003D4 E8BD 403F       POP              {R0-R5,LR}
-  417 000003D8 4770            BX               LR
-  418 000003DA         ;*******************************************************
+  407 000003C2         OutStrNokia
+  408 000003C2 B53F            PUSH             {R0-R5,LR}
+  409 000003C4 4629            MOV              R1,R5
+  410 000003C6         nextStrChar
+  411 000003C6 F811 5B01       LDRB             R5,[R1],#1
+  412 000003CA 2D04            CMP              R5,#0x04
+  413 000003CC D002            BEQ              doneStrNokia
+  414 000003CE F7FF FFFE       BL               OutCharNokia
+  415 000003D2 E7F8            B                nextStrChar
+  416 000003D4         doneStrNokia
+  417 000003D4 E8BD 403F       POP              {R0-R5,LR}
+  418 000003D8 4770            BX               LR
+  419 000003DA         ;*******************************************************
                        **********
-  419 000003DA         
-  420 000003DA         ;*******************************************************
+  420 000003DA         
+  421 000003DA         ;*******************************************************
                        **********
-  421 000003DA         ; clear LCD screen
-  422 000003DA         ClearNokia
-  423 000003DA B53F            PUSH             {R0-R5,LR}
-  424 000003DC 4921            LDR              R1,=GPIO_PORTA_DATA ; set PA6 l
+  422 000003DA         ; clear LCD screen
+  423 000003DA         ClearNokia
+  424 000003DA B53F            PUSH             {R0-R5,LR}
+  425 000003DC 4921            LDR              R1,=GPIO_PORTA_DATA ; set PA6 l
                                                             ow for Command
-  425 000003DE 6808            LDR              R0,[R1]
-  426 000003E0 F020 0040       BIC              R0,#0x40
-  427 000003E4 6008            STR              R0,[R1]
-  428 000003E6 F04F 0520       MOV              R5,#0x20    ; ensure H=0
-  429 000003EA F7FF FFFE       BL               Out1BNokia
-  430 000003EE F04F 0540       MOV              R5,#0x40    ; set Y address to 
+  426 000003DE 6808            LDR              R0,[R1]
+  427 000003E0 F020 0040       BIC              R0,#0x40
+  428 000003E4 6008            STR              R0,[R1]
+  429 000003E6 F04F 0520       MOV              R5,#0x20    ; ensure H=0
+  430 000003EA F7FF FFFE       BL               Out1BNokia
+  431 000003EE F04F 0540       MOV              R5,#0x40    ; set Y address to 
                                                             0
-  431 000003F2 F7FF FFFE       BL               Out1BNokia
-  432 000003F6 F04F 0580       MOV              R5,#0x80    ; set X address to 
+  432 000003F2 F7FF FFFE       BL               Out1BNokia
+  433 000003F6 F04F 0580       MOV              R5,#0x80    ; set X address to 
                                                             0
-  433 000003FA F7FF FFFE       BL               Out1BNokia
-  434 000003FE         waitClrReady
-  435 000003FE 491A            LDR              R1,=SSI0_SR ; wait until SSI is
+  434 000003FA F7FF FFFE       BL               Out1BNokia
+  435 000003FE         waitClrReady
+  436 000003FE 491A            LDR              R1,=SSI0_SR ; wait until SSI is
                                                              done
-  436 00000400 6808            LDR              R0,[R1]
-  437 00000402 F010 0010       ANDS             R0,R0,#0x10
-  438 00000406 D1FA            BNE              waitClrReady
-  439 00000408 4916            LDR              R1,=GPIO_PORTA_DATA ; set PA6 h
+  437 00000400 6808            LDR              R0,[R1]
+  438 00000402 F010 0010       ANDS             R0,R0,#0x10
+  439 00000406 D1FA            BNE              waitClrReady
+  440 00000408 4916            LDR              R1,=GPIO_PORTA_DATA ; set PA6 h
                                                             igh for Data
-  440 0000040A 6808            LDR              R0,[R1]
-  441 0000040C F040 0040       ORR              R0,#0x40
-  442 00000410 6008            STR              R0,[R1]
-  443 00000412 F44F 70FC       MOV              R0,#504     ; 504 bytes in full
+  441 0000040A 6808            LDR              R0,[R1]
+  442 0000040C F040 0040       ORR              R0,#0x40
+  443 00000410 6008            STR              R0,[R1]
+  444 00000412 F44F 70FC       MOV              R0,#504     ; 504 bytes in full
                                                              image
-  444 00000416 F04F 0500       MOV              R5,#0x00    ; load zeros to sen
+  445 00000416 F04F 0500       MOV              R5,#0x00    ; load zeros to sen
                                                             d
-  445 0000041A         clrNxtNokia
-  446 0000041A F7FF FFFE       BL               Out1BNokia
-  447 0000041E 3801            SUBS             R0,#1
-  448 00000420 D1FB            BNE              clrNxtNokia
-  449 00000422         waitClrDone
-  450 00000422 4911            LDR              R1,=SSI0_SR ; wait until SSI is
+  446 0000041A         clrNxtNokia
+  447 0000041A F7FF FFFE       BL               Out1BNokia
+  448 0000041E 3801            SUBS             R0,#1
+  449 00000420 D1FB            BNE              clrNxtNokia
+  450 00000422         waitClrDone
+  451 00000422 4911            LDR              R1,=SSI0_SR ; wait until SSI is
                                                              done
-  451 00000424 6808            LDR              R0,[R1]
-  452 00000426 F010 0010       ANDS             R0,R0,#0x10
-  453 0000042A D1FA            BNE              waitClrDone
-  454 0000042C E8BD 403F       POP              {R0-R5,LR}
-  455 00000430 4770            BX               LR
-  456 00000432         ;*******************************************************
+  452 00000424 6808            LDR              R0,[R1]
+  453 00000426 F010 0010       ANDS             R0,R0,#0x10
+  454 0000042A D1FA            BNE              waitClrDone
+  455 0000042C E8BD 403F       POP              {R0-R5,LR}
 
 
 
 ARM Macro Assembler    Page 14 
 
 
+  456 00000430 4770            BX               LR
+  457 00000432         ;*******************************************************
                        **********  
-  457 00000432 00 00           ALIGN
-  458 00000434                 END
+  458 00000432 00 00           ALIGN
+  459 00000434                 END
               400FE608 
               40004400 
               40004420 
@@ -886,22 +888,22 @@ Symbol: ASCII
    Definitions
       At line 60 in file Nokia5110-Class.s
    Uses
-      At line 377 in file Nokia5110-Class.s
+      At line 378 in file Nokia5110-Class.s
 Comment: ASCII used once
 ClearNokia 000003DA
 
 Symbol: ClearNokia
    Definitions
-      At line 422 in file Nokia5110-Class.s
+      At line 423 in file Nokia5110-Class.s
    Uses
       At line 57 in file Nokia5110-Class.s
-      At line 270 in file Nokia5110-Class.s
+      At line 271 in file Nokia5110-Class.s
 
 Nokia_Init 000001DC
 
 Symbol: Nokia_Init
    Definitions
-      At line 160 in file Nokia5110-Class.s
+      At line 161 in file Nokia5110-Class.s
    Uses
       At line 51 in file Nokia5110-Class.s
 Comment: Nokia_Init used once
@@ -909,34 +911,34 @@ Out1BNokia 000002CA
 
 Symbol: Out1BNokia
    Definitions
-      At line 284 in file Nokia5110-Class.s
+      At line 285 in file Nokia5110-Class.s
    Uses
       At line 52 in file Nokia5110-Class.s
-      At line 252 in file Nokia5110-Class.s
-      At line 255 in file Nokia5110-Class.s
-      At line 258 in file Nokia5110-Class.s
-      At line 261 in file Nokia5110-Class.s
-      At line 264 in file Nokia5110-Class.s
-      At line 267 in file Nokia5110-Class.s
-      At line 307 in file Nokia5110-Class.s
-      At line 309 in file Nokia5110-Class.s
-      At line 311 in file Nokia5110-Class.s
-      At line 326 in file Nokia5110-Class.s
-      At line 346 in file Nokia5110-Class.s
-      At line 350 in file Nokia5110-Class.s
-      At line 353 in file Nokia5110-Class.s
-      At line 387 in file Nokia5110-Class.s
-      At line 391 in file Nokia5110-Class.s
-      At line 429 in file Nokia5110-Class.s
-      At line 431 in file Nokia5110-Class.s
-      At line 433 in file Nokia5110-Class.s
-      At line 446 in file Nokia5110-Class.s
+      At line 253 in file Nokia5110-Class.s
+      At line 256 in file Nokia5110-Class.s
+      At line 259 in file Nokia5110-Class.s
+      At line 262 in file Nokia5110-Class.s
+      At line 265 in file Nokia5110-Class.s
+      At line 268 in file Nokia5110-Class.s
+      At line 308 in file Nokia5110-Class.s
+      At line 310 in file Nokia5110-Class.s
+      At line 312 in file Nokia5110-Class.s
+      At line 327 in file Nokia5110-Class.s
+      At line 347 in file Nokia5110-Class.s
+      At line 351 in file Nokia5110-Class.s
+      At line 354 in file Nokia5110-Class.s
+      At line 388 in file Nokia5110-Class.s
+      At line 392 in file Nokia5110-Class.s
+      At line 430 in file Nokia5110-Class.s
+      At line 432 in file Nokia5110-Class.s
+      At line 434 in file Nokia5110-Class.s
+      At line 447 in file Nokia5110-Class.s
 
 OutCharNokia 00000378
 
 Symbol: OutCharNokia
    Definitions
-      At line 371 in file Nokia5110-Class.s
+      At line 372 in file Nokia5110-Class.s
    Uses
       At line 55 in file Nokia5110-Class.s
 
@@ -945,13 +947,13 @@ Symbol: OutCharNokia
 ARM Macro Assembler    Page 2 Alphabetic symbol ordering
 Relocatable symbols
 
-      At line 413 in file Nokia5110-Class.s
+      At line 414 in file Nokia5110-Class.s
 
 OutImgNokia 000002DE
 
 Symbol: OutImgNokia
    Definitions
-      At line 299 in file Nokia5110-Class.s
+      At line 300 in file Nokia5110-Class.s
    Uses
       At line 53 in file Nokia5110-Class.s
 Comment: OutImgNokia used once
@@ -959,7 +961,7 @@ OutStrNokia 000003C2
 
 Symbol: OutStrNokia
    Definitions
-      At line 406 in file Nokia5110-Class.s
+      At line 407 in file Nokia5110-Class.s
    Uses
       At line 56 in file Nokia5110-Class.s
 Comment: OutStrNokia used once
@@ -967,7 +969,7 @@ SetXYNokia 00000332
 
 Symbol: SetXYNokia
    Definitions
-      At line 335 in file Nokia5110-Class.s
+      At line 336 in file Nokia5110-Class.s
    Uses
       At line 54 in file Nokia5110-Class.s
 Comment: SetXYNokia used once
@@ -975,33 +977,33 @@ clrNxtNokia 0000041A
 
 Symbol: clrNxtNokia
    Definitions
-      At line 445 in file Nokia5110-Class.s
+      At line 446 in file Nokia5110-Class.s
    Uses
-      At line 448 in file Nokia5110-Class.s
+      At line 449 in file Nokia5110-Class.s
 Comment: clrNxtNokia used once
 delReset 0000026E
 
 Symbol: delReset
    Definitions
-      At line 233 in file Nokia5110-Class.s
+      At line 234 in file Nokia5110-Class.s
    Uses
-      At line 235 in file Nokia5110-Class.s
+      At line 236 in file Nokia5110-Class.s
 Comment: delReset used once
 doneStrNokia 000003D4
 
 Symbol: doneStrNokia
    Definitions
-      At line 415 in file Nokia5110-Class.s
+      At line 416 in file Nokia5110-Class.s
    Uses
-      At line 412 in file Nokia5110-Class.s
+      At line 413 in file Nokia5110-Class.s
 Comment: doneStrNokia used once
 nextStrChar 000003C6
 
 Symbol: nextStrChar
    Definitions
-      At line 409 in file Nokia5110-Class.s
+      At line 410 in file Nokia5110-Class.s
    Uses
-      At line 414 in file Nokia5110-Class.s
+      At line 415 in file Nokia5110-Class.s
 Comment: nextStrChar used once
 sendCharByte 0000039E
 
@@ -1013,17 +1015,17 @@ Relocatable symbols
 
 Symbol: sendCharByte
    Definitions
-      At line 385 in file Nokia5110-Class.s
+      At line 386 in file Nokia5110-Class.s
    Uses
-      At line 389 in file Nokia5110-Class.s
+      At line 390 in file Nokia5110-Class.s
 Comment: sendCharByte used once
 sendNxtByteNokia 00000320
 
 Symbol: sendNxtByteNokia
    Definitions
-      At line 324 in file Nokia5110-Class.s
+      At line 325 in file Nokia5110-Class.s
    Uses
-      At line 328 in file Nokia5110-Class.s
+      At line 329 in file Nokia5110-Class.s
 Comment: sendNxtByteNokia used once
 timer 00000000
 
@@ -1037,33 +1039,33 @@ waitCMDDone 000002BA
 
 Symbol: waitCMDDone
    Definitions
-      At line 272 in file Nokia5110-Class.s
+      At line 273 in file Nokia5110-Class.s
    Uses
-      At line 276 in file Nokia5110-Class.s
+      At line 277 in file Nokia5110-Class.s
 Comment: waitCMDDone used once
 waitCharDone 000003B0
 
 Symbol: waitCharDone
    Definitions
-      At line 392 in file Nokia5110-Class.s
+      At line 393 in file Nokia5110-Class.s
    Uses
-      At line 396 in file Nokia5110-Class.s
+      At line 397 in file Nokia5110-Class.s
 Comment: waitCharDone used once
 waitClrDone 00000422
 
 Symbol: waitClrDone
    Definitions
-      At line 449 in file Nokia5110-Class.s
+      At line 450 in file Nokia5110-Class.s
    Uses
-      At line 453 in file Nokia5110-Class.s
+      At line 454 in file Nokia5110-Class.s
 Comment: waitClrDone used once
 waitClrReady 000003FE
 
 Symbol: waitClrReady
    Definitions
-      At line 434 in file Nokia5110-Class.s
+      At line 435 in file Nokia5110-Class.s
    Uses
-      At line 438 in file Nokia5110-Class.s
+      At line 439 in file Nokia5110-Class.s
 Comment: waitClrReady used once
 waitImgReady 00000304
 
@@ -1075,33 +1077,33 @@ Symbol: waitImgReady
 ARM Macro Assembler    Page 4 Alphabetic symbol ordering
 Relocatable symbols
 
-      At line 312 in file Nokia5110-Class.s
+      At line 313 in file Nokia5110-Class.s
    Uses
-      At line 316 in file Nokia5110-Class.s
+      At line 317 in file Nokia5110-Class.s
 Comment: waitImgReady used once
 waitSSIClk 00000222
 
 Symbol: waitSSIClk
    Definitions
-      At line 193 in file Nokia5110-Class.s
+      At line 194 in file Nokia5110-Class.s
    Uses
-      At line 195 in file Nokia5110-Class.s
+      At line 196 in file Nokia5110-Class.s
 Comment: waitSSIClk used once
 waitSendNokia 000002CC
 
 Symbol: waitSendNokia
    Definitions
-      At line 286 in file Nokia5110-Class.s
+      At line 287 in file Nokia5110-Class.s
    Uses
-      At line 290 in file Nokia5110-Class.s
+      At line 291 in file Nokia5110-Class.s
 Comment: waitSendNokia used once
 waitXYCMD 0000035E
 
 Symbol: waitXYCMD
    Definitions
-      At line 354 in file Nokia5110-Class.s
+      At line 355 in file Nokia5110-Class.s
    Uses
-      At line 358 in file Nokia5110-Class.s
+      At line 359 in file Nokia5110-Class.s
 Comment: waitXYCMD used once
 23 symbols
 
@@ -1116,7 +1118,7 @@ Symbol: GPIO_PORTA_AFSEL
    Definitions
       At line 23 in file Nokia5110-Class.s
    Uses
-      At line 173 in file Nokia5110-Class.s
+      At line 174 in file Nokia5110-Class.s
 Comment: GPIO_PORTA_AFSEL used once
 GPIO_PORTA_AMSEL 40004528
 
@@ -1124,7 +1126,7 @@ Symbol: GPIO_PORTA_AMSEL
    Definitions
       At line 25 in file Nokia5110-Class.s
    Uses
-      At line 182 in file Nokia5110-Class.s
+      At line 183 in file Nokia5110-Class.s
 Comment: GPIO_PORTA_AMSEL used once
 GPIO_PORTA_DATA 400043FC
 
@@ -1132,16 +1134,16 @@ Symbol: GPIO_PORTA_DATA
    Definitions
       At line 20 in file Nokia5110-Class.s
    Uses
-      At line 227 in file Nokia5110-Class.s
-      At line 237 in file Nokia5110-Class.s
-      At line 243 in file Nokia5110-Class.s
-      At line 302 in file Nokia5110-Class.s
-      At line 317 in file Nokia5110-Class.s
-      At line 341 in file Nokia5110-Class.s
-      At line 359 in file Nokia5110-Class.s
-      At line 373 in file Nokia5110-Class.s
-      At line 424 in file Nokia5110-Class.s
-      At line 439 in file Nokia5110-Class.s
+      At line 228 in file Nokia5110-Class.s
+      At line 238 in file Nokia5110-Class.s
+      At line 244 in file Nokia5110-Class.s
+      At line 303 in file Nokia5110-Class.s
+      At line 318 in file Nokia5110-Class.s
+      At line 342 in file Nokia5110-Class.s
+      At line 360 in file Nokia5110-Class.s
+      At line 374 in file Nokia5110-Class.s
+      At line 425 in file Nokia5110-Class.s
+      At line 440 in file Nokia5110-Class.s
 
 GPIO_PORTA_DEN 4000451C
 
@@ -1149,7 +1151,7 @@ Symbol: GPIO_PORTA_DEN
    Definitions
       At line 24 in file Nokia5110-Class.s
    Uses
-      At line 176 in file Nokia5110-Class.s
+      At line 177 in file Nokia5110-Class.s
 Comment: GPIO_PORTA_DEN used once
 GPIO_PORTA_DIR 40004400
 
@@ -1157,7 +1159,7 @@ Symbol: GPIO_PORTA_DIR
    Definitions
       At line 22 in file Nokia5110-Class.s
    Uses
-      At line 170 in file Nokia5110-Class.s
+      At line 171 in file Nokia5110-Class.s
 Comment: GPIO_PORTA_DIR used once
 GPIO_PORTA_IM 40004010
 
@@ -1179,7 +1181,7 @@ Symbol: GPIO_PORTA_PCTL
    Definitions
       At line 26 in file Nokia5110-Class.s
    Uses
-      At line 179 in file Nokia5110-Class.s
+      At line 180 in file Nokia5110-Class.s
 Comment: GPIO_PORTA_PCTL used once
 GPIO_PORTB_AFSEL 40005420
 
@@ -1249,7 +1251,7 @@ Symbol: SSI0_CC
    Definitions
       At line 42 in file Nokia5110-Class.s
    Uses
-      At line 204 in file Nokia5110-Class.s
+      At line 205 in file Nokia5110-Class.s
 Comment: SSI0_CC used once
 SSI0_CPSR 40008010
 
@@ -1257,7 +1259,7 @@ Symbol: SSI0_CPSR
    Definitions
       At line 41 in file Nokia5110-Class.s
    Uses
-      At line 212 in file Nokia5110-Class.s
+      At line 213 in file Nokia5110-Class.s
 Comment: SSI0_CPSR used once
 SSI0_CR0 40008000
 
@@ -1265,8 +1267,8 @@ Symbol: SSI0_CR0
    Definitions
       At line 37 in file Nokia5110-Class.s
    Uses
-      At line 208 in file Nokia5110-Class.s
-      At line 215 in file Nokia5110-Class.s
+      At line 209 in file Nokia5110-Class.s
+      At line 216 in file Nokia5110-Class.s
 
 SSI0_CR1 40008004
 
@@ -1274,8 +1276,8 @@ Symbol: SSI0_CR1
    Definitions
       At line 38 in file Nokia5110-Class.s
    Uses
-      At line 197 in file Nokia5110-Class.s
-      At line 220 in file Nokia5110-Class.s
+      At line 198 in file Nokia5110-Class.s
+      At line 221 in file Nokia5110-Class.s
 
 SSI0_DR 40008008
 
@@ -1283,7 +1285,7 @@ Symbol: SSI0_DR
    Definitions
       At line 39 in file Nokia5110-Class.s
    Uses
-      At line 291 in file Nokia5110-Class.s
+      At line 292 in file Nokia5110-Class.s
 Comment: SSI0_DR used once
 SSI0_SR 4000800C
 
@@ -1291,13 +1293,13 @@ Symbol: SSI0_SR
    Definitions
       At line 40 in file Nokia5110-Class.s
    Uses
-      At line 273 in file Nokia5110-Class.s
-      At line 287 in file Nokia5110-Class.s
-      At line 313 in file Nokia5110-Class.s
-      At line 355 in file Nokia5110-Class.s
-      At line 393 in file Nokia5110-Class.s
-      At line 435 in file Nokia5110-Class.s
-      At line 450 in file Nokia5110-Class.s
+      At line 274 in file Nokia5110-Class.s
+      At line 288 in file Nokia5110-Class.s
+      At line 314 in file Nokia5110-Class.s
+      At line 356 in file Nokia5110-Class.s
+      At line 394 in file Nokia5110-Class.s
+      At line 436 in file Nokia5110-Class.s
+      At line 451 in file Nokia5110-Class.s
 
 
 
@@ -1311,7 +1313,7 @@ Symbol: SYSCTL_RCGCGPIO
    Definitions
       At line 45 in file Nokia5110-Class.s
    Uses
-      At line 163 in file Nokia5110-Class.s
+      At line 164 in file Nokia5110-Class.s
 Comment: SYSCTL_RCGCGPIO used once
 SYSCTL_RCGCSSI 400FE61C
 
@@ -1319,7 +1321,7 @@ Symbol: SYSCTL_RCGCSSI
    Definitions
       At line 46 in file Nokia5110-Class.s
    Uses
-      At line 187 in file Nokia5110-Class.s
+      At line 188 in file Nokia5110-Class.s
 Comment: SYSCTL_RCGCSSI used once
 22 symbols
 381 symbols in table

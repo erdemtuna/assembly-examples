@@ -31,13 +31,14 @@ Image Symbol Table
     NokiaTest-Class-main.s                   0x00000000   Number         0  nokiatest-class-main.o ABSOLUTE
     StartupNokia.s                           0x00000000   Number         0  startupnokia.o ABSOLUTE
     $v0                                      0x0000026c   Number         0  startupnokia.o(RESET)
-    .text                                    0x00000284   Section     1152  nokiatest-class-main.o(.text)
-    imgCSU                                   0x0000047c   Data           0  nokiatest-class-main.o(.text)
-    tstmsg                                   0x00000674   Data          22  nokiatest-class-main.o(.text)
-    $v0                                      0x0000068a   Number         0  nokiatest-class-main.o(.text)
-    timer                                    0x00000704   Section     1140  nokia5110-class.o(timer)
-    ASCII                                    0x00000704   Data           5  nokia5110-class.o(timer)
-    $v0                                      0x000008e0   Number         0  nokia5110-class.o(timer)
+    .text                                    0x00000284   Section     1144  nokiatest-class-main.o(.text)
+    imgCSU                                   0x00000284   Data           0  nokiatest-class-main.o(.text)
+    gameplayBorder                           0x0000047c   Data           0  nokiatest-class-main.o(.text)
+    tstmsg                                   0x00000674   Data           4  nokiatest-class-main.o(.text)
+    $v0                                      0x00000678   Number         0  nokiatest-class-main.o(.text)
+    timer                                    0x000006fc   Section     1140  nokia5110-class.o(timer)
+    ASCII                                    0x000006fc   Data           5  nokia5110-class.o(timer)
+    $v0                                      0x000008d8   Number         0  nokia5110-class.o(timer)
     STACK                                    0x20000000   Section     1024  startupnokia.o(STACK)
     StackMem                                 0x20000000   Data           0  startupnokia.o(STACK)
 
@@ -171,14 +172,14 @@ Image Symbol Table
     WideTimer5B_Handler                      0x00000283   Thumb Code     0  startupnokia.o(RESET)
     uDMA_Error                               0x00000283   Thumb Code     0  startupnokia.o(RESET)
     uDMA_Handler                             0x00000283   Thumb Code     0  startupnokia.o(RESET)
-    Start                                    0x0000068b   Thumb Code     4  nokiatest-class-main.o(.text)
-    Nokia_Init                               0x000008e1   Thumb Code     0  nokia5110-class.o(timer)
-    Out1BNokia                               0x000009cf   Thumb Code     0  nokia5110-class.o(timer)
-    OutImgNokia                              0x000009e3   Thumb Code     0  nokia5110-class.o(timer)
-    SetXYNokia                               0x00000a37   Thumb Code     0  nokia5110-class.o(timer)
-    OutCharNokia                             0x00000a7d   Thumb Code     0  nokia5110-class.o(timer)
-    OutStrNokia                              0x00000ac7   Thumb Code     0  nokia5110-class.o(timer)
-    ClearNokia                               0x00000adf   Thumb Code     0  nokia5110-class.o(timer)
+    Start                                    0x00000679   Thumb Code     4  nokiatest-class-main.o(.text)
+    Nokia_Init                               0x000008d9   Thumb Code     0  nokia5110-class.o(timer)
+    Out1BNokia                               0x000009c7   Thumb Code     0  nokia5110-class.o(timer)
+    OutImgNokia                              0x000009db   Thumb Code     0  nokia5110-class.o(timer)
+    SetXYNokia                               0x00000a2f   Thumb Code     0  nokia5110-class.o(timer)
+    OutCharNokia                             0x00000a75   Thumb Code     0  nokia5110-class.o(timer)
+    OutStrNokia                              0x00000abf   Thumb Code     0  nokia5110-class.o(timer)
+    ClearNokia                               0x00000ad7   Thumb Code     0  nokia5110-class.o(timer)
 
 
 
@@ -188,23 +189,23 @@ Memory Map of the image
 
   Image Entry point : 0x0000026d
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x00000b78, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x00000000, Size: 0x00000b70, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x00000b78, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x00000b70, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
     0x00000000   0x00000000   0x00000284   Code   RO           11  * RESET               startupnokia.o
-    0x00000284   0x00000284   0x00000480   Code   RO            6    .text               nokiatest-class-main.o
-    0x00000704   0x00000704   0x00000474   Code   RO            1    timer               nokia5110-class.o
+    0x00000284   0x00000284   0x00000478   Code   RO            6    .text               nokiatest-class-main.o
+    0x000006fc   0x000006fc   0x00000474   Code   RO            1    timer               nokia5110-class.o
 
 
-    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x00000b78, Size: 0x00000000, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x00000b70, Size: 0x00000000, Max: 0xffffffff, ABSOLUTE)
 
     **** No section assigned to this execution region ****
 
 
-    Execution Region ER_ZI (Exec base: 0x20000000, Load base: 0x00000b78, Size: 0x00000400, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_ZI (Exec base: 0x20000000, Load base: 0x00000b70, Size: 0x00000400, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -219,11 +220,11 @@ Image component sizes
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
       1140        542          0          0          0        512   nokia5110-class.o
-      1152       1038          0          0          0        304   nokiatest-class-main.o
+      1144       1024          0          0          0        304   nokiatest-class-main.o
        644        620          0          0       1024        780   startupnokia.o
 
     ----------------------------------------------------------------------
-      2936       2200          0          0       1024       1596   Object Totals
+      2928       2186          0          0       1024       1596   Object Totals
          0          0          0          0          0          0   (incl. Generated)
          0          0          0          0          0          0   (incl. Padding)
 
@@ -238,15 +239,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      2936       2200          0          0       1024       1596   Grand Totals
-      2936       2200          0          0       1024       1596   ELF Image Totals
-      2936       2200          0          0          0          0   ROM Totals
+      2928       2186          0          0       1024       1596   Grand Totals
+      2928       2186          0          0       1024       1596   ELF Image Totals
+      2928       2186          0          0          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 2936 (   2.87kB)
+    Total RO  Size (Code + RO Data)                 2928 (   2.86kB)
     Total RW  Size (RW Data + ZI Data)              1024 (   1.00kB)
-    Total ROM Size (Code + RO Data + RW Data)       2936 (   2.87kB)
+    Total ROM Size (Code + RO Data + RW Data)       2928 (   2.86kB)
 
 ==============================================================================
 
