@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\projectExecute.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\projectExecute.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sat Dec 29 11:17:27 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sun Dec 30 12:35:08 2018
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -16,10 +16,10 @@ Functions with no stack information
  <LI><a href="#[7d]">Start</a>
  <LI><a href="#[7e]">Nokia_Init</a>
  <LI><a href="#[82]">Out1BNokia</a>
- <LI><a href="#[80]">OutImgNokia</a>
- <LI><a href="#[81]">SetXYNokia</a>
+ <LI><a href="#[81]">OutImgNokia</a>
+ <LI><a href="#[7f]">SetXYNokia</a>
  <LI><a href="#[84]">OutCharNokia</a>
- <LI><a href="#[7f]">OutStrNokia</a>
+ <LI><a href="#[80]">OutStrNokia</a>
  <LI><a href="#[83]">ClearNokia</a>
 </UL>
 </UL>
@@ -581,9 +581,9 @@ Global Symbols
 </UL>
 <P><STRONG><a name="[7d]"></a>Start</STRONG> (Thumb, 4 bytes, Stack size unknown bytes, nokiatest-class-main.o(.text))
 <BR><BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ClearNokia
-<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutStrNokia
-<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetXYNokia
-<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutImgNokia
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutStrNokia
+<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetXYNokia
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutImgNokia
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Out1BNokia
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Nokia_Init
 </UL>
@@ -601,18 +601,18 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ClearNokia
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutCharNokia
-<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetXYNokia
-<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutImgNokia
+<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetXYNokia
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutImgNokia
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Nokia_Init
 </UL>
 
-<P><STRONG><a name="[80]"></a>OutImgNokia</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, nokia5110-class.o(timer))
+<P><STRONG><a name="[81]"></a>OutImgNokia</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, nokia5110-class.o(timer))
 <BR><BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Out1BNokia
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
 </UL>
 
-<P><STRONG><a name="[81]"></a>SetXYNokia</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, nokia5110-class.o(timer))
+<P><STRONG><a name="[7f]"></a>SetXYNokia</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, nokia5110-class.o(timer))
 <BR><BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Out1BNokia
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
@@ -621,10 +621,10 @@ Global Symbols
 <P><STRONG><a name="[84]"></a>OutCharNokia</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, nokia5110-class.o(timer))
 <BR><BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Out1BNokia
 </UL>
-<BR>[Called By]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutStrNokia
+<BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutStrNokia
 </UL>
 
-<P><STRONG><a name="[7f]"></a>OutStrNokia</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, nokia5110-class.o(timer))
+<P><STRONG><a name="[80]"></a>OutStrNokia</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, nokia5110-class.o(timer))
 <BR><BR>[Calls]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutCharNokia
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
