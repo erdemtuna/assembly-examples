@@ -338,7 +338,7 @@ ARM Macro Assembler    Page 6
   224 0000016E 491F            LDR              R1, =SYSCTL_RCGCTIMER
   225 00000170 680A            LDR              R2, [R1]    ; Start timer 2
   226 00000172 F042 0204       ORR              R2, R2, #0x04 ; Timer module = 
-                                                            bit position (0)
+                                                            bit position (2)
   227 00000176 600A            STR              R2, [R1]
   228 00000178 BF00            NOP
   229 0000017A BF00            NOP
@@ -348,7 +348,7 @@ ARM Macro Assembler    Page 6
   232 0000017E 491C            LDR              R1, =TIMER2_CTL
   233 00000180 680A            LDR              R2, [R1]
   234 00000182 F022 0201       BIC              R2, R2, #0x01 ; clear bit 0 to 
-                                                            disable Timer 0
+                                                            disable Timer 2
   235 00000186 600A            STR              R2, [R1]
   236 00000188         ; set to 16bit Timer Mode
   237 00000188 491A            LDR              R1, =TIMER2_CFG
@@ -417,7 +417,7 @@ ARM Macro Assembler    Page 7
               40032004 
               40032028 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
-erwork --depend=.\objects\q2.d -o.\objects\q2.o -I.\RTE\_q2 -ID:\Keil_v5\ARM\PA
+erwork --depend=.\objects\q2.d -o.\objects\q2.o -I.\RTE\_q3 -ID:\Keil_v5\ARM\PA
 CK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\CMSIS\Include --
 predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" --predefine=
 "TM4C123GH6PM SETA 1" --list=.\listings\q2.lst q2.s

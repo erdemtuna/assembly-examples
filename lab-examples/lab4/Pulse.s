@@ -44,102 +44,102 @@ HIGH				EQU	0x0000001E
 ;---------------------------------------------------					
 Timer0A_Handler	PROC
 
-			; clear interrupt flag
-			LDR R1, =TIMER0_ICR		
-			MOV R2, #0x01			
-			STR R2, [R1]             
+	; clear interrupt flag
+	LDR R1, =TIMER0_ICR		
+	MOV R2, #0x01			
+	STR R2, [R1]             
 
-			; Toggle PortF Data
-			LDR R1, = GPIO_PORTF_DATA	
-			LDR R0,[R1]
-			EOR R0,R0,#0x04
-			STR R0, [R1]
-			
-			; change the interrupt interval
-			LDR R1, =TIMER0_TAILR 
-			LDR R0 , [R1]
-			EOR R0, R0, #0x0A  ; 30usec <--> 20usec
-			STR R0, [R1]
+	; Toggle PortF Data
+	LDR R1, = GPIO_PORTF_DATA	
+	LDR R0,[R1]
+	EOR R0,R0,#0x04
+	STR R0, [R1]
 
-			BX 	LR 
-			ENDP
+	; change the interrupt interval
+	LDR R1, =TIMER0_TAILR 
+	LDR R0 , [R1]
+	EOR R0, R0, #0x0A  ; 30usec <--> 20usec
+	STR R0, [R1]
+
+	BX 	LR 
+	ENDP
 ;---------------------------------------------------
 
 PULSE_INIT	PROC
-			LDR R1, =SYSCTL_RCGCGPIO ; start GPIO clock
-			LDR R0, [R1]
-			ORR R0, R0, #0x20 ; set bit 5 for port F
-			STR R0, [R1]
-			NOP ; allow clock to settle
-			NOP
-			NOP
-			LDR R1, =GPIO_PORTF_DIR ; set direction of PF2
-			LDR R0, [R1]
-			ORR R0, R0, #0x04 ; set bit2 for output
-			STR R0, [R1]
-			LDR R1, =GPIO_PORTF_AFSEL ; regular port function
-			LDR R0, [R1]
-			BIC R0, R0, #0x04
-			STR R0, [R1]
-			LDR R1, =GPIO_PORTF_PCTL ; no alternate function
-			LDR R0, [R1]
-			BIC R0, R0, #0x00000F00
-			STR R0, [R1]
-			LDR R1, =GPIO_PORTF_AMSEL ; disable analog
-			MOV R0, #0
-			STR R0, [R1]
-			LDR R1, =GPIO_PORTF_DEN ; enable port digital
-			LDR R0, [R1]
-			ORR R0, R0, #0x04
-			STR R0, [R1]
-		
-			LDR R1, =SYSCTL_RCGCTIMER ; Start Timer0
-			LDR R2, [R1]
-			ORR R2, R2, #0x01
-			STR R2, [R1]
-			NOP ; allow clock to settle
-			NOP
-			NOP
-			LDR R1, =TIMER0_CTL ; disable timer during setup LDR R2, [R1]
-			BIC R2, R2, #0x01
-			STR R2, [R1]
-			LDR R1, =TIMER0_CFG ; set 16 bit mode
-			MOV R2, #0x04
-			STR R2, [R1]
-			LDR R1, =TIMER0_TAMR
-			MOV R2, #0x02 ; set to periodic, count down
-			STR R2, [R1]
-			LDR R1, =TIMER0_TAILR ; initialize match clocks
-			LDR R2, =LOW
-			STR R2, [R1]
-			LDR R1, =TIMER0_TAPR
-			MOV R2, #15 ; divide clock by 16 to
-			STR R2, [R1] ; get 1us clocks
-			LDR R1, =TIMER0_IMR ; enable timeout interrupt
-			MOV R2, #0x01
-			STR R2, [R1]
-; Configure interrupt priorities
-; Timer0A is interrupt #19.
-; Interrupts 16-19 are handled by NVIC register PRI4.
-; Interrupt 19 is controlled by bits 31:29 of PRI4.
-; set NVIC interrupt 19 to priority 2
-			LDR R1, =NVIC_PRI4
-			LDR R2, [R1]
-			AND R2, R2, #0x00FFFFFF ; clear interrupt 19 priority
-			ORR R2, R2, #0x40000000 ; set interrupt 19 priority to 2
-			STR R2, [R1]
-; NVIC has to be enabled
-; Interrupts 0-31 are handled by NVIC register EN0
-; Interrupt 19 is controlled by bit 19
-; enable interrupt 19 in NVIC
-			LDR R1, =NVIC_EN0
-			MOVT R2, #0x08 ; set bit 19 to enable interrupt 19
-			STR R2, [R1]
-; Enable timer
-			LDR R1, =TIMER0_CTL
-			LDR R2, [R1]
-			ORR R2, R2, #0x03 ; set bit0 to enable
-			STR R2, [R1] ; and bit 1 to stall on debug
-			BX LR ; return
-			ENDP
-			END
+	LDR R1, =SYSCTL_RCGCGPIO ; start GPIO clock
+	LDR R0, [R1]
+	ORR R0, R0, #0x20 ; set bit 5 for port F
+	STR R0, [R1]
+	NOP ; allow clock to settle
+	NOP
+	NOP
+	LDR R1, =GPIO_PORTF_DIR ; set direction of PF2
+	LDR R0, [R1]
+	ORR R0, R0, #0x04 ; set bit2 for output
+	STR R0, [R1]
+	LDR R1, =GPIO_PORTF_AFSEL ; regular port function
+	LDR R0, [R1]
+	BIC R0, R0, #0x04
+	STR R0, [R1]
+	LDR R1, =GPIO_PORTF_PCTL ; no alternate function
+	LDR R0, [R1]
+	BIC R0, R0, #0x00000F00
+	STR R0, [R1]
+	LDR R1, =GPIO_PORTF_AMSEL ; disable analog
+	MOV R0, #0
+	STR R0, [R1]
+	LDR R1, =GPIO_PORTF_DEN ; enable port digital
+	LDR R0, [R1]
+	ORR R0, R0, #0x04
+	STR R0, [R1]
+
+	LDR R1, =SYSCTL_RCGCTIMER ; Start Timer0
+	LDR R2, [R1]
+	ORR R2, R2, #0x01
+	STR R2, [R1]
+	NOP ; allow clock to settle
+	NOP
+	NOP
+	LDR R1, =TIMER0_CTL ; disable timer during setup LDR R2, [R1]
+	BIC R2, R2, #0x01
+	STR R2, [R1]
+	LDR R1, =TIMER0_CFG ; set 16 bit mode
+	MOV R2, #0x04
+	STR R2, [R1]
+	LDR R1, =TIMER0_TAMR
+	MOV R2, #0x02 ; set to periodic, count down
+	STR R2, [R1]
+	LDR R1, =TIMER0_TAILR ; initialize match clocks
+	LDR R2, =LOW
+	STR R2, [R1]
+	LDR R1, =TIMER0_TAPR
+	MOV R2, #15 ; divide clock by 16 to
+	STR R2, [R1] ; get 1us clocks
+	LDR R1, =TIMER0_IMR ; enable timeout interrupt
+	MOV R2, #0x01
+	STR R2, [R1]
+	; Configure interrupt priorities
+	; Timer0A is interrupt #19.
+	; Interrupts 16-19 are handled by NVIC register PRI4.
+	; Interrupt 19 is controlled by bits 31:29 of PRI4.
+	; set NVIC interrupt 19 to priority 2
+	LDR R1, =NVIC_PRI4
+	LDR R2, [R1]
+	AND R2, R2, #0x00FFFFFF ; clear interrupt 19 priority
+	ORR R2, R2, #0x40000000 ; set interrupt 19 priority to 2
+	STR R2, [R1]
+	; NVIC has to be enabled
+	; Interrupts 0-31 are handled by NVIC register EN0
+	; Interrupt 19 is controlled by bit 19
+	; enable interrupt 19 in NVIC
+	LDR R1, =NVIC_EN0
+	MOVT R2, #0x08 ; set bit 19 to enable interrupt 19
+	STR R2, [R1]
+	; Enable timer
+	LDR R1, =TIMER0_CTL
+	LDR R2, [R1]
+	ORR R2, R2, #0x03 ; set bit0 to enable
+	STR R2, [R1] ; and bit 1 to stall on debug
+	BX LR ; return
+	ENDP
+	END
