@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>Target 1</TargetName>
+      <TargetName>EE447-Project</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
@@ -48,8 +48,8 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\</OutputDirectory>
-          <OutputName>projectExecute</OutputName>
+          <OutputDirectory>.\Objects\</OutputDirectory>
+          <OutputName>EE447_Project_Output</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -380,18 +380,8 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>Source Group 1</GroupName>
+          <GroupName>Codes</GroupName>
           <Files>
-            <File>
-              <FileName>Nokia5110-Class.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\Nokia5110-Class.s</FilePath>
-            </File>
-            <File>
-              <FileName>NokiaTest-Class-main.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\NokiaTest-Class-main.s</FilePath>
-            </File>
             <File>
               <FileName>StartupNokia.s</FileName>
               <FileType>2</FileType>
@@ -439,6 +429,16 @@
                   </Aads>
                 </FileArmAds>
               </FileOption>
+            </File>
+            <File>
+              <FileName>LCD_Function_Class.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\LCD_Function_Class.s</FilePath>
+            </File>
+            <File>
+              <FileName>Tests.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Tests.s</FilePath>
             </File>
           </Files>
         </Group>

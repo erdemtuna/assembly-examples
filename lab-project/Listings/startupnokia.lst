@@ -1066,11 +1066,11 @@ ARM Macro Assembler    Page 17
                        ***********************
   653 0000001C                 END
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
-erwork --depend=.\startupnokia.d -o.\startupnokia.o -I.\RTE\_Target_1 -ID:\Keil
-_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\CMSIS\
-Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" --
-predefine="TM4C123GH6PM SETA 1" --list=.\listings\startupnokia.lst StartupNokia
-.s
+erwork --depend=.\objects\startupnokia.d -o.\objects\startupnokia.o -I.\RTE\_EE
+447-Project -ID:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -I
+D:\Keil_v5\ARM\CMSIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION
+_VERSION SETA 526" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\startupn
+okia.lst StartupNokia.s
 
 
 
