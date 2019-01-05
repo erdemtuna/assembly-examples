@@ -1,0 +1,346 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ********
+    2 00000000         ; EQU Directives
+    3 00000000         ; These directives do not allocate memory
+    4 00000000         ;*******************************************************
+                       ********
+    5 00000000         ;SYMBOL  DIRECTIVE VALUE   COMMENT
+    6 00000000 20000700 
+                       TARGET  EQU              0x20000700
+    7 00000000         ;*******************************************************
+                       ********
+    8 00000000         ; Program section
+    9 00000000         ;*******************************************************
+                       ********
+   10 00000000         ;LABEL  DIRECTIVE VALUE   COMMENT
+   11 00000000                 AREA             main, READONLY, CODE
+   12 00000000                 THUMB
+   13 00000000         
+   14 00000000 46 69 72 
+              73 74 20 
+              45 6E 74 
+              65 72 20 
+              6E 20 74 
+              6F 20 73 
+              70 65 63 
+              69 66 79 
+              20 72 61 
+              6E 67 65 
+              20 5B 30 
+              2C 32 5E 
+              6E 5D 3A 
+              20 0D 04 range_message
+                               DCB              "First Enter n to specify range
+ [0,2^n]: ", 0x0D, 0x04
+   15 0000002A 49 20 66 
+              6F 75 6E 
+              64 20 69 
+              74 21 31 
+              21 21 31 
+              21 21 2C 
+              20 72 65 
+              73 65 74 
+              20 62 6F 
+              61 72 64 
+              20 74 6F 
+              20 70 6C 
+              61 79 20 
+              61 67 61 
+              69 6E 20 
+              0D 04    correct_message
+                               DCB              "I found it!1!!1!!, reset board
+ to play again ", 0x0D, 0x04
+   16 00000059                 EXTERN           CONVRT
+   17 00000059                 EXTERN           UPBND
+   18 00000059                 EXTERN           OutStr      ; Reference externa
+                                                            l subroutine 
+   19 00000059                 EXTERN           InChar      ; Reference externa
+                                                            l subroutine 
+   20 00000059                 EXPORT           __main
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   21 00000059                 ENTRY
+   22 00000059         
+   23 00000059         __main
+   24 00000059 00 F04F 
+              000A             MOV              R0, #10     ; 10 multiplier
+   25 0000005E F04F 0100       MOV              R1, #0      ;lowbound
+   26 00000062 F04F 0201       MOV              R2, #1      ;upbound
+   27 00000066 4D1E            LDR              R5, = range_message
+   28 00000068 F7FF FFFE       BL               OutStr
+   29 0000006C         Input_N
+   30 0000006C F7FF FFFE       BL               InChar      ; store chars of n
+   31 00000070 2D0A            CMP              R5, #0xA    ; 'enter' char
+   32 00000072 D005            BEQ              N_to_Decimal ; if enter pressed
+                                                            , process the data
+   33 00000074 F1A5 0530       SUB              R5, #0x30   ; if it is not 'ent
+                                                            er', then
+   34 00000078         ; char --> integer conversion
+   35 00000078 F103 0301       ADD              R3, #1      ;counter
+   36 0000007C B420            PUSH{R5}
+   37 0000007E E7F5            B                Input_N
+   38 00000080         
+   39 00000080         N_to_Decimal
+   40 00000080 F04F 0400       MOV              R4, #0
+   41 00000084         
+   42 00000084         One_Digit
+   43 00000084 BC20            POP{R5}
+   44 00000086 442C            ADD              R4, R4, R5  ; R4 = digit0
+   45 00000088 2B01            CMP              R3, #1
+   46 0000008A D100            BNE              Two_Digits
+   47 0000008C E004            B                Set_Initial_Bounds
+   48 0000008E         
+   49 0000008E         Two_Digits
+   50 0000008E BC20            POP{R5}
+   51 00000090 FB05 F500       MUL              R5, R5, R0
+   52 00000094 442C            ADD              R4, R4, R5  ; R4 = digit1*10 + 
+                                                            digit0
+   53 00000096 E7FF            B                Set_Initial_Bounds
+   54 00000098         
+   55 00000098         Set_Initial_Bounds
+   56 00000098 F04F 0320       MOV              R3, #32
+   57 0000009C EBA3 0304       SUB              R3, R3, R4
+   58 000000A0 FA62 F203       ROR              R2, R3      ; ASL 32-input
+   59 000000A4 E7FF            B                Guess
+   60 000000A6         
+   61 000000A6         Guess
+   62 000000A6 EB02 0301       ADD              R3, R2, R1  ; add bounds
+   63 000000AA EA4F 0363       ASR              R3, R3, #1  ; divide by 2
+   64 000000AE 461C            MOV              R4, R3      ; output
+   65 000000B0 4D0C            LDR              R5, = TARGET
+   66 000000B2 F7FF FFFE       BL               CONVRT
+   67 000000B6 F7FF FFFE       BL               OutStr
+   68 000000BA         
+   69 000000BA         Input_Char
+   70 000000BA F7FF FFFE       BL               InChar      ; store chars of n
+   71 000000BE 2D0A            CMP              R5, #0xA    ; 'enter' char
+   72 000000C0 D003            BEQ              Check_Correct ; if enter presse
+                                                            d, process the data
+                                                            
+   73 000000C2 F1A5 0543       SUB              R5, #0x43   ;
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+   74 000000C6 B420            PUSH{R5}
+   75 000000C8 E7F7            B                Input_Char
+   76 000000CA         
+   77 000000CA         Check_Correct
+   78 000000CA BC20            POP              {R5}
+   79 000000CC 2D00            CMP              R5, #0      ; if is 0, then fou
+                                                            nd
+   80 000000CE D002            BEQ              Correct_Guess
+   81 000000D0 F7FF FFFE       BL               UPBND
+   82 000000D4 E7E7            B                Guess
+   83 000000D6         
+   84 000000D6         Correct_Guess
+   85 000000D6 4D04            LDR              R5, = correct_message
+   86 000000D8 F7FF FFFE       BL               OutStr
+   87 000000DC         done
+   88 000000DC E7FE            B                done
+   89 000000DE                 END
+              00 00 00000000 
+              20000700 
+              00000000 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\q3.d -o.\objects\q3.o -I.\RTE\_q3 -ID:\Keil_v5\ARM\PA
+CK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\CMSIS\Include --
+predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" --predefine=
+"TM4C123GH6PM SETA 1" --list=.\listings\q3.lst q3.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+Check_Correct 000000CA
+
+Symbol: Check_Correct
+   Definitions
+      At line 77 in file q3.s
+   Uses
+      At line 72 in file q3.s
+Comment: Check_Correct used once
+Correct_Guess 000000D6
+
+Symbol: Correct_Guess
+   Definitions
+      At line 84 in file q3.s
+   Uses
+      At line 80 in file q3.s
+Comment: Correct_Guess used once
+Guess 000000A6
+
+Symbol: Guess
+   Definitions
+      At line 61 in file q3.s
+   Uses
+      At line 59 in file q3.s
+      At line 82 in file q3.s
+
+Input_Char 000000BA
+
+Symbol: Input_Char
+   Definitions
+      At line 69 in file q3.s
+   Uses
+      At line 75 in file q3.s
+Comment: Input_Char used once
+Input_N 0000006C
+
+Symbol: Input_N
+   Definitions
+      At line 29 in file q3.s
+   Uses
+      At line 37 in file q3.s
+Comment: Input_N used once
+N_to_Decimal 00000080
+
+Symbol: N_to_Decimal
+   Definitions
+      At line 39 in file q3.s
+   Uses
+      At line 32 in file q3.s
+Comment: N_to_Decimal used once
+One_Digit 00000084
+
+Symbol: One_Digit
+   Definitions
+      At line 42 in file q3.s
+   Uses
+      None
+Comment: One_Digit unused
+Set_Initial_Bounds 00000098
+
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+Symbol: Set_Initial_Bounds
+   Definitions
+      At line 55 in file q3.s
+   Uses
+      At line 47 in file q3.s
+      At line 53 in file q3.s
+
+Two_Digits 0000008E
+
+Symbol: Two_Digits
+   Definitions
+      At line 49 in file q3.s
+   Uses
+      At line 46 in file q3.s
+Comment: Two_Digits used once
+__main 00000059
+
+Symbol: __main
+   Definitions
+      At line 23 in file q3.s
+   Uses
+      At line 20 in file q3.s
+Comment: __main used once
+correct_message 0000002A
+
+Symbol: correct_message
+   Definitions
+      At line 15 in file q3.s
+   Uses
+      At line 85 in file q3.s
+Comment: correct_message used once
+done 000000DC
+
+Symbol: done
+   Definitions
+      At line 87 in file q3.s
+   Uses
+      At line 88 in file q3.s
+Comment: done used once
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 11 in file q3.s
+   Uses
+      None
+Comment: main unused
+range_message 00000000
+
+Symbol: range_message
+   Definitions
+      At line 14 in file q3.s
+   Uses
+      At line 27 in file q3.s
+Comment: range_message used once
+14 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+TARGET 20000700
+
+Symbol: TARGET
+   Definitions
+      At line 6 in file q3.s
+   Uses
+      At line 65 in file q3.s
+Comment: TARGET used once
+1 symbol
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+CONVRT 00000000
+
+Symbol: CONVRT
+   Definitions
+      At line 16 in file q3.s
+   Uses
+      At line 66 in file q3.s
+Comment: CONVRT used once
+InChar 00000000
+
+Symbol: InChar
+   Definitions
+      At line 19 in file q3.s
+   Uses
+      At line 30 in file q3.s
+      At line 70 in file q3.s
+
+OutStr 00000000
+
+Symbol: OutStr
+   Definitions
+      At line 18 in file q3.s
+   Uses
+      At line 28 in file q3.s
+      At line 67 in file q3.s
+      At line 86 in file q3.s
+
+UPBND 00000000
+
+Symbol: UPBND
+   Definitions
+      At line 17 in file q3.s
+   Uses
+      At line 81 in file q3.s
+Comment: UPBND used once
+4 symbols
+355 symbols in table

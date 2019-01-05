@@ -1,0 +1,134 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ********
+    2 00000000         ; UPBND
+    3 00000000         ; Updates boundaries R0 (low) and R1 (high), according t
+                       o
+    4 00000000         ; value in R5. If R5 = 1, guess was lower ; if R5 = 0, g
+                       uess
+    5 00000000         ; was higher. The boundaries are updated with the value 
+                       in R4.
+    6 00000000         ;*******************************************************
+                       ********
+    7 00000000         ;*******************************************************
+                       ********
+    8 00000000         ; EQU Directives
+    9 00000000         ; These directives do not allocate memory
+   10 00000000         ;*******************************************************
+                       ********
+   11 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
+   12 00000000         ;OFFSET   EQU      0x10
+   13 00000000         ;FIRST     EQU      0x20000400
+   14 00000000         ;*******************************************************
+                       ********
+   15 00000000         ; Directives - This Data Section is part of the code
+   16 00000000         ; It is in the read only section  so values cannot be ch
+                       anged.
+   17 00000000         ;*******************************************************
+                       ********
+   18 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
+   19 00000000         ;            AREA        sdata, DATA, READONLY
+   20 00000000         ;            THUMB
+   21 00000000         ;CTR1     DCB      0x10
+   22 00000000         ;MSG      DCB      "Copying table..."
+   23 00000000         ;   DCB   0x0D
+   24 00000000         ;   DCB   0x04
+   25 00000000         ;*******************************************************
+                       ********
+   26 00000000         ; Program section
+   27 00000000         ;*******************************************************
+                       ********
+   28 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
+   29 00000000                 AREA             routines, READONLY, CODE
+   30 00000000                 THUMB
+   31 00000000                 EXPORT           UPBND       ; Make available
+   32 00000000         
+   33 00000000         UPBND   PROC
+   34 00000000 2D01            CMP              R5, #1
+   35 00000002 D801            BHI              Go_Up
+   36 00000004         
+   37 00000004         Go_Down
+   38 00000004 461A            MOV              R2, R3
+   39 00000006 E001            B                Back
+   40 00000008         
+   41 00000008         Go_Up
+   42 00000008 4619            MOV              R1, R3
+   43 0000000A E7FF            B                Back
+   44 0000000C         
+   45 0000000C         Back
+   46 0000000C 4770            BX               LR
+   47 0000000E                 ENDP
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   48 0000000E         ;*******************************************************
+                       ********
+   49 0000000E         ; End of the program  section
+   50 0000000E         ;*******************************************************
+                       ********
+   51 0000000E         ;LABEL      DIRECTIVE       VALUE                       
+                           COMMENT
+   52 0000000E 00 00           ALIGN
+   53 00000010                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\upbnd.d -o.\objects\upbnd.o -I.\RTE\_q3 -ID:\Keil_v5\
+ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\CMSIS\Incl
+ude --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" --pred
+efine="TM4C123GH6PM SETA 1" --list=.\listings\upbnd.lst upbnd.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+Back 0000000C
+
+Symbol: Back
+   Definitions
+      At line 45 in file upbnd.s
+   Uses
+      At line 39 in file upbnd.s
+      At line 43 in file upbnd.s
+
+Go_Down 00000004
+
+Symbol: Go_Down
+   Definitions
+      At line 37 in file upbnd.s
+   Uses
+      None
+Comment: Go_Down unused
+Go_Up 00000008
+
+Symbol: Go_Up
+   Definitions
+      At line 41 in file upbnd.s
+   Uses
+      At line 35 in file upbnd.s
+Comment: Go_Up used once
+UPBND 00000000
+
+Symbol: UPBND
+   Definitions
+      At line 33 in file upbnd.s
+   Uses
+      At line 31 in file upbnd.s
+Comment: UPBND used once
+routines 00000000
+
+Symbol: routines
+   Definitions
+      At line 29 in file upbnd.s
+   Uses
+      None
+Comment: routines unused
+5 symbols
+339 symbols in table
