@@ -46,8 +46,8 @@ HIGH EQU	0x1312D00
 WideTimer0A_Handler	PROC
 	; clear interrupt flag
 	LDR R1, =TIMER0_ICR		
-	MOV R2, #0x01			
-	STR R2, [R1]             
+	MOV R0, #0x01			
+	STR R0, [R1]             
 
 	; Toggle PortF Data
 	LDR R1, = GPIO_PORTF_DATA	
@@ -72,6 +72,7 @@ WideTimer0A_Handler	PROC
 ;---------------------------------------------------
 
 Timer_20s_CD PROC
+	PUSH{R0-R1}
 	LDR R1, =SYSCTL_RCGCGPIO ; start GPIO clock
 	LDR R0, [R1]
 	ORR R0, R0, #0x20 ; set bit 5 for port F
@@ -100,53 +101,53 @@ Timer_20s_CD PROC
 	STR R0, [R1]
 
 	LDR R1, =SYSCTL_RCGCTIMER ; Start 32/64-bit Timer 0
-	LDR R2, [R1]
-	ORR R2, R2, #0x01
-	STR R2, [R1]
+	LDR R0, [R1]
+	ORR R0, R0, #0x01
+	STR R0, [R1]
 	NOP ; allow clock to settle
 	NOP
 	NOP
 	LDR R1, =TIMER0_CTL ; disable timer during setup LDR R2, [R1]
-	BIC R2, R2, #0x01
-	STR R2, [R1]
+	LDR R0, [R1]
+	BIC R0, R0, #0x01
+	STR R0, [R1]
 	LDR R1, =TIMER0_CFG ; set 32 bit mode
-	MOV R2, #0x04
-	STR R2, [R1]
+	MOV R0, #0x04
+	STR R0, [R1]
 	LDR R1, =TIMER0_TAMR
-	MOV R2, #0x01 ; set to one shot, count down
-	STR R2, [R1]
+	MOV R0, #0x01 ; set to one shot, count down
+	STR R0, [R1]
 	LDR R1, =TIMER0_TAILR ; initialize match clocks
-	LDR R2, =LOW
-	STR R2, [R1]
+	LDR R0, =LOW
+	STR R0, [R1]
 	LDR R1, =TIMER0_TAPR
-	MOV R2, #15 ; divide clock by 16 to
-	STR R2, [R1] ; get 1us clocks
+	MOV R0, #15 ; divide clock by 16 to
+	STR R0, [R1] ; get 1us clocks
 	LDR R1, =TIMER0_IMR ; enable timeout interrupt
-	MOV R2, #0x01
-	STR R2, [R1]
+	MOV R0, #0x01
+	STR R0, [R1]
 ; Configure interrupt priorities
 ; Timer0A is interrupt #94.
 ; Interrupts 92-95 are handled by NVIC register PRI23.
-; Interrupt 19 is controlled by bits 21:23 of PRI23.
-; set NVIC interrupt 19 to priority 2
+; set NVIC interrupt 94 to priority 2
 	LDR R1, =NVIC_PRI4
-	LDR R2, [R1]
-	AND R2, R2, #0xFF00FFFF ; clear interrupt 19 priority
-	ORR R2, R2, #0x00400000 ; set interrupt 19 priority to 2
-	STR R2, [R1]
+	LDR R0, [R1]
+	AND R0, R0, #0xFF00FFFF ; clear interrupt 19 priority
+	ORR R0, R0, #0x00400000 ; set interrupt 19 priority to 2
+	STR R0, [R1]
 ; NVIC has to be enabled
 ; Interrupts 64-95 are handled by NVIC register EN2
 ; Interrupt 94 is controlled by bit 30
-; enable interrupt 19 in NVIC
 	LDR R1, =NVIC_EN0
-	LDR R2, [R1] 
-	ORR R2, R2, #0x40000000; set bit 30 to enable interrupt 94
-	STR R2, [R1]
+	LDR R0, [R1] 
+	ORR R0, R0, #0x40000000; set bit 30 to enable interrupt 94
+	STR R0, [R1]
 ; Enable timer
 	LDR R1, =TIMER0_CTL
-	LDR R2, [R1]
-	ORR R2, R2, #0x03 ; set bit0 to enable
-	STR R2, [R1] ; and bit 1 to stall on debug
+	LDR R0, [R1]
+	ORR R0, R0, #0x03 ; set bit0 to enable
+	STR R0, [R1] ; and bit 1 to stall on debug
+	POP{R0-R1}
 	BX LR ; return
 	ENDP
 	END
