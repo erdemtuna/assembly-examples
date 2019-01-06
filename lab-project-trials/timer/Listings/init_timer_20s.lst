@@ -314,11 +314,11 @@ ARM Macro Assembler    Page 5
               E000E45C 
               E000E108 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
-erwork --depend=.\objects\timer_20s_cd.d -o.\objects\timer_20s_cd.o -I.\RTE\_q1
- -ID:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\
-ARM\CMSIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SE
-TA 526" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\timer_20s_cd.lst Ti
-mer_20s_CD.s
+erwork --depend=.\objects\init_timer_20s.d -o.\objects\init_timer_20s.o -I.\RTE
+\_q1 -ID:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil
+_v5\ARM\CMSIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSIO
+N SETA 526" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\init_timer_20s.
+lst Init_Timer_20s.s
 
 
 
@@ -329,31 +329,31 @@ End_Of_Mine_Placement 0000002C
 
 Symbol: End_Of_Mine_Placement
    Definitions
-      At line 83 in file Timer_20s_CD.s
+      At line 83 in file Init_Timer_20s.s
    Uses
-      At line 62 in file Timer_20s_CD.s
+      At line 62 in file Init_Timer_20s.s
 Comment: End_Of_Mine_Placement used once
 Init_Timer_20s 00000032
 
 Symbol: Init_Timer_20s
    Definitions
-      At line 90 in file Timer_20s_CD.s
+      At line 90 in file Init_Timer_20s.s
    Uses
-      At line 46 in file Timer_20s_CD.s
+      At line 46 in file Init_Timer_20s.s
 Comment: Init_Timer_20s used once
 WideTimer0A_Handler 00000000
 
 Symbol: WideTimer0A_Handler
    Definitions
-      At line 49 in file Timer_20s_CD.s
+      At line 49 in file Init_Timer_20s.s
    Uses
-      At line 45 in file Timer_20s_CD.s
+      At line 45 in file Init_Timer_20s.s
 Comment: WideTimer0A_Handler used once
 routines 00000000
 
 Symbol: routines
    Definitions
-      At line 43 in file Timer_20s_CD.s
+      At line 43 in file Init_Timer_20s.s
    Uses
       None
 Comment: routines unused
@@ -368,58 +368,58 @@ DECREASE 000F4240
 
 Symbol: DECREASE
    Definitions
-      At line 40 in file Timer_20s_CD.s
+      At line 40 in file Init_Timer_20s.s
    Uses
-      At line 67 in file Timer_20s_CD.s
-      At line 137 in file Timer_20s_CD.s
+      At line 67 in file Init_Timer_20s.s
+      At line 137 in file Init_Timer_20s.s
 
 GPIO_PORTF_AFSEL 40025420
 
 Symbol: GPIO_PORTF_AFSEL
    Definitions
-      At line 28 in file Timer_20s_CD.s
+      At line 28 in file Init_Timer_20s.s
    Uses
-      At line 103 in file Timer_20s_CD.s
+      At line 103 in file Init_Timer_20s.s
 Comment: GPIO_PORTF_AFSEL used once
 GPIO_PORTF_AMSEL 40025528
 
 Symbol: GPIO_PORTF_AMSEL
    Definitions
-      At line 30 in file Timer_20s_CD.s
+      At line 30 in file Init_Timer_20s.s
    Uses
-      At line 111 in file Timer_20s_CD.s
+      At line 111 in file Init_Timer_20s.s
 Comment: GPIO_PORTF_AMSEL used once
 GPIO_PORTF_DATA 40025010
 
 Symbol: GPIO_PORTF_DATA
    Definitions
-      At line 26 in file Timer_20s_CD.s
+      At line 26 in file Init_Timer_20s.s
    Uses
-      At line 73 in file Timer_20s_CD.s
+      At line 73 in file Init_Timer_20s.s
 Comment: GPIO_PORTF_DATA used once
 GPIO_PORTF_DEN 4002551C
 
 Symbol: GPIO_PORTF_DEN
    Definitions
-      At line 29 in file Timer_20s_CD.s
+      At line 29 in file Init_Timer_20s.s
    Uses
-      At line 114 in file Timer_20s_CD.s
+      At line 114 in file Init_Timer_20s.s
 Comment: GPIO_PORTF_DEN used once
 GPIO_PORTF_DIR 40025400
 
 Symbol: GPIO_PORTF_DIR
    Definitions
-      At line 27 in file Timer_20s_CD.s
+      At line 27 in file Init_Timer_20s.s
    Uses
-      At line 99 in file Timer_20s_CD.s
+      At line 99 in file Init_Timer_20s.s
 Comment: GPIO_PORTF_DIR used once
 GPIO_PORTF_PCTL 4002552C
 
 Symbol: GPIO_PORTF_PCTL
    Definitions
-      At line 31 in file Timer_20s_CD.s
+      At line 31 in file Init_Timer_20s.s
    Uses
-      At line 107 in file Timer_20s_CD.s
+      At line 107 in file Init_Timer_20s.s
 Comment: GPIO_PORTF_PCTL used once
 MAX 01312D00
 
@@ -431,60 +431,60 @@ Absolute symbols
 
 Symbol: MAX
    Definitions
-      At line 39 in file Timer_20s_CD.s
+      At line 39 in file Init_Timer_20s.s
    Uses
-      At line 59 in file Timer_20s_CD.s
-      At line 136 in file Timer_20s_CD.s
-      At line 142 in file Timer_20s_CD.s
+      At line 59 in file Init_Timer_20s.s
+      At line 136 in file Init_Timer_20s.s
+      At line 142 in file Init_Timer_20s.s
 
 NVIC_EN0 E000E108
 
 Symbol: NVIC_EN0
    Definitions
-      At line 8 in file Timer_20s_CD.s
+      At line 8 in file Init_Timer_20s.s
    Uses
-      At line 165 in file Timer_20s_CD.s
+      At line 165 in file Init_Timer_20s.s
 Comment: NVIC_EN0 used once
 NVIC_PRI4 E000E45C
 
 Symbol: NVIC_PRI4
    Definitions
-      At line 9 in file Timer_20s_CD.s
+      At line 9 in file Init_Timer_20s.s
    Uses
-      At line 157 in file Timer_20s_CD.s
+      At line 157 in file Init_Timer_20s.s
 Comment: NVIC_PRI4 used once
 SYSCTL_RCGCGPIO 400FE608
 
 Symbol: SYSCTL_RCGCGPIO
    Definitions
-      At line 34 in file Timer_20s_CD.s
+      At line 34 in file Init_Timer_20s.s
    Uses
-      At line 92 in file Timer_20s_CD.s
+      At line 92 in file Init_Timer_20s.s
 Comment: SYSCTL_RCGCGPIO used once
 SYSCTL_RCGCTIMER 400FE65C
 
 Symbol: SYSCTL_RCGCTIMER
    Definitions
-      At line 35 in file Timer_20s_CD.s
+      At line 35 in file Init_Timer_20s.s
    Uses
-      At line 119 in file Timer_20s_CD.s
+      At line 119 in file Init_Timer_20s.s
 Comment: SYSCTL_RCGCTIMER used once
 TIMER0_CFG 40036000
 
 Symbol: TIMER0_CFG
    Definitions
-      At line 12 in file Timer_20s_CD.s
+      At line 12 in file Init_Timer_20s.s
    Uses
-      At line 130 in file Timer_20s_CD.s
+      At line 130 in file Init_Timer_20s.s
 Comment: TIMER0_CFG used once
 TIMER0_CTL 4003600C
 
 Symbol: TIMER0_CTL
    Definitions
-      At line 14 in file Timer_20s_CD.s
+      At line 14 in file Init_Timer_20s.s
    Uses
-      At line 126 in file Timer_20s_CD.s
-      At line 170 in file Timer_20s_CD.s
+      At line 126 in file Init_Timer_20s.s
+      At line 170 in file Init_Timer_20s.s
 
 TIMER0_ICR 40036024
 
@@ -496,23 +496,23 @@ Absolute symbols
 
 Symbol: TIMER0_ICR
    Definitions
-      At line 17 in file Timer_20s_CD.s
+      At line 17 in file Init_Timer_20s.s
    Uses
-      At line 52 in file Timer_20s_CD.s
+      At line 52 in file Init_Timer_20s.s
 Comment: TIMER0_ICR used once
 TIMER0_IMR 40036018
 
 Symbol: TIMER0_IMR
    Definitions
-      At line 15 in file Timer_20s_CD.s
+      At line 15 in file Init_Timer_20s.s
    Uses
-      At line 150 in file Timer_20s_CD.s
+      At line 150 in file Init_Timer_20s.s
 Comment: TIMER0_IMR used once
 TIMER0_RIS 4003601C
 
 Symbol: TIMER0_RIS
    Definitions
-      At line 16 in file Timer_20s_CD.s
+      At line 16 in file Init_Timer_20s.s
    Uses
       None
 Comment: TIMER0_RIS unused
@@ -520,32 +520,32 @@ TIMER0_TAILR 40036028
 
 Symbol: TIMER0_TAILR
    Definitions
-      At line 18 in file Timer_20s_CD.s
+      At line 18 in file Init_Timer_20s.s
    Uses
-      At line 141 in file Timer_20s_CD.s
+      At line 141 in file Init_Timer_20s.s
 Comment: TIMER0_TAILR used once
 TIMER0_TAMATCHR 40036030
 
 Symbol: TIMER0_TAMATCHR
    Definitions
-      At line 22 in file Timer_20s_CD.s
+      At line 22 in file Init_Timer_20s.s
    Uses
-      At line 69 in file Timer_20s_CD.s
-      At line 139 in file Timer_20s_CD.s
+      At line 69 in file Init_Timer_20s.s
+      At line 139 in file Init_Timer_20s.s
 
 TIMER0_TAMR 40036004
 
 Symbol: TIMER0_TAMR
    Definitions
-      At line 13 in file Timer_20s_CD.s
+      At line 13 in file Init_Timer_20s.s
    Uses
-      At line 133 in file Timer_20s_CD.s
+      At line 133 in file Init_Timer_20s.s
 Comment: TIMER0_TAMR used once
 TIMER0_TAPMR 40036040
 
 Symbol: TIMER0_TAPMR
    Definitions
-      At line 23 in file Timer_20s_CD.s
+      At line 23 in file Init_Timer_20s.s
    Uses
       None
 Comment: TIMER0_TAPMR unused
@@ -559,24 +559,24 @@ Symbol: TIMER0_TAPR
 ARM Macro Assembler    Page 4 Alphabetic symbol ordering
 Absolute symbols
 
-      At line 19 in file Timer_20s_CD.s
+      At line 19 in file Init_Timer_20s.s
    Uses
-      At line 144 in file Timer_20s_CD.s
+      At line 144 in file Init_Timer_20s.s
 Comment: TIMER0_TAPR used once
 TIMER0_TAR 40036048
 
 Symbol: TIMER0_TAR
    Definitions
-      At line 20 in file Timer_20s_CD.s
+      At line 20 in file Init_Timer_20s.s
    Uses
-      At line 57 in file Timer_20s_CD.s
-      At line 65 in file Timer_20s_CD.s
+      At line 57 in file Init_Timer_20s.s
+      At line 65 in file Init_Timer_20s.s
 
 TIMER0_TAV 40036050
 
 Symbol: TIMER0_TAV
    Definitions
-      At line 21 in file Timer_20s_CD.s
+      At line 21 in file Init_Timer_20s.s
    Uses
       None
 Comment: TIMER0_TAV unused

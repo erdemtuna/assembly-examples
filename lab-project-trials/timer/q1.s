@@ -16,14 +16,14 @@ TARGET	EQU 	0x20000700
 ;LABEL		DIRECTIVE	VALUE			COMMENT
 		AREA 		main, READONLY, CODE
 		THUMB
-		EXTERN		Timer_20s_CD
+		EXTERN		Init_Timer_20s
 		EXTERN		OutStr	; Reference external subroutine	
 		EXTERN		InChar	; Reference external subroutine	
 		EXPORT 		__main
 		ENTRY
 			
 __main 	
-	BL Timer_20s_CD
+	BL Init_Timer_20s
 	CPSIE	I			; Enable Interrupts
 	
 wait_int

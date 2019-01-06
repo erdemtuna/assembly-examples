@@ -403,11 +403,6 @@
               <FilePath>.\Startup.s</FilePath>
             </File>
             <File>
-              <FileName>Timer_20s_CD.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\Timer_20s_CD.s</FilePath>
-            </File>
-            <File>
               <FileName>q1.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\q1.s</FilePath>
@@ -449,6 +444,11 @@
                   </Aads>
                 </FileArmAds>
               </FileOption>
+            </File>
+            <File>
+              <FileName>Init_Timer_20s.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Init_Timer_20s.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -854,11 +854,6 @@
               <FilePath>.\Startup.s</FilePath>
             </File>
             <File>
-              <FileName>Timer_20s_CD.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\Timer_20s_CD.s</FilePath>
-            </File>
-            <File>
               <FileName>q1.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\q1.s</FilePath>
@@ -900,6 +895,11 @@
                   </Aads>
                 </FileArmAds>
               </FileOption>
+            </File>
+            <File>
+              <FileName>Init_Timer_20s.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Init_Timer_20s.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -1305,11 +1305,6 @@
               <FilePath>.\Startup.s</FilePath>
             </File>
             <File>
-              <FileName>Timer_20s_CD.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\Timer_20s_CD.s</FilePath>
-            </File>
-            <File>
               <FileName>q1.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\q1.s</FilePath>
@@ -1351,6 +1346,11 @@
                   </Aads>
                 </FileArmAds>
               </FileOption>
+            </File>
+            <File>
+              <FileName>Init_Timer_20s.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Init_Timer_20s.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -1756,11 +1756,6 @@
               <FilePath>.\Startup.s</FilePath>
             </File>
             <File>
-              <FileName>Timer_20s_CD.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\Timer_20s_CD.s</FilePath>
-            </File>
-            <File>
               <FileName>q1.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\q1.s</FilePath>
@@ -1802,6 +1797,11 @@
                   </Aads>
                 </FileArmAds>
               </FileOption>
+            </File>
+            <File>
+              <FileName>Init_Timer_20s.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Init_Timer_20s.s</FilePath>
             </File>
           </Files>
         </Group>

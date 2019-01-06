@@ -28,7 +28,7 @@ ARM Macro Assembler    Page 1
    16 00000000         ;LABEL  DIRECTIVE VALUE   COMMENT
    17 00000000                 AREA             main, READONLY, CODE
    18 00000000                 THUMB
-   19 00000000                 EXTERN           Timer_20s_CD
+   19 00000000                 EXTERN           Init_Timer_20s
    20 00000000                 EXTERN           OutStr      ; Reference externa
                                                             l subroutine 
    21 00000000                 EXTERN           InChar      ; Reference externa
@@ -37,7 +37,7 @@ ARM Macro Assembler    Page 1
    23 00000000                 ENTRY
    24 00000000         
    25 00000000         __main
-   26 00000000 F7FF FFFE       BL               Timer_20s_CD
+   26 00000000 F7FF FFFE       BL               Init_Timer_20s
    27 00000004 B662            CPSIE            I           ; Enable Interrupts
                                                             
    28 00000006         
@@ -135,6 +135,14 @@ Symbol: InChar
    Uses
       None
 Comment: InChar unused
+Init_Timer_20s 00000000
+
+Symbol: Init_Timer_20s
+   Definitions
+      At line 19 in file q1.s
+   Uses
+      At line 26 in file q1.s
+Comment: Init_Timer_20s used once
 OutStr 00000000
 
 Symbol: OutStr
@@ -143,13 +151,5 @@ Symbol: OutStr
    Uses
       None
 Comment: OutStr unused
-Timer_20s_CD 00000000
-
-Symbol: Timer_20s_CD
-   Definitions
-      At line 19 in file q1.s
-   Uses
-      At line 26 in file q1.s
-Comment: Timer_20s_CD used once
 3 symbols
 343 symbols in table
