@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\EE447_Project_Output.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\EE447_Project_Output.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Jan 04 20:56:28 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sun Jan 06 13:55:29 2019
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -15,9 +15,9 @@ Functions with no stack information
  <LI><a href="#[7a]">Reset_Handler</a>
  <LI><a href="#[7d]">Start</a>
  <LI><a href="#[7e]">Nokia_Init</a>
- <LI><a href="#[82]">Out1BNokia</a>
+ <LI><a href="#[82]">TxByte</a>
  <LI><a href="#[7f]">OutImgNokia</a>
- <LI><a href="#[80]">SetXYNokia</a>
+ <LI><a href="#[80]">SetCoordinate</a>
  <LI><a href="#[84]">OutCharNokia</a>
  <LI><a href="#[81]">OutStrNokia</a>
  <LI><a href="#[83]">ClearNokia</a>
@@ -582,9 +582,9 @@ Global Symbols
 <P><STRONG><a name="[7d]"></a>Start</STRONG> (Thumb, 4 bytes, Stack size unknown bytes, tests.o(.text))
 <BR><BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ClearNokia
 <LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutStrNokia
-<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetXYNokia
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetCoordinate
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutImgNokia
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Out1BNokia
+<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxByte
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Nokia_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Reset_Handler
@@ -592,34 +592,34 @@ Global Symbols
 
 <P><STRONG><a name="[7e]"></a>Nokia_Init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lcd_function_class.o(timer))
 <BR><BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ClearNokia
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Out1BNokia
+<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxByte
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
 </UL>
 
-<P><STRONG><a name="[82]"></a>Out1BNokia</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lcd_function_class.o(timer))
+<P><STRONG><a name="[82]"></a>TxByte</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lcd_function_class.o(timer))
 <BR><BR>[Called By]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ClearNokia
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutCharNokia
-<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetXYNokia
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetCoordinate
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutImgNokia
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Nokia_Init
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
 </UL>
 
 <P><STRONG><a name="[7f]"></a>OutImgNokia</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lcd_function_class.o(timer))
-<BR><BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Out1BNokia
+<BR><BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxByte
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
 </UL>
 
-<P><STRONG><a name="[80]"></a>SetXYNokia</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lcd_function_class.o(timer))
-<BR><BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Out1BNokia
+<P><STRONG><a name="[80]"></a>SetCoordinate</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lcd_function_class.o(timer))
+<BR><BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxByte
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
 </UL>
 
 <P><STRONG><a name="[84]"></a>OutCharNokia</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lcd_function_class.o(timer))
-<BR><BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Out1BNokia
+<BR><BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxByte
 </UL>
 <BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutStrNokia
 </UL>
@@ -631,7 +631,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[83]"></a>ClearNokia</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lcd_function_class.o(timer))
-<BR><BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Out1BNokia
+<BR><BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxByte
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Nokia_Init
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start

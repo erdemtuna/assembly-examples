@@ -49,9 +49,9 @@ SYSCTL_RCGCSSI			EQU	0x400FE61C	; SSI Gate Control
         THUMB
 
 		EXPORT	Nokia_Init
-		EXPORT	Out1BNokia
+		EXPORT	TxByte
 		EXPORT	OutImgNokia
-		EXPORT	SetXYNokia
+		EXPORT	SetCoordinate
 		EXPORT	OutCharNokia
 		EXPORT	OutStrNokia
 		EXPORT	ClearNokia
@@ -250,22 +250,22 @@ delReset
 		;horizontal addressing (V=0)
 		;extended instruction set (H=1)
 		MOV		R5,#0x21
-		BL		Out1BNokia	
+		BL		TxByte	
 		;set contrast
 		MOV		R5,#0xB8
-		BL		Out1BNokia
+		BL		TxByte
 		;set temp coefficient
 		MOV		R5,#0x04
-		BL		Out1BNokia
+		BL		TxByte
 		;set bias 1:48: try 0x13 or 0x14
 		MOV		R5,#0x14
-		BL		Out1BNokia
+		BL		TxByte
 		;change H=0
 		MOV		R5,#0x20
-		BL		Out1BNokia
+		BL		TxByte
 		;set control mode to normal
 		MOV		R5,#0x0C
-		BL		Out1BNokia
+		BL		TxByte
 		; clear screen
 		; screen memory is undefined after startup
 		BL		ClearNokia
@@ -280,19 +280,23 @@ waitCMDDone
 		BX		LR
 ;*****************************************************************		
 
-;*****************************************************************	
-; SSI Send routine. Bits to be sent passed via R5
-Out1BNokia
-		PUSH	{R0,R1}
-waitSendNokia		
-		LDR		R1,=SSI0_SR				; wait if buffer is full
-		LDR		R0,[R1]
-		ANDS	R0,R0,#0x02
-		BEQ		waitSendNokia
-		LDR		R1,=SSI0_DR
-		STRB	R5,[R1]
-		POP		{R0,R1}
-		BX		LR
+;----------------------------------
+; Send 8 bits , a byte, to screen.
+; Pass data with R5.
+; Edits R0, R1.
+;----------------------------------
+TxByte
+	PUSH {R0-R1}	
+	LDR	R1,=SSI0_SR	
+
+waitFIFOnotFull	
+	LDR	R0,[R1]
+	ANDS R0,R0,#0x02
+	BEQ	waitFIFOnotFull ; wait if FIFO is full
+	LDR R1,=SSI0_DR
+	STRB R5,[R1]
+	POP {R0-R1}
+	BX LR
 ;*****************************************************************			
 
 ;*****************************************************************
@@ -305,11 +309,11 @@ OutImgNokia
 		BIC		R0,#0x40
 		STR		R0,[R1]
 		MOV		R5,#0x20				; ensure H=0
-		BL		Out1BNokia	
+		BL		TxByte	
 		MOV		R5,#0x40				; set Y address to 0
-		BL		Out1BNokia
+		BL		TxByte
 		MOV		R5,#0x80				; set X address to 0
-		BL		Out1BNokia	
+		BL		TxByte	
 waitImgReady		
 		LDR		R1,=SSI0_SR				; wait until SSI is done
 		LDR		R0,[R1]
@@ -324,7 +328,7 @@ waitImgReady
 		MOV		R1,R5					; put img address in R1
 sendNxtByteNokia		
 		LDRB	R5,[R1],#1		; load R5 with byte, post inc address
-		BL		Out1BNokia
+		BL		TxByte
 		SUBS	R0,#1
 		BNE		sendNxtByteNokia		
 		POP		{R0-R4,LR}
@@ -332,37 +336,42 @@ sendNxtByteNokia
 ;*****************************************************************
 
 ;*****************************************************************
-; Set X,Y coordinates of LCD		
-SetXYNokia	
-	; X values 0-83 (decimal) passed via R0
-	; Y values 0-5	(decimal) passed via R1
+
+;------------------------------------
+; Set coordinates (x,y) of the screen
+; Pass x coordinate by R0.
+; Pass y coordinate by R1.
+; Edits R0, R1.
+;------------------------------------
+SetCoordinate	
 	; DC is left high, so data can be sent after
-		PUSH	{R2-R5,LR}
-		PUSH	{R0-R1}
-		LDR		R1,=GPIO_PORTA_DATA		; set PA6 low for Command
-		LDR		R0,[R1]
-		BIC		R0,#0x40
-		STR		R0,[R1]
-		MOV		R5,#0x20				; ensure H=0
-		BL		Out1BNokia	
-		POP		{R0-R1}
-		MOV		R5,R1					; set Y address
-		ORR		R5,#0x40
-		BL		Out1BNokia
-		MOV		R5,R0					; set X address
-		ORR		R5,#0x80
-		BL		Out1BNokia
-waitXYCMD		
-		LDR		R1,=SSI0_SR				; wait until SSI is done
-		LDR		R0,[R1]
-		ANDS	R0,R0,#0x10
-		BNE		waitXYCMD
-		LDR		R1,=GPIO_PORTA_DATA		; set PA6 high for Data
-		LDR		R0,[R1]
-		ORR		R0,#0x40
-		STR		R0,[R1]
-		POP		{R2-R5,LR}
-		BX		LR
+	PUSH {R2-R5,LR}
+	PUSH {R0-R1}
+	LDR	R1,=GPIO_PORTA_DATA ; set PA6 low for Command
+	LDR	R0,[R1]
+	BIC	R0,#0x40
+	STR	R0,[R1]
+	MOV	R5,#0x20 ; ensure H=0
+	BL TxByte	
+	POP	{R0-R1}
+	MOV	R5,R1 ; set Y address
+	ORR	R5,#0x40
+	BL	TxByte
+	MOV	R5,R0 ; set X address
+	ORR	R5,#0x80
+	BL TxByte
+
+waitEndOfTransmission		
+	LDR	R1,=SSI0_SR				
+	LDR	R0,[R1]
+	ANDS R0,R0,#0x10
+	BNE	waitEndOfTransmission ; wait if transmission continues
+	LDR	R1,=GPIO_PORTA_DATA ; set PA6 high for Data
+	LDR	R0,[R1]
+	ORR	R0,#0x40
+	STR	R0,[R1]
+	POP	{R2-R5,LR}
+	BX LR
 ;*****************************************************************
 
 ;*****************************************************************
@@ -385,11 +394,11 @@ OutCharNokia
 		MOV		R2,#0x00				; 1 empty column between chars
 sendCharByte		
 		LDRB	R5,[R1],#1				
-		BL		Out1BNokia				; send each byte of char
+		BL		TxByte				; send each byte of char
 		SUBS	R0,R0,#1
 		BNE		sendCharByte
 		MOV		R5,R2
-		BL		Out1BNokia				; tack space on after char
+		BL		TxByte				; tack space on after char
 waitCharDone		
 		LDR		R1,=SSI0_SR				; wait until SSI is done
 		LDR		R0,[R1]
@@ -427,11 +436,11 @@ ClearNokia
 		BIC		R0,#0x40
 		STR		R0,[R1]
 		MOV		R5,#0x20				; ensure H=0
-		BL		Out1BNokia	
+		BL		TxByte	
 		MOV		R5,#0x40				; set Y address to 0
-		BL		Out1BNokia
+		BL		TxByte
 		MOV		R5,#0x80				; set X address to 0
-		BL		Out1BNokia	
+		BL		TxByte	
 waitClrReady		
 		LDR		R1,=SSI0_SR				; wait until SSI is done
 		LDR		R0,[R1]
@@ -444,7 +453,7 @@ waitClrReady
 		MOV		R0,#504					; 504 bytes in full image
 		MOV		R5,#0x00				; load zeros to send
 clrNxtNokia		
-		BL		Out1BNokia
+		BL		TxByte
 		SUBS	R0,#1
 		BNE		clrNxtNokia
 waitClrDone			

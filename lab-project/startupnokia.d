@@ -1,1 +1,0 @@
-.\startupnokia.o: StartupNokia.s

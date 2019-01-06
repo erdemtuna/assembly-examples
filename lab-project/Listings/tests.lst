@@ -309,8 +309,8 @@ x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
    61 000001FA         
    62 000001FA                 EXTERN           Nokia_Init
    63 000001FA                 EXTERN           OutImgNokia
-   64 000001FA                 EXTERN           SetXYNokia
-   65 000001FA                 EXTERN           Out1BNokia
+   64 000001FA                 EXTERN           SetCoordinate
+   65 000001FA                 EXTERN           TxByte
    66 000001FA                 EXTERN           OutStrNokia
    67 000001FA                 EXTERN           ClearNokia
    68 000001FA         
@@ -338,8 +338,9 @@ ARM Macro Assembler    Page 6
    82 00000204 F04F 0206       MOV              R2, #6
    83 00000208 F04F 0101       MOV              R1, #1
    84 0000020C 4610    cursor  MOV              R0, R2
-   85 0000020E F7FF FFFE       BL               SetXYNokia  ; DC is left high r
-                                                            eady to send data
+   85 0000020E F7FF FFFE       BL               SetCoordinate ; DC is left high
+                                                             ready to send data
+                                                            
    86 00000212 4D17            LDR              R5,=tstmsg
    87 00000214 F7FF FFFE       BL               OutStrNokia
    88 00000218 F102 0208       ADD              R2, R2, #8
@@ -352,13 +353,14 @@ ARM Macro Assembler    Page 6
    94 00000222         
    95 00000222         ;   MOV       ; reset XY position to 0,0
    96 00000222         ;   MOV       ; using setXY routine
-   97 00000222         ; BL  SetXYNokia   ; DC is left high ready to send data
+   97 00000222         ; BL  SetCoordinate   ; DC is left high ready to send da
+                       ta
    98 00000222         ; transition to CSU           
    99 00000222         ; MOV  R0,#504    ; 504 bytes in full image
   100 00000222         ; LDR  R1,=imgCSU   ; put img address in R1
   101 00000222         sendNxtCSUByte
   102 00000222         ;   LDRB     ; load R5 with byte, post inc addr
-  103 00000222 F7FF FFFE       BL               Out1BNokia  ; use byte routine
+  103 00000222 F7FF FFFE       BL               TxByte      ; use byte routine
   104 00000226 F000 F817       BL               delayTrans  ; slow down loading
                                                              of next byte
   105 0000022A 3801            SUBS             R0,#1
@@ -373,7 +375,8 @@ ARM Macro Assembler    Page 6
   113 00000236         
   114 00000236         ;   MOV       ; X pos (0-83)
   115 00000236         ;   MOV       ; Y pos (0-5)
-  116 00000236 F7FF FFFE       BL               SetXYNokia  ; set XY position
+  116 00000236 F7FF FFFE       BL               SetCoordinate ; set XY position
+                                                            
   117 0000023A 4D0D            LDR              R5,=tstmsg
   118 0000023C F7FF FFFE       BL               OutStrNokia
   119 00000240         
@@ -385,15 +388,15 @@ ARM Macro Assembler    Page 6
   125 00000246 B401    delay   PUSH             {R0}
   126 00000248 F248 5055       MOV              R0,#0x8555
   127 0000024C F2C0 1040       MOVT             R0,#0x0140
-  128 00000250 3801    del     SUBS             R0,#1
-  129 00000252 D1FD            BNE              del
-  130 00000254 BC01            POP              {R0}
 
 
 
 ARM Macro Assembler    Page 7 
 
 
+  128 00000250 3801    del     SUBS             R0,#1
+  129 00000252 D1FD            BNE              del
+  130 00000254 BC01            POP              {R0}
   131 00000256 4770            BX               LR
   132 00000258         
   133 00000258 B401    delayTrans
@@ -556,14 +559,6 @@ Symbol: Nokia_Init
    Uses
       At line 72 in file Tests.s
 Comment: Nokia_Init used once
-Out1BNokia 00000000
-
-Symbol: Out1BNokia
-   Definitions
-      At line 65 in file Tests.s
-   Uses
-      At line 103 in file Tests.s
-Comment: Out1BNokia used once
 OutImgNokia 00000000
 
 Symbol: OutImgNokia
@@ -581,14 +576,22 @@ Symbol: OutStrNokia
       At line 87 in file Tests.s
       At line 118 in file Tests.s
 
-SetXYNokia 00000000
+SetCoordinate 00000000
 
-Symbol: SetXYNokia
+Symbol: SetCoordinate
    Definitions
       At line 64 in file Tests.s
    Uses
       At line 85 in file Tests.s
       At line 116 in file Tests.s
 
+TxByte 00000000
+
+Symbol: TxByte
+   Definitions
+      At line 65 in file Tests.s
+   Uses
+      At line 103 in file Tests.s
+Comment: TxByte used once
 6 symbols
 355 symbols in table

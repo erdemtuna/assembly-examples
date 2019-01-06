@@ -61,8 +61,8 @@ tstmsg		DCB		"+",0x04
 		
 			EXTERN	Nokia_Init			
 			EXTERN	OutImgNokia
-			EXTERN	SetXYNokia
-			EXTERN	Out1BNokia
+			EXTERN	SetCoordinate
+			EXTERN	TxByte
 			EXTERN	OutStrNokia
 			EXTERN	ClearNokia
 			
@@ -82,7 +82,7 @@ loadRam
 			MOV		R2, #6
 			MOV		R1, #1
 cursor		MOV		R0, R2
-			BL		SetXYNokia			; DC is left high ready to send data
+			BL		SetCoordinate			; DC is left high ready to send data
 			LDR		R5,=tstmsg
 			BL		OutStrNokia
 			ADD		R2, R2, #8
@@ -94,13 +94,13 @@ donethis	B		donethis
 			
 ;			MOV							; reset XY position to 0,0
 ;			MOV							; using setXY routine
-		;	BL		SetXYNokia			; DC is left high ready to send data
+		;	BL		SetCoordinate			; DC is left high ready to send data
 ; transition to CSU											
 		;	MOV		R0,#504				; 504 bytes in full image
 		;	LDR		R1,=imgCSU			; put img address in R1
 sendNxtCSUByte		
 ;			LDRB					; load R5 with byte, post inc addr
-			BL		Out1BNokia			; use byte routine
+			BL		TxByte			; use byte routine
 			BL		delayTrans			; slow down loading of next byte
 			SUBS	R0,#1
 			BNE		sendNxtCSUByte
@@ -113,7 +113,7 @@ sendNxtCSUByte
 
 ;			MOV							; X pos (0-83)
 ;			MOV							; Y pos (0-5)
-			BL		SetXYNokia			; set XY position
+			BL		SetCoordinate			; set XY position
 			LDR		R5,=tstmsg
 			BL		OutStrNokia
 			
