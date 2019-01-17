@@ -153,7 +153,7 @@ Print
 	;MOV	R10, #52
 	CMP R10, #52
 	BEQ Reset_Constants_1
-	B Reset_Constants_0
+	BNE Reset_Constants_0
 	;B ADC_Sample_start_0 ; Return from caller
 	
 ADC_Init
