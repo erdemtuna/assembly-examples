@@ -67,13 +67,48 @@ ADC_Sample_Constants
 	MOV	R8, #4096
 	LDR	R6, = 0x0000FFFF
 	
-Reset_Constants
+Reset_Constants_0
 	MOV	R11, #1
-	MOV	R10, #52
-	
-	B ADC_Sample_start
+	MOV	R10, #52	
+	BL ADC_Sample_start_0
+Reset_Constants_1
+	MOV	R11, #1
+	MOV	R10, #413
+	BL ADC_Sample_start_1
 		
-ADC_Sample_start
+ADC_Sample_start_0
+	; initialize addess registers
+	LDR	R2, =ADC_0_PSSI
+	LDR	R3, =ADC_0_RIS 
+	LDR	R4, =ADC_0_SSFIFO3
+
+	LDR	R0, [R2]
+	ORR R0, R0, #0x0F ; set bit 3 to enable seq 3
+	STR	R0, [R2]
+	NOP
+	NOP
+	NOP
+	
+	LDR	R0, [R3] ; check if sample is complete
+	ANDS R0, R0, #0x08
+	BNE	ADC_Sample_start_0
+	
+	LDR	R3, [R4] ; load results
+	MUL	R3, R3, R7 ; value = value * 330
+	UDIV R3, R3, R8 ; value = value / 4096
+
+FindInterval_0
+	MUL R9, R10, R11
+	CMP R3, R9
+	ADDGT R11, #1
+	BGT FindInterval_0
+	SUB R11, R11, #1
+	CMP R11, R6
+	BNE	Print
+	BX LR
+	
+	
+ADC_Sample_start_1
 	; initialize addess registers
 	LDR	R2, =ADC_1_PSSI
 	LDR	R3, =ADC_1_RIS 
@@ -88,21 +123,21 @@ ADC_Sample_start
 	
 	LDR	R0, [R3] ; check if sample is complete
 	ANDS R0, R0, #0x08
-	BNE	ADC_Sample_start
+	BNE	ADC_Sample_start_1
 	
 	LDR	R3, [R4] ; load results
 	MUL	R3, R3, R7 ; value = value * 330
 	UDIV R3, R3, R8 ; value = value / 4096
 
-FindInterval
+FindInterval_1
 	MUL R9, R10, R11
 	CMP R3, R9
 	ADDGT R11, #1
-	BGT FindInterval
+	BGT FindInterval_1
 	SUB R11, R11, #1
 	CMP R11, R6
 	BNE	Print
-	B Reset_Constants
+	B Reset_Constants_0
 
 		
 Print
@@ -116,8 +151,10 @@ Print
 	BL OutStr
 	;MOV	R11, #1
 	;MOV	R10, #52
-	B Reset_Constants
-	;B ADC_Sample_start ; Return from caller
+	CMP R10, #52
+	BEQ Reset_Constants_1
+	B Reset_Constants_0
+	;B ADC_Sample_start_0 ; Return from caller
 	
 ADC_Init
 GPIO_Init
