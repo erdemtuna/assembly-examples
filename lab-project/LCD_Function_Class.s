@@ -1,11 +1,8 @@
-; Nokia5110-Class.s
-
 ; Sets up SSI0, PA6, PA to work with the
-; SParkFun version of the Nokia 5110
 
 ; Pin connections
 ; ------------------------------------------
-; Signal        (Nokia 5110) LaunchPad pin
+; Signal        (Nokia 5110) TIVA Pin
 ; ------------------------------------------
 ; 3.3V          (VCC, pin 1) power
 ; Ground        (GND, pin 2) ground
@@ -14,7 +11,7 @@
 ; Data/Command  (D/C, pin 5) connected to PA6
 ; SSI0Tx        (DN,  pin 6) connected to PA5
 ; SSI0Clk       (SCLK, pin 7) connected to PA2
-; back light    (LED, pin 8) not connected, consists of 4 white LEDs which draw ~80mA total
+; back light    (LED, pin 8) connected to potentiometer
 
 ;GPIO Registers
 GPIO_PORTA_DATA			EQU	0x400043FC	; Port A Data
@@ -159,125 +156,125 @@ ASCII	DCB		0x00, 0x00, 0x00, 0x00, 0x00 ;// 20
 ;*****************************************************************
 ; Initializes Nokia display
 Nokia_Init
-		PUSH	{LR}
+	PUSH	{LR}
 	;Setup GPIO
-		LDR 	R1, =SYSCTL_RCGCGPIO	; start GPIO clock
-		LDR 	R0, [R1]                   
-		ORR		R0, #0x1				; set bit 0	
-		STR 	R0, [R1]                   
-		NOP								; allow clock to settle
-		NOP
-		NOP								
-		LDR		R1,=GPIO_PORTA_DIR		; make PA2,3,5,6,7 output
-		LDR		R0, = 2_11101100		; and make PA4 input
-		STR		R0,[R1]
-		LDR		R1,=GPIO_PORTA_AFSEL	; enable alt funct on PA2,3,4,5
-		MOV		R0, #0x3C
-		STR		R0,[R1]
-		LDR		R1,=GPIO_PORTA_DEN		; enable digital I/O at PA2,3,4,5,6,7
-		MOV		R0, #0xFC
-		STR		R0,[R1]					
-		LDR		R1,=GPIO_PORTA_PCTL 	; configure PA2,3,4,5 as SSI
-		LDR		R0, = 0x00222200			
-		STR		R0,[R1]
-		LDR		R1,=GPIO_PORTA_AMSEL	; disable analog functionality
-		MOV		R0, #0x0
-		STR		R0,[R1]
+	LDR 	R1, =SYSCTL_RCGCGPIO	; start GPIO clock
+	LDR 	R0, [R1]                   
+	ORR		R0, #0x1				; set bit 0	
+	STR 	R0, [R1]                   
+	NOP								; allow clock to settle
+	NOP
+	NOP								
+	LDR		R1,=GPIO_PORTA_DIR		; make PA2,3,5,6,7 output
+	LDR		R0, = 2_11101100		; and make PA4 input
+	STR		R0,[R1]
+	LDR		R1,=GPIO_PORTA_AFSEL	; enable alt funct on PA2,3,4,5
+	MOV		R0, #0x3C
+	STR		R0,[R1]
+	LDR		R1,=GPIO_PORTA_DEN		; enable digital I/O at PA2,3,4,5,6,7
+	MOV		R0, #0xFC
+	STR		R0,[R1]					
+	LDR		R1,=GPIO_PORTA_PCTL 	; configure PA2,3,4,5 as SSI
+	LDR		R0, = 0x00222200			
+	STR		R0,[R1]
+	LDR		R1,=GPIO_PORTA_AMSEL	; disable analog functionality
+	MOV		R0, #0x0
+	STR		R0,[R1]
 		
 	;Setup SSI	
-		LDR 	R1,=SYSCTL_RCGCSSI		; start SSI clock
-		LDR 	R0,[R1]                   
-		MOV		R0, #0x1				; set bit 0 for SSI0
-		STR 	R0,[R1]                
-		; small delay
-		MOV		R0,#0x0F
+	LDR 	R1,=SYSCTL_RCGCSSI		; start SSI clock
+	LDR 	R0,[R1]                   
+	MOV		R0, #0x1				; set bit 0 for SSI0
+	STR 	R0,[R1]                
+	; small delay
+	MOV		R0,#0x0F
 waitSSIClk								; allow clock to settle
-		SUBS	R0,R0,#0x01
-		BNE		waitSSIClk
+	SUBS	R0,R0,#0x01
+	BNE		waitSSIClk
 
-		LDR		R1,=SSI0_CR1			; disable SSI during setup and also set to Master
-		LDR		R0, [R1]				; clear bit 1	and  clear bit 2 (you can clear all bits)
-		BIC		R0, #0x06
-		STR		R0,[R1]
-		
-		; Configure baud rate PIOSC=16MHz,Baud=2MHz,CPSDVSR=4,SCR=1
-		; BR=SysClk/(CPSDVSR * (1 + SCR))
-		LDR		R1,=SSI0_CC				; use PIOSC (16MHz)		
-		LDR		R0, [R1]				; set bits 3:0 of the SSICC to 0x5 
-		ORR		R0, #0x05
-		STR		R0,[R1]
-		LDR		R1,=SSI0_CR0			; set SCR bits to 0x01
-		LDR		R0,[R1]
-;		________________				;
-		STR		R0,[R1]
-		LDR		R1,=SSI0_CPSR			; set CPSDVSR (prescale) to 0x04
-		MOV		R0, #0x04
-		STR		R0,[R1]
-		LDR		R1,=SSI0_CR0			; clear SPH,SPO
-		LDR		R0,[R1]					; choose Freescale frame format
-        BIC		R0, #0x30				; clear bits 5:4 	
-		ORR		R0, #0x7				; choose 8-bit data (set DSS bits to 0x07)
-		STR		R0,[R1]
-		LDR		R1,=SSI0_CR1			; enable SSI
-		LDR		R0,[R1]
-		ORR		R0, #0x02				; set bit 1
-		STR		R0,[R1]
+	LDR		R1,=SSI0_CR1			; disable SSI during setup and also set to Master
+	LDR		R0, [R1]				; clear bit 1	and  clear bit 2 (you can clear all bits)
+	BIC		R0, #0x06
+	STR		R0,[R1]
+
+	; Configure baud rate PIOSC=16MHz,Baud=2MHz,CPSDVSR=4,SCR=1
+	; BR=SysClk/(CPSDVSR * (1 + SCR))
+	LDR		R1,=SSI0_CC				; use PIOSC (16MHz)		
+	LDR		R0, [R1]				; set bits 3:0 of the SSICC to 0x5 
+	ORR		R0, #0x05
+	STR		R0,[R1]
+	LDR		R1,=SSI0_CR0			; set SCR bits to 0x01
+	LDR		R0,[R1]
+	;		________________				;
+	STR		R0,[R1]
+	LDR		R1,=SSI0_CPSR			; set CPSDVSR (prescale) to 0x04
+	MOV		R0, #0x04
+	STR		R0,[R1]
+	LDR		R1,=SSI0_CR0			; clear SPH,SPO
+	LDR		R0,[R1]					; choose Freescale frame format
+	BIC		R0, #0x30				; clear bits 5:4 	
+	ORR		R0, #0x7				; choose 8-bit data (set DSS bits to 0x07)
+	STR		R0,[R1]
+	LDR		R1,=SSI0_CR1			; enable SSI
+	LDR		R0,[R1]
+	ORR		R0, #0x02				; set bit 1
+	STR		R0,[R1]
 	; DC = PA7
 	; Reset LCD memory	- reset already low
-		; ensure reset is low
-		LDR		R1,=GPIO_PORTA_DATA	
-		LDR		R0, [R1]; clear reset(PA7) 	
-		BIC		R0, #0x80
-		STR		R0,[R1]
-	
-		MOV		R0,#10
+	; ensure reset is low
+	LDR		R1,=GPIO_PORTA_DATA	
+	LDR		R0, [R1]; clear reset(PA7) 	
+	BIC		R0, #0x80
+	STR		R0,[R1]
+
+	MOV		R0,#10
 delReset		
-		SUBS	R0,R0,#1
-		BNE		delReset
-		
-		LDR		R1,=GPIO_PORTA_DATA		; 
-		LDR		R0, [R1]; set reset(PA7)
-		ORR		R0, #0x80
-		STR		R0,[R1]					;
-		
+	SUBS	R0,R0,#1
+	BNE		delReset
+
+	LDR		R1,=GPIO_PORTA_DATA		; 
+	LDR		R0, [R1]; set reset(PA7)
+	ORR		R0, #0x80
+	STR		R0,[R1]					;
+
 	; Setup LCD
-		LDR		R1,=GPIO_PORTA_DATA		; set PA6 low for Command
-		LDR		R0,[R1]
-		BIC		R0, #0x40
-		STR		R0,[R1]
-		
-		;chip active (PD=0)
-		;horizontal addressing (V=0)
-		;extended instruction set (H=1)
-		MOV		R5,#0x21
-		BL		TxByte	
-		;set contrast
-		MOV		R5,#0xB8
-		BL		TxByte
-		;set temp coefficient
-		MOV		R5,#0x04
-		BL		TxByte
-		;set bias 1:48: try 0x13 or 0x14
-		MOV		R5,#0x14
-		BL		TxByte
-		;change H=0
-		MOV		R5,#0x20
-		BL		TxByte
-		;set control mode to normal
-		MOV		R5,#0x0C
-		BL		TxByte
-		; clear screen
-		; screen memory is undefined after startup
-		BL		ClearNokia
+	LDR		R1,=GPIO_PORTA_DATA		; set PA6 low for Command
+	LDR		R0,[R1]
+	BIC		R0, #0x40
+	STR		R0,[R1]
+
+	;chip active (PD=0)
+	;horizontal addressing (V=0)
+	;extended instruction set (H=1)
+	MOV		R5,#0x21
+	BL		TxByte	
+	;set contrast
+	MOV		R5,#0xB8
+	BL		TxByte
+	;set temp coefficient
+	MOV		R5,#0x04
+	BL		TxByte
+	;set bias 1:48: try 0x13 or 0x14
+	MOV		R5,#0x14
+	BL		TxByte
+	;change H=0
+	MOV		R5,#0x20
+	BL		TxByte
+	;set control mode to normal
+	MOV		R5,#0x0C
+	BL		TxByte
+	; clear screen
+	; screen memory is undefined after startup
+	BL		ClearNokia
 		
 waitCMDDone		
-		LDR		R1,=SSI0_SR				; wait until SSI is done
-		LDR		R0,[R1]
-		ANDS	R0,R0,#0x10
-		BNE		waitCMDDone
-		
-		POP{LR}
-		BX		LR
+	LDR		R1,=SSI0_SR				; wait until SSI is done
+	LDR		R0,[R1]
+	ANDS	R0,R0,#0x10
+	BNE		waitCMDDone
+
+	POP{LR}
+	BX		LR
 ;*****************************************************************		
 
 ;----------------------------------
@@ -302,37 +299,37 @@ waitFIFOnotFull
 ;*****************************************************************
 ; Send Image to Nokia routine	
 OutImgNokia
-		PUSH	{R0-R4,LR}
-		PUSH	{R5}					; save Img address
-		LDR		R1,=GPIO_PORTA_DATA		; set PA6 low for Command
-		LDR		R0,[R1]
-		BIC		R0,#0x40
-		STR		R0,[R1]
-		MOV		R5,#0x20				; ensure H=0
-		BL		TxByte	
-		MOV		R5,#0x40				; set Y address to 0
-		BL		TxByte
-		MOV		R5,#0x80				; set X address to 0
-		BL		TxByte	
+	PUSH	{R0-R4,LR}
+	PUSH	{R5}					; save Img address
+	LDR		R1,=GPIO_PORTA_DATA		; set PA6 low for Command
+	LDR		R0,[R1]
+	BIC		R0,#0x40
+	STR		R0,[R1]
+	MOV		R5,#0x20				; ensure H=0
+	BL		TxByte	
+	MOV		R5,#0x40				; set Y address to 0
+	BL		TxByte
+	MOV		R5,#0x80				; set X address to 0
+	BL		TxByte	
 waitImgReady		
-		LDR		R1,=SSI0_SR				; wait until SSI is done
-		LDR		R0,[R1]
-		ANDS	R0,R0,#0x10
-		BNE		waitImgReady
-		LDR		R1,=GPIO_PORTA_DATA		; ready: set PA6 high for Data
-		LDR		R0,[R1]
-		ORR		R0,#0x40
-		STR		R0,[R1]	
-		POP		{R5}
-		MOV		R0,#504					; 504 bytes in full image
-		MOV		R1,R5					; put img address in R1
+	LDR		R1,=SSI0_SR				; wait until SSI is done
+	LDR		R0,[R1]
+	ANDS	R0,R0,#0x10
+	BNE		waitImgReady
+	LDR		R1,=GPIO_PORTA_DATA		; ready: set PA6 high for Data
+	LDR		R0,[R1]
+	ORR		R0,#0x40
+	STR		R0,[R1]	
+	POP		{R5}
+	MOV		R0,#504					; 504 bytes in full image
+	MOV		R1,R5					; put img address in R1
 sendNxtByteNokia		
-		LDRB	R5,[R1],#1		; load R5 with byte, post inc address
-		BL		TxByte
-		SUBS	R0,#1
-		BNE		sendNxtByteNokia		
-		POP		{R0-R4,LR}
-		BX		LR
+	LDRB	R5,[R1],#1		; load R5 with byte, post inc address
+	BL		TxByte
+	SUBS	R0,#1
+	BNE		sendNxtByteNokia		
+	POP		{R0-R4,LR}
+	BX		LR
 ;*****************************************************************
 
 ;*****************************************************************
@@ -379,34 +376,34 @@ waitEndOfTransmission
 	; ASCII hex value passed via R5
 	; This routine assumes coordinates have already been set
 OutCharNokia
-		PUSH	{R0-R4,LR}
-		LDR		R1,=GPIO_PORTA_DATA		; set PA6 high for Data
-		LDR		R0,[R1]
-		ORR		R0,#0x40
-		STR		R0,[R1]
-		LDR		R1,=ASCII				; load address of ASCII table
-		SUB		R2,R5,#0x20				; calculate offset of char
-		MOV		R3,#0x05
-		MUL		R2,R2,R3
-		ADD		R1,R1,R2
-		PUSH	{R5}					; save state of R5
-		MOV		R0,#0x05				; 5 bytes in every char
-		MOV		R2,#0x00				; 1 empty column between chars
+	PUSH	{R0-R4,LR}
+	LDR		R1,=GPIO_PORTA_DATA		; set PA6 high for Data
+	LDR		R0,[R1]
+	ORR		R0,#0x40
+	STR		R0,[R1]
+	LDR		R1,=ASCII				; load address of ASCII table
+	SUB		R2,R5,#0x20				; calculate offset of char
+	MOV		R3,#0x05
+	MUL		R2,R2,R3
+	ADD		R1,R1,R2
+	PUSH	{R5}					; save state of R5
+	MOV		R0,#0x05				; 5 bytes in every char
+	MOV		R2,#0x00				; 1 empty column between chars
 sendCharByte		
-		LDRB	R5,[R1],#1				
-		BL		TxByte				; send each byte of char
-		SUBS	R0,R0,#1
-		BNE		sendCharByte
-		MOV		R5,R2
-		BL		TxByte				; tack space on after char
+	LDRB	R5,[R1],#1				
+	BL		TxByte				; send each byte of char
+	SUBS	R0,R0,#1
+	BNE		sendCharByte
+	MOV		R5,R2
+	BL		TxByte				; tack space on after char
 waitCharDone		
-		LDR		R1,=SSI0_SR				; wait until SSI is done
-		LDR		R0,[R1]
-		ANDS	R0,R0,#0x10
-		BNE		waitCharDone
-		POP		{R5}
-		POP		{R0-R4,LR}
-		BX		LR
+	LDR		R1,=SSI0_SR				; wait until SSI is done
+	LDR		R0,[R1]
+	ANDS	R0,R0,#0x10
+	BNE		waitCharDone
+	POP		{R5}
+	POP		{R0-R4,LR}
+	BX		LR
 ;*****************************************************************	
 
 ;*****************************************************************
@@ -414,55 +411,55 @@ waitCharDone
 	; Address of start of message passed via R5
 	; Ended using EOT character 0x04
 OutStrNokia		
-		PUSH	{R0-R5,LR}
-		MOV		R1,R5
+	PUSH	{R0-R5,LR}
+	MOV		R1,R5
 nextStrChar
-		LDRB	R5,[R1],#1
-		CMP		R5,#0x04
-		BEQ		doneStrNokia
-		BL		OutCharNokia
-		B		nextStrChar
+	LDRB	R5,[R1],#1
+	CMP		R5,#0x04
+	BEQ		doneStrNokia
+	BL		OutCharNokia
+	B		nextStrChar
 doneStrNokia
-		POP		{R0-R5,LR}
-		BX		LR
+	POP		{R0-R5,LR}
+	BX		LR
 ;*****************************************************************
 
 ;*****************************************************************
 ; clear LCD screen
 ClearNokia
-		PUSH	{R0-R5,LR}
-		LDR		R1,=GPIO_PORTA_DATA		; set PA6 low for Command
-		LDR		R0,[R1]
-		BIC		R0,#0x40
-		STR		R0,[R1]
-		MOV		R5,#0x20				; ensure H=0
-		BL		TxByte	
-		MOV		R5,#0x40				; set Y address to 0
-		BL		TxByte
-		MOV		R5,#0x80				; set X address to 0
-		BL		TxByte	
+	PUSH	{R0-R5,LR}
+	LDR		R1,=GPIO_PORTA_DATA		; set PA6 low for Command
+	LDR		R0,[R1]
+	BIC		R0,#0x40
+	STR		R0,[R1]
+	MOV		R5,#0x20				; ensure H=0
+	BL		TxByte	
+	MOV		R5,#0x40				; set Y address to 0
+	BL		TxByte
+	MOV		R5,#0x80				; set X address to 0
+	BL		TxByte	
 waitClrReady		
-		LDR		R1,=SSI0_SR				; wait until SSI is done
-		LDR		R0,[R1]
-		ANDS	R0,R0,#0x10
-		BNE		waitClrReady
-		LDR		R1,=GPIO_PORTA_DATA		; set PA6 high for Data
-		LDR		R0,[R1]
-		ORR		R0,#0x40
-		STR		R0,[R1]	
-		MOV		R0,#504					; 504 bytes in full image
-		MOV		R5,#0x00				; load zeros to send
+	LDR		R1,=SSI0_SR				; wait until SSI is done
+	LDR		R0,[R1]
+	ANDS	R0,R0,#0x10
+	BNE		waitClrReady
+	LDR		R1,=GPIO_PORTA_DATA		; set PA6 high for Data
+	LDR		R0,[R1]
+	ORR		R0,#0x40
+	STR		R0,[R1]	
+	MOV		R0,#504					; 504 bytes in full image
+	MOV		R5,#0x00				; load zeros to send
 clrNxtNokia		
-		BL		TxByte
-		SUBS	R0,#1
-		BNE		clrNxtNokia
+	BL		TxByte
+	SUBS	R0,#1
+	BNE		clrNxtNokia
 waitClrDone			
-		LDR		R1,=SSI0_SR				; wait until SSI is done
-		LDR		R0,[R1]
-		ANDS	R0,R0,#0x10
-		BNE		waitClrDone
-		POP		{R0-R5,LR}
-		BX		LR
-;*****************************************************************		
-		ALIGN
-		END
+	LDR		R1,=SSI0_SR				; wait until SSI is done
+	LDR		R0,[R1]
+	ANDS	R0,R0,#0x10
+	BNE		waitClrDone
+	POP		{R0-R5,LR}
+	BX		LR
+	;*****************************************************************		
+	ALIGN
+	END

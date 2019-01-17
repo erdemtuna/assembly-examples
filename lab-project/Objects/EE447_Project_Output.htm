@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\EE447_Project_Output.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\EE447_Project_Output.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sun Jan 06 13:55:29 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Jan 17 20:39:55 2019
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -15,12 +15,12 @@ Functions with no stack information
  <LI><a href="#[7a]">Reset_Handler</a>
  <LI><a href="#[7d]">Start</a>
  <LI><a href="#[7e]">Nokia_Init</a>
- <LI><a href="#[82]">TxByte</a>
- <LI><a href="#[7f]">OutImgNokia</a>
- <LI><a href="#[80]">SetCoordinate</a>
+ <LI><a href="#[83]">TxByte</a>
+ <LI><a href="#[82]">OutImgNokia</a>
+ <LI><a href="#[7f]">SetCoordinate</a>
  <LI><a href="#[84]">OutCharNokia</a>
- <LI><a href="#[81]">OutStrNokia</a>
- <LI><a href="#[83]">ClearNokia</a>
+ <LI><a href="#[80]">OutStrNokia</a>
+ <LI><a href="#[81]">ClearNokia</a>
 </UL>
 </UL>
 <P>
@@ -579,59 +579,59 @@ Global Symbols
 <P><STRONG><a name="[36]"></a>uDMA_Handler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startupnokia.o(RESET))
 <BR>[Address Reference Count : 1]<UL><LI> startupnokia.o(RESET)
 </UL>
-<P><STRONG><a name="[7d]"></a>Start</STRONG> (Thumb, 4 bytes, Stack size unknown bytes, tests.o(.text))
-<BR><BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ClearNokia
-<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutStrNokia
-<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetCoordinate
-<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutImgNokia
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxByte
+<P><STRONG><a name="[7d]"></a>Start</STRONG> (Thumb, 4 bytes, Stack size unknown bytes, main.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxByte
+<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetCoordinate
+<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutStrNokia
+<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutImgNokia
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Nokia_Init
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ClearNokia
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Reset_Handler
 </UL>
 
 <P><STRONG><a name="[7e]"></a>Nokia_Init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lcd_function_class.o(timer))
-<BR><BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ClearNokia
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxByte
+<BR><BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxByte
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ClearNokia
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
 </UL>
 
-<P><STRONG><a name="[82]"></a>TxByte</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lcd_function_class.o(timer))
-<BR><BR>[Called By]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ClearNokia
-<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutCharNokia
-<LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetCoordinate
-<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutImgNokia
+<P><STRONG><a name="[83]"></a>TxByte</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lcd_function_class.o(timer))
+<BR><BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutCharNokia
+<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetCoordinate
+<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutImgNokia
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Nokia_Init
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ClearNokia
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
 </UL>
 
-<P><STRONG><a name="[7f]"></a>OutImgNokia</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lcd_function_class.o(timer))
-<BR><BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxByte
+<P><STRONG><a name="[82]"></a>OutImgNokia</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lcd_function_class.o(timer))
+<BR><BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxByte
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
 </UL>
 
-<P><STRONG><a name="[80]"></a>SetCoordinate</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lcd_function_class.o(timer))
-<BR><BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxByte
+<P><STRONG><a name="[7f]"></a>SetCoordinate</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lcd_function_class.o(timer))
+<BR><BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxByte
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
 </UL>
 
 <P><STRONG><a name="[84]"></a>OutCharNokia</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lcd_function_class.o(timer))
-<BR><BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxByte
+<BR><BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxByte
 </UL>
-<BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutStrNokia
+<BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutStrNokia
 </UL>
 
-<P><STRONG><a name="[81]"></a>OutStrNokia</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lcd_function_class.o(timer))
+<P><STRONG><a name="[80]"></a>OutStrNokia</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lcd_function_class.o(timer))
 <BR><BR>[Calls]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutCharNokia
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start
 </UL>
 
-<P><STRONG><a name="[83]"></a>ClearNokia</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lcd_function_class.o(timer))
-<BR><BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxByte
+<P><STRONG><a name="[81]"></a>ClearNokia</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, lcd_function_class.o(timer))
+<BR><BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TxByte
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Nokia_Init
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Start

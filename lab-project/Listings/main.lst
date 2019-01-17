@@ -297,125 +297,179 @@ x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 0:[70,83]
    51 000001F8         
-   52 000001F8         
-   53 000001F8 2B 04   tstmsg  DCB              "+",0x04
-   54 000001FA         ;SPACE 0  ; added for padding
-   55 000001FA         
-   56 000001FA                 EXTERN           Nokia_Init
-   57 000001FA                 EXTERN           OutImgNokia
-   58 000001FA                 EXTERN           SetCoordinate
-   59 000001FA                 EXTERN           TxByte
-   60 000001FA                 EXTERN           OutStrNokia
-   61 000001FA                 EXTERN           ClearNokia
-   62 000001FA         
-   63 000001FA                 EXPORT           Start
-   64 000001FA         
-   65 000001FA         
-   66 000001FA F7FF FFFE 
-                       Start   BL               Nokia_Init  ; initialize LCD
-   67 000001FE         loadRam
-   68 000001FE         ;MOV  R0, #6
-   69 000001FE         ;MOV  R1, #1   ; DC is left high ready to send data
-   70 000001FE         ;LDR  R5,=tstmsg
-   71 000001FE         ;BL  OutStrNokia
-   72 000001FE         ;BL  delay
-   73 000001FE 4D1B            LDR              R5,=gameplayBorder ; load img a
-                                                            ddress of Ram
-   74 00000200 F7FF FFFE       BL               OutImgNokia ; use img routine
-   75 00000204         
+   52 000001F8 2B 04   MSG_Test
+                               DCB              "+",0x04
+   53 000001FA 45 45 34 
+              34 37 20 
+              20 20 20 
+              20 20 20 
+              20 20 4C 
+              61 62 20 
+              50 72 6F 
+              6A 65 63 
+              74 20 20 
+              20 42 75 
+              72 6B 61 
+              79 20 55 
+              6E 73 61 
+              6C 20 20 
+              45 72 64 
+              65 6D 20 
+              54 75 6E 
+              61 20 04 MSG_InitialRun
+                               DCB              "EE447         Lab Project   Bu
+rkay Unsal  Erdem Tuna ",0x04
+   54 00000230 50 6C 61 
+              63 65 20 
+              74 68 65 
+              20 73 68 
 
 
 
 ARM Macro Assembler    Page 6 
 
 
-   76 00000204 F04F 0206       MOV              R2, #6
-   77 00000208 F04F 0101       MOV              R1, #1
-   78 0000020C         cursor
-   79 0000020C 4610            MOV              R0, R2
-   80 0000020E F7FF FFFE       BL               SetCoordinate ; DC is left high
+              69 70 61 
+              66 74 65 
+              72 20 62 
+              6F 72 64 
+              65 72 20 
+              20 69 73 
+              20 76 69 
+              73 69 62 
+              6C 65 2E 
+              04       MSG_Welcome
+                               DCB              "Place the shipafter border  is
+ visible.",0x04
+   55 00000258         
+   56 00000258                 EXTERN           Nokia_Init
+   57 00000258                 EXTERN           OutImgNokia
+   58 00000258                 EXTERN           SetCoordinate
+   59 00000258                 EXTERN           TxByte
+   60 00000258                 EXTERN           OutStrNokia
+   61 00000258                 EXTERN           ClearNokia
+   62 00000258         
+   63 00000258                 EXPORT           Start
+   64 00000258         
+   65 00000258 F7FF FFFE 
+                       Start   BL               Nokia_Init  ; initialize LCD
+   66 0000025C         loadRam
+   67 0000025C         
+   68 0000025C         Initial_Messages
+   69 0000025C F04F 0000       MOV              R0, #0
+   70 00000260 F04F 0101       MOV              R1, #1
+   71 00000264 F7FF FFFE       BL               SetCoordinate
+   72 00000268 4D23            LDR              R5,=MSG_InitialRun
+   73 0000026A F7FF FFFE       BL               OutStrNokia
+   74 0000026E F000 F831       BL               delay
+   75 00000272 F7FF FFFE       BL               ClearNokia
+   76 00000276 F04F 0000       MOV              R0, #0
+   77 0000027A F04F 0101       MOV              R1, #1
+   78 0000027E F7FF FFFE       BL               SetCoordinate
+   79 00000282 4D1E            LDR              R5,=MSG_Welcome
+   80 00000284 F7FF FFFE       BL               OutStrNokia
+   81 00000288 F000 F824       BL               delay
+   82 0000028C         
+   83 0000028C         Load_GameBorder
+   84 0000028C 4D1C            LDR              R5,=gameplayBorder ; load img a
+                                                            ddress of Ram
+   85 0000028E F7FF FFFE       BL               OutImgNokia ; use img routine
+   86 00000292         
+   87 00000292 F04F 0206       MOV              R2, #6
+   88 00000296 F04F 0101       MOV              R1, #1
+   89 0000029A         cursor
+   90 0000029A 4610            MOV              R0, R2
+   91 0000029C F7FF FFFE       BL               SetCoordinate ; DC is left high
                                                              ready to send data
                                                             
-   81 00000212 4D17            LDR              R5,=tstmsg
-   82 00000214 F7FF FFFE       BL               OutStrNokia
-   83 00000218 F102 0208       ADD              R2, R2, #8
-   84 0000021C 2A4B            CMP              R2, #75
-   85 0000021E DDF5            BLE              cursor
-   86 00000220 E7FE    donethis
-                               B                donethis
-   87 00000222         
-   88 00000222         ;   BL  delay    ; leave image for a few s
-   89 00000222         
-   90 00000222         ;   MOV       ; reset XY position to 0,0
-   91 00000222         ;   MOV       ; using setXY routine
-   92 00000222         ; BL  SetCoordinate   ; DC is left high ready to send da
-                       ta
-   93 00000222         ; transition to CSU           
-   94 00000222         ; MOV  R0,#504    ; 504 bytes in full image
-   95 00000222         ; LDR  R1,=imgCSU   ; put img address in R1
-   96 00000222         sendNxtCSUByte
-   97 00000222         ;   LDRB     ; load R5 with byte, post inc addr
-   98 00000222 F7FF FFFE       BL               TxByte      ; use byte routine
-   99 00000226 F000 F817       BL               delayTrans  ; slow down loading
-                                                             of next byte
-  100 0000022A 3801            SUBS             R0,#1
-  101 0000022C D1F9            BNE              sendNxtCSUByte
-  102 0000022E         
-  103 0000022E F000 F80A       BL               delay       ; leave image for a
-                                                             few s
-  104 00000232         
-  105 00000232         ;clear screen using ClearNokia routine
-  106 00000232 F7FF FFFE       BL               ClearNokia
-  107 00000236         
-  108 00000236         
-  109 00000236         ;   MOV       ; X pos (0-83)
-  110 00000236         ;   MOV       ; Y pos (0-5)
-  111 00000236 F7FF FFFE       BL               SetCoordinate ; set XY position
-                                                            
-  112 0000023A 4D0D            LDR              R5,=tstmsg
-  113 0000023C F7FF FFFE       BL               OutStrNokia
-  114 00000240         
-  115 00000240 F000 F801       BL               delay       ; leave text up
-  116 00000244         
-  117 00000244 E7DB    done    B                loadRam     ; loop   
-  118 00000246         
-  119 00000246         
-  120 00000246         delay
-  121 00000246 B401            PUSH             {R0}
-  122 00000248 F248 5055       MOV              R0,#0x8555
-  123 0000024C F2C0 1040       MOVT             R0,#0x0140
-  124 00000250         del
-  125 00000250 3801            SUBS             R0,#1
-  126 00000252 D1FD            BNE              del
-  127 00000254 BC01            POP              {R0}
+   92 000002A0 4D18            LDR              R5,=MSG_Test
+   93 000002A2 F7FF FFFE       BL               OutStrNokia
+   94 000002A6 F102 0208       ADD              R2, R2, #8
+   95 000002AA 2A4B            CMP              R2, #75
+   96 000002AC DDF5            BLE              cursor
+   97 000002AE E7FE    donethis
 
 
 
 ARM Macro Assembler    Page 7 
 
 
-  128 00000256 4770            BX               LR
-  129 00000258         
-  130 00000258 B401    delayTrans
+                               B                donethis
+   98 000002B0         
+   99 000002B0         ;   BL  delay    ; leave image for a few s
+  100 000002B0         
+  101 000002B0         ;   MOV       ; reset XY position to 0,0
+  102 000002B0         ;   MOV       ; using setXY routine
+  103 000002B0         ; BL  SetCoordinate   ; DC is left high ready to send da
+                       ta
+  104 000002B0         ; transition to CSU           
+  105 000002B0         ; MOV  R0,#504    ; 504 bytes in full image
+  106 000002B0         ; LDR  R1,=imgCSU   ; put img address in R1
+  107 000002B0         sendNxtCSUByte
+  108 000002B0         ;   LDRB     ; load R5 with byte, post inc addr
+  109 000002B0 F7FF FFFE       BL               TxByte      ; use byte routine
+  110 000002B4 F000 F817       BL               delayTrans  ; slow down loading
+                                                             of next byte
+  111 000002B8 3801            SUBS             R0,#1
+  112 000002BA D1F9            BNE              sendNxtCSUByte
+  113 000002BC         
+  114 000002BC F000 F80A       BL               delay       ; leave image for a
+                                                             few s
+  115 000002C0         
+  116 000002C0         ;clear screen using ClearNokia routine
+  117 000002C0 F7FF FFFE       BL               ClearNokia
+  118 000002C4         
+  119 000002C4         
+  120 000002C4         ;   MOV       ; X pos (0-83)
+  121 000002C4         ;   MOV       ; Y pos (0-5)
+  122 000002C4 F7FF FFFE       BL               SetCoordinate ; set XY position
+                                                            
+  123 000002C8 4D0E            LDR              R5,=MSG_Test
+  124 000002CA F7FF FFFE       BL               OutStrNokia
+  125 000002CE         
+  126 000002CE F000 F801       BL               delay       ; leave text up
+  127 000002D2         
+  128 000002D2 E7C3    done    B                loadRam     ; loop   
+  129 000002D4         
+  130 000002D4         
+  131 000002D4         delay
+  132 000002D4 B401            PUSH             {R0}
+  133 000002D6 F248 5055       MOV              R0,#0x8555
+  134 000002DA F2C0 1040       MOVT             R0,#0x0140
+  135 000002DE         del
+  136 000002DE 3801            SUBS             R0,#1
+  137 000002E0 D1FD            BNE              del
+  138 000002E2 BC01            POP              {R0}
+  139 000002E4 4770            BX               LR
+  140 000002E6         
+  141 000002E6 B401    delayTrans
                                PUSH             {R0}
-  131 0000025A F645 0055       MOV              R0,#0x5855  ;~250ms
-  132 0000025E F2C0 0014       MOVT             R0,#0x0014
-  133 00000262         dt
-  134 00000262 3801            SUBS             R0,#1
-  135 00000264 D1FD            BNE              dt
-  136 00000266 BC01            POP              {R0}
-  137 00000268 4770            BX               LR
-  138 0000026A         
-  139 0000026A         
-  140 0000026A 00 00           ALIGN
-  141 0000026C                 END
+  142 000002E8 F645 0055       MOV              R0,#0x5855  ;~250ms
+  143 000002EC F2C0 0014       MOVT             R0,#0x0014
+  144 000002F0         dt
+  145 000002F0 3801            SUBS             R0,#1
+  146 000002F2 D1FD            BNE              dt
+  147 000002F4 BC01            POP              {R0}
+  148 000002F6 4770            BX               LR
+  149 000002F8         
+  150 000002F8         
+
+
+
+ARM Macro Assembler    Page 8 
+
+
+  151 000002F8                 ALIGN
+  152 000002F8                 END
+              00000000 
+              00000000 
               00000000 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
-erwork --depend=.\objects\tests.d -o.\objects\tests.o -I.\RTE\_EE447-Project -I
-D:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM
-\CMSIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 
-526" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\tests.lst Tests.s
+erwork --depend=.\objects\main.d -o.\objects\main.o -I.\RTE\_EE447-Project -ID:
+\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil_v5\ARM\C
+MSIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 52
+6" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\main.lst main.s
 
 
 
@@ -426,60 +480,60 @@ Relocatable symbols
 
 Symbol: .text
    Definitions
-      At line 5 in file Tests.s
+      At line 5 in file main.s
    Uses
       None
 Comment: .text unused
-Start 000001FA
+Initial_Messages 0000025C
+
+Symbol: Initial_Messages
+   Definitions
+      At line 68 in file main.s
+   Uses
+      None
+Comment: Initial_Messages unused
+Load_GameBorder 0000028C
+
+Symbol: Load_GameBorder
+   Definitions
+      At line 83 in file main.s
+   Uses
+      None
+Comment: Load_GameBorder unused
+MSG_InitialRun 000001FA
+
+Symbol: MSG_InitialRun
+   Definitions
+      At line 53 in file main.s
+   Uses
+      At line 72 in file main.s
+Comment: MSG_InitialRun used once
+MSG_Test 000001F8
+
+Symbol: MSG_Test
+   Definitions
+      At line 52 in file main.s
+   Uses
+      At line 92 in file main.s
+      At line 123 in file main.s
+
+MSG_Welcome 00000230
+
+Symbol: MSG_Welcome
+   Definitions
+      At line 54 in file main.s
+   Uses
+      At line 79 in file main.s
+Comment: MSG_Welcome used once
+Start 00000258
 
 Symbol: Start
    Definitions
-      At line 66 in file Tests.s
+      At line 65 in file main.s
    Uses
-      At line 63 in file Tests.s
+      At line 63 in file main.s
 Comment: Start used once
-cursor 0000020C
-
-Symbol: cursor
-   Definitions
-      At line 78 in file Tests.s
-   Uses
-      At line 85 in file Tests.s
-Comment: cursor used once
-del 00000250
-
-Symbol: del
-   Definitions
-      At line 124 in file Tests.s
-   Uses
-      At line 126 in file Tests.s
-Comment: del used once
-delay 00000246
-
-Symbol: delay
-   Definitions
-      At line 120 in file Tests.s
-   Uses
-      At line 103 in file Tests.s
-      At line 115 in file Tests.s
-
-delayTrans 00000258
-
-Symbol: delayTrans
-   Definitions
-      At line 130 in file Tests.s
-   Uses
-      At line 99 in file Tests.s
-Comment: delayTrans used once
-done 00000244
-
-Symbol: done
-   Definitions
-      At line 117 in file Tests.s
-   Uses
-      None
-Comment: done unused
-donethis 00000220
+cursor 0000029A
 
 
 
@@ -487,54 +541,94 @@ donethis 00000220
 ARM Macro Assembler    Page 2 Alphabetic symbol ordering
 Relocatable symbols
 
+Symbol: cursor
+   Definitions
+      At line 89 in file main.s
+   Uses
+      At line 96 in file main.s
+Comment: cursor used once
+del 000002DE
+
+Symbol: del
+   Definitions
+      At line 135 in file main.s
+   Uses
+      At line 137 in file main.s
+Comment: del used once
+delay 000002D4
+
+Symbol: delay
+   Definitions
+      At line 131 in file main.s
+   Uses
+      At line 74 in file main.s
+      At line 81 in file main.s
+      At line 114 in file main.s
+      At line 126 in file main.s
+
+delayTrans 000002E6
+
+Symbol: delayTrans
+   Definitions
+      At line 141 in file main.s
+   Uses
+      At line 110 in file main.s
+Comment: delayTrans used once
+done 000002D2
+
+Symbol: done
+   Definitions
+      At line 128 in file main.s
+   Uses
+      None
+Comment: done unused
+donethis 000002AE
+
 Symbol: donethis
    Definitions
-      At line 86 in file Tests.s
+      At line 97 in file main.s
    Uses
-      At line 86 in file Tests.s
+      At line 97 in file main.s
 Comment: donethis used once
-dt 00000262
+dt 000002F0
 
 Symbol: dt
    Definitions
-      At line 133 in file Tests.s
+      At line 144 in file main.s
    Uses
-      At line 135 in file Tests.s
+      At line 146 in file main.s
 Comment: dt used once
 gameplayBorder 00000000
 
+
+
+
+ARM Macro Assembler    Page 3 Alphabetic symbol ordering
+Relocatable symbols
+
 Symbol: gameplayBorder
    Definitions
-      At line 8 in file Tests.s
+      At line 8 in file main.s
    Uses
-      At line 73 in file Tests.s
+      At line 84 in file main.s
 Comment: gameplayBorder used once
-loadRam 000001FE
+loadRam 0000025C
 
 Symbol: loadRam
    Definitions
-      At line 67 in file Tests.s
+      At line 66 in file main.s
    Uses
-      At line 117 in file Tests.s
+      At line 128 in file main.s
 Comment: loadRam used once
-sendNxtCSUByte 00000222
+sendNxtCSUByte 000002B0
 
 Symbol: sendNxtCSUByte
    Definitions
-      At line 96 in file Tests.s
+      At line 107 in file main.s
    Uses
-      At line 101 in file Tests.s
+      At line 112 in file main.s
 Comment: sendNxtCSUByte used once
-tstmsg 000001F8
-
-Symbol: tstmsg
-   Definitions
-      At line 53 in file Tests.s
-   Uses
-      At line 81 in file Tests.s
-      At line 112 in file Tests.s
-
-13 symbols
+17 symbols
 
 
 
@@ -545,51 +639,56 @@ ClearNokia 00000000
 
 Symbol: ClearNokia
    Definitions
-      At line 61 in file Tests.s
+      At line 61 in file main.s
    Uses
-      At line 106 in file Tests.s
-Comment: ClearNokia used once
+      At line 75 in file main.s
+      At line 117 in file main.s
+
 Nokia_Init 00000000
 
 Symbol: Nokia_Init
    Definitions
-      At line 56 in file Tests.s
+      At line 56 in file main.s
    Uses
-      At line 66 in file Tests.s
+      At line 65 in file main.s
 Comment: Nokia_Init used once
 OutImgNokia 00000000
 
 Symbol: OutImgNokia
    Definitions
-      At line 57 in file Tests.s
+      At line 57 in file main.s
    Uses
-      At line 74 in file Tests.s
+      At line 85 in file main.s
 Comment: OutImgNokia used once
 OutStrNokia 00000000
 
 Symbol: OutStrNokia
    Definitions
-      At line 60 in file Tests.s
+      At line 60 in file main.s
    Uses
-      At line 82 in file Tests.s
-      At line 113 in file Tests.s
+      At line 73 in file main.s
+      At line 80 in file main.s
+      At line 93 in file main.s
+      At line 124 in file main.s
 
 SetCoordinate 00000000
 
 Symbol: SetCoordinate
    Definitions
-      At line 58 in file Tests.s
+      At line 58 in file main.s
    Uses
-      At line 80 in file Tests.s
-      At line 111 in file Tests.s
+      At line 71 in file main.s
+      At line 78 in file main.s
+      At line 91 in file main.s
+      At line 122 in file main.s
 
 TxByte 00000000
 
 Symbol: TxByte
    Definitions
-      At line 59 in file Tests.s
+      At line 59 in file main.s
    Uses
-      At line 98 in file Tests.s
+      At line 109 in file main.s
 Comment: TxByte used once
 6 symbols
-355 symbols in table
+359 symbols in table
