@@ -135,6 +135,7 @@ Load_GameBorder
 	
 Set_Coordinates
 	BL Placement_Battleship_Output
+	BL Placement_Civilianship_Output
 	BL Clear_Interrupt_Status
 	MOV R0, #0 ; clear x-coordinate
 	MOV R1, #0 ; clear y-coordinate
@@ -200,7 +201,7 @@ Determine_Ship_Type
 				  ; if R9 < 0x10, place a civilianship
 				  ; if R9 > 0x10, ship placement is done
 	BEQ Placement_Battleship_Save
-;	BLO Placement_Civilianship_Save
+	BLO Placement_Civilianship_Save
 ;	B	Placement_Done
 			
 Placement_Battleship_Save
@@ -210,6 +211,20 @@ Find_Battleship_Zero_Memory
 	LDRB R4, [R3], #2
 	CMP R4, #0
 	BNE Find_Battleship_Zero_Memory
+	SUB R3, R3, #2
+	STRB R0, [R3], #1 ; store x coordinate of the ship
+	STRB R1, [R3], #1 ; store y coordinate of the ship
+	POP{R0-R12}
+	POP{LR}
+	BX LR ; return to last call of Check_Ship_Placement
+	
+Placement_Civilianship_Save
+	PUSH{R0-R12}
+	LDR R3, = Memory_Civilianship
+Find_Civilianship_Zero_Memory
+	LDRB R4, [R3], #2
+	CMP R4, #0
+	BNE Find_Civilianship_Zero_Memory
 	SUB R3, R3, #2
 	STRB R0, [R3], #1 ; store x coordinate of the ship
 	STRB R1, [R3], #1 ; store y coordinate of the ship
@@ -239,6 +254,32 @@ Output_Battleship
 	B Output_Battleship ; loop through all battleships
 	
 Placement_Battleship_Output_Return	
+	POP{LR}
+	POP{R0-R12}
+	BX LR
+	
+;-------------------------------------------
+; Outputs all battleships
+; Returns nothing
+; If there is no ships, doesn't output at all.
+;-------------------------------------------
+Placement_Civilianship_Output	
+	PUSH{R0-R12}
+	PUSH{LR}
+	LDR R3, = Memory_Civilianship ; battleship memory address
+Output_Civilianship
+	LDRB R0, [R3], #1 ; load x coordinate of the ship
+	CMP R0, #0
+	BEQ Placement_Civilianship_Output_Return ; if R0 == 0, then it is end of battleships
+										   ; return 
+	LDRB R1, [R3], #1 ; load y coordinate of the ship
+	BL SetCoordinate
+	LDR	R5, = MSG_Civilianship
+	BL	OutStrNokia
+	;BL delayTrans
+	B Output_Civilianship ; loop through all battleships
+	
+Placement_Civilianship_Output_Return	
 	POP{LR}
 	POP{R0-R12}
 	BX LR
