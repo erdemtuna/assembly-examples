@@ -483,6 +483,11 @@
               <FileType>2</FileType>
               <FilePath>.\ADC_Function_Class.s</FilePath>
             </File>
+            <File>
+              <FileName>Button_Function_Class.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Button_Function_Class.s</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

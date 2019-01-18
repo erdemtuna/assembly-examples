@@ -55,12 +55,9 @@ DOT			DCB			0x2E
 		EXPORT ADC_0_Read_X
 		EXPORT Find_Pixel_Coordinate
 		EXPORT ADC_Init
-		EXPORT 		__main
 		ENTRY
 			
-__main
 
-	BL ADC_Init
 loop
 	BL ADC_0_Read_X
 	MOV R3, #58
@@ -143,7 +140,7 @@ Find_Pixel_Coordinate
 	PUSH {LR}
 	MOV	R11, #1 ; R11 = Local coordinate variable
 	MOV R10, R3 ; R10 = Local divisor variable
-	CMP R3, #57
+	CMP R3, #56
 	BEQ Coordinate_X
 Coordinate_Y
 	MOV R3, R1
@@ -157,7 +154,7 @@ Process
 	ADDGT R11, #1
 	BGT Process
 	SUB R11, R11, #1
-	CMP R10, #57
+	CMP R10, #56
 	BEQ Coordinate_X_Return
 Coordinate_Y_Return
 	MOV R1, R11

@@ -50,6 +50,8 @@ gameplayBorder
 	DCB		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 ; 0:[70,83]
 
 MSG_Cursor DCB "+",0x04
+MSG_Battle DCB "[",0x04
+MSG_Civilian DCB "{",0x04
 MSG_Clear_Cursor DCB " ",0x04
 MSG_InitialRun DCB	"EE447         Lab Project   Burkay Unsal  Erdem Tuna	",0x04
 MSG_Welcome DCB	"Place the shipafter border  is visible.",0x04
@@ -70,14 +72,20 @@ MSG_Welcome DCB	"Place the shipafter border  is visible.",0x04
 	EXTERN ADC_0_Read_X
 	EXTERN Find_Pixel_Coordinate
 	EXTERN ADC_Init
+;----------------------------------
+; PORT-F Button functions
+;----------------------------------
+	EXTERN PortF_Button_Init
 			
 	EXPORT  Start
 				
 Start		
 	BL Nokia_Init ; initialize LCD
-	BL ADC_Init 
+	BL ADC_Init ; initialize ADC
+	BL PortF_Button_Init ; initialize buttons
 loadRam
 
+; output initial first run messages
 Initial_Messages	
 	MOV	R0, #0
 	MOV	R1, #1
@@ -93,30 +101,30 @@ Initial_Messages
 	BL OutStrNokia
 	;BL delay
 	
+; load game border
 Load_GameBorder
-	LDR	R5,=gameplayBorder	; load img address of Ram
-	BL	OutImgNokia			; use img routine
+	LDR	R5,=gameplayBorder
+	BL	OutImgNokia
 	MOV R10, #99 ; old x coordinate
 	MOV R11, #99 ; old y coordinate 
 	MOV R2, #0 ; difference counter
 	
-	
 Set_Coordinates
-	MOV R0, #0
-	MOV R1, #0
+	MOV R0, #0 ; clear x-coordinate
+	MOV R1, #0 ; clear y-coordinate
 	BL ADC_0_Read_X
-	MOV R3, #57
-	BL Find_Pixel_Coordinate
+	MOV R3, #56
+	BL Find_Pixel_Coordinate ; x-coordinae
 	BL ADC_1_Read_Y
 	MOV R3, #825
 	BL Find_Pixel_Coordinate
-	ADD R0, R0, #6
-	ADD R1, R1, #1
-	CMP R0, R10
+	ADD R0, R0, #6 ; add x axis offset
+	ADD R1, R1, #1 ; add y axis offset
+	CMP R0, R10 ; check if x coordinate has changed
 	ADDNE R2, #1
-	CMP R1, R11
+	CMP R1, R11 ; check if y coordinate has changed
 	ADDNE R2, #1
-	CMP R2, #0 ; if R2 == 0, then coordinates remained same
+	CMP R2, #0 ; if R2 == 0, then coordinates remained same, check again
 		       ; if R2 != 0, then at least one of the coordinates
 			   ; have changed
 	BEQ Set_Coordinates
@@ -130,14 +138,11 @@ Clear_Old_Cursor
 	LDR	R5,=MSG_Clear_Cursor
 	BL	OutStrNokia
 	POP{R0-R2} ; pop new coordinates
-
 	MOV R10, R0 ; save change
 	MOV R11, R1 ; save change
 	BL SetCoordinate
-	
+	B Move_Cursor
 Move_Cursor		
-;	MOV	R0, #6
-	;MOV	R1, #1
 	LDR	R5,=MSG_Cursor
 	BL	OutStrNokia
 	BL delayTrans

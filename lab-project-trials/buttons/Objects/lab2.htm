@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\lab2.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\lab2.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sat Dec 29 19:12:37 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Jan 18 16:41:38 2019
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -60,7 +60,7 @@ Function Pointers
  <LI><a href="#[c]">GPIOPortC_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[d]">GPIOPortD_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[e]">GPIOPortE_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
- <LI><a href="#[28]">GPIOPortF_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
+ <LI><a href="#[28]">GPIOPortF_Handler</a> from main.o(.text) referenced from startup.o(RESET)
  <LI><a href="#[29]">GPIOPortG_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[2a]">GPIOPortH_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[40]">GPIOPortJ_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
@@ -304,9 +304,6 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
 </UL>
 <P><STRONG><a name="[e]"></a>GPIOPortE_Handler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup.o(RESET))
-<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
-</UL>
-<P><STRONG><a name="[28]"></a>GPIOPortF_Handler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup.o(RESET))
 <BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
 </UL>
 <P><STRONG><a name="[29]"></a>GPIOPortG_Handler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup.o(RESET))
@@ -580,6 +577,9 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Reset_Handler
 </UL>
 
+<P><STRONG><a name="[28]"></a>GPIOPortF_Handler</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, main.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
 <P><STRONG><a name="[7e]"></a>__use_two_region_memory</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
 
 <P><STRONG><a name="[7f]"></a>__rt_heap_escrow$2region</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, heapauxi.o(.text), UNUSED)
