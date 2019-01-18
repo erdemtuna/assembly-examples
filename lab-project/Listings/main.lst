@@ -9,189 +9,189 @@ ARM Macro Assembler    Page 1
     2 00000000         ; Program section           
     3 00000000         ;*******************************************************
                        ********
-    4 00000000         ;LABEL  DIRECTIVE VALUE   COMMENT
-    5 00000000                 AREA             |.text|, READONLY, CODE
-    6 00000000                 THUMB
-    7 00000000         
-    8 00000000         gameplayBorder
-    9 00000000         ; 2_xxxx.xxxx (data content)
-   10 00000000 00 00 00 
+    4 00000000 20000700 
+                       Memory_Battleship
+                               EQU              0x20000700
+    5 00000000 20000800 
+                       Memory_Civilianship
+                               EQU              0x20000800
+    6 00000000         ;LABEL  DIRECTIVE VALUE   COMMENT
+    7 00000000                 AREA             |.text|, READONLY, CODE
+    8 00000000                 THUMB
+    9 00000000         
+   10 00000000         gameplayBorder
+   11 00000000         ; 2_xxxx.xxxx (data content)
+   12 00000000 00 00 00 
               00 00 80 
               80 80 80 
               80 80 80 
               80 80            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80 
                                                             ; 0:[0,13]
-   11 0000000E 80 80 80 
+   13 0000000E 80 80 80 
               80 80 80 
               80 80 80 
               80 80 80 
               80 80            DCB              0x80, 0x80, 0x80, 0x80, 0x80, 0
 x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80 
                                                             ; 0:[14,27]
-   12 0000001C 80 80 80 
+   14 0000001C 80 80 80 
               80 80 80 
               80 80 80 
               80 80 80 
               80 80            DCB              0x80, 0x80, 0x80, 0x80, 0x80, 0
 x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80 
                                                             ; 0:[28,41]
-   13 0000002A 80 80 80 
+   15 0000002A 80 80 80 
               80 80 80 
               80 80 80 
               80 80 80 
               80 80            DCB              0x80, 0x80, 0x80, 0x80, 0x80, 0
 x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80 
                                                             ; 0:[42,55]
-   14 00000038 80 80 80 
+   16 00000038 80 80 80 
               80 80 80 
               80 80 80 
               80 80 80 
               80 80            DCB              0x80, 0x80, 0x80, 0x80, 0x80, 0
 x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80 
                                                             ; 0:[56,69]
-   15 00000046 00 00 00 
+   17 00000046 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
               00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 0:[70,83]
-   16 00000054         
-   17 00000054 00 00 00 
-              00 00 FF 
-              00 00 00 
-              00 00 00 
-              00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 
 
 
 ARM Macro Assembler    Page 2 
 
 
+   18 00000054         
+   19 00000054 00 00 00 
+              00 00 FF 
+              00 00 00 
+              00 00 00 
+              00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 1:[0,13]
-   18 00000062 00 00 00 
+   20 00000062 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
               00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 1:[14,27]
-   19 00000070 00 00 00 
+   21 00000070 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
               00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 1:[28,41]
-   20 0000007E 00 00 00 
+   22 0000007E 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
               00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 1:[42,55]
-   21 0000008C 00 00 00 
+   23 0000008C 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
               00 FF            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff 
                                                             ; 1:[56,69]
-   22 0000009A 00 00 00 
+   24 0000009A 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
               00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 1:[70,83]
-   23 000000A8         
-   24 000000A8 00 00 00 
+   25 000000A8         
+   26 000000A8 00 00 00 
               00 00 FF 
               00 00 00 
               00 00 00 
               00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 2:[0,13]
-   25 000000B6 00 00 00 
+   27 000000B6 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
               00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 2:[14,27]
-   26 000000C4 00 00 00 
-              00 00 00 
-              00 00 00 
-              00 00 00 
-              00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
-x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
-                                                            ; 2:[28,41]
+   28 000000C4 00 00 00 
 
 
 
 ARM Macro Assembler    Page 3 
 
 
-   27 000000D2 00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00 00 
+              00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
+x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
+                                                            ; 2:[28,41]
+   29 000000D2 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
               00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 2:[42,55]
-   28 000000E0 00 00 00 
+   30 000000E0 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
               00 FF            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff 
                                                             ; 2:[56,69]
-   29 000000EE 00 00 00 
+   31 000000EE 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
               00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 2:[70,83]
-   30 000000FC         
-   31 000000FC 00 00 00 
+   32 000000FC         
+   33 000000FC 00 00 00 
               00 00 FF 
               00 00 00 
               00 00 00 
               00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 3:[0,13]
-   32 0000010A 00 00 00 
+   34 0000010A 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
               00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 3:[14,27]
-   33 00000118 00 00 00 
+   35 00000118 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
               00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 3:[28,41]
-   34 00000126 00 00 00 
+   36 00000126 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
               00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 3:[42,55]
-   35 00000134 00 00 00 
+   37 00000134 00 00 00 
               00 00 00 
-              00 00 00 
-              00 00 00 
-              00 FF            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
-x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff 
-                                                            ; 3:[56,69]
-   36 00000142 00 00 00 
               00 00 00 
 
 
@@ -200,62 +200,62 @@ ARM Macro Assembler    Page 4
 
 
               00 00 00 
+              00 FF            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
+x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff 
+                                                            ; 3:[56,69]
+   38 00000142 00 00 00 
+              00 00 00 
+              00 00 00 
               00 00 00 
               00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 3:[70,83]
-   37 00000150         
-   38 00000150 00 00 00 
+   39 00000150         
+   40 00000150 00 00 00 
               00 00 FF 
               00 00 00 
               00 00 00 
               00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 3:[0,13]
-   39 0000015E 00 00 00 
+   41 0000015E 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
               00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 3:[14,27]
-   40 0000016C 00 00 00 
+   42 0000016C 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
               00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 3:[28,41]
-   41 0000017A 00 00 00 
+   43 0000017A 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
               00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 3:[42,55]
-   42 00000188 00 00 00 
+   44 00000188 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
               00 FF            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff 
                                                             ; 3:[56,69]
-   43 00000196 00 00 00 
+   45 00000196 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
               00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 3:[70,83]
-   44 000001A4         
-   45 000001A4 00 00 00 
+   46 000001A4         
+   47 000001A4 00 00 00 
               00 00 01 
-              01 01 01 
-              01 01 01 
-              01 01            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
-x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01 
-                                                            ; 0:[0,13]
-   46 000001B2 01 01 01 
               01 01 01 
               01 01 01 
 
@@ -264,48 +264,54 @@ x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01
 ARM Macro Assembler    Page 5 
 
 
+              01 01            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
+x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01 
+                                                            ; 0:[0,13]
+   48 000001B2 01 01 01 
+              01 01 01 
+              01 01 01 
               01 01 01 
               01 01            DCB              0x01, 0x01, 0x01, 0x01, 0x01, 0
 x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01 
                                                             ; 0:[14,27]
-   47 000001C0 01 01 01 
+   49 000001C0 01 01 01 
               01 01 01 
               01 01 01 
               01 01 01 
               01 01            DCB              0x01, 0x01, 0x01, 0x01, 0x01, 0
 x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01 
                                                             ; 0:[28,41]
-   48 000001CE 01 01 01 
+   50 000001CE 01 01 01 
               01 01 01 
               01 01 01 
               01 01 01 
               01 01            DCB              0x01, 0x01, 0x01, 0x01, 0x01, 0
 x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01 
                                                             ; 0:[42,55]
-   49 000001DC 01 01 01 
+   51 000001DC 01 01 01 
               01 01 01 
               01 01 01 
               01 01 01 
               01 01            DCB              0x01, 0x01, 0x01, 0x01, 0x01, 0
 x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01 
                                                             ; 0:[56,69]
-   50 000001EA 00 00 00 
+   52 000001EA 00 00 00 
               00 00 00 
               00 00 00 
               00 00 00 
               00 00            DCB              0x00, 0x00, 0x00, 0x00, 0x00, 0
 x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 
                                                             ; 0:[70,83]
-   51 000001F8         
-   52 000001F8 2B 04   MSG_Cursor
+   53 000001F8         
+   54 000001F8 2B 04   MSG_Cursor
                                DCB              "+",0x04
-   53 000001FA 5B 04   MSG_Battle
+   55 000001FA 5B 04   MSG_Battleship
                                DCB              "[",0x04
-   54 000001FC 7B 04   MSG_Civilian
+   56 000001FC 7B 04   MSG_Civilianship
                                DCB              "{",0x04
-   55 000001FE 20 04   MSG_Clear_Cursor
+   57 000001FE 20 04   MSG_Clear_Cursor
                                DCB              " ",0x04
-   56 00000200 45 45 34 
+   58 00000200 45 45 34 
               34 37 20 
               20 20 20 
               20 20 20 
@@ -317,21 +323,21 @@ x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
               20 42 75 
               72 6B 61 
               79 20 55 
-              6E 73 61 
-              6C 20 20 
-              45 72 64 
-              65 6D 20 
-              54 75 6E 
-              61 20 04 MSG_InitialRun
 
 
 
 ARM Macro Assembler    Page 6 
 
 
+              6E 73 61 
+              6C 20 20 
+              45 72 64 
+              65 6D 20 
+              54 75 6E 
+              61 20 04 MSG_InitialRun
                                DCB              "EE447         Lab Project   Bu
 rkay Unsal  Erdem Tuna ",0x04
-   57 00000236 50 6C 61 
+   59 00000236 50 6C 61 
               63 65 20 
               74 68 65 
               20 73 68 
@@ -347,193 +353,327 @@ rkay Unsal  Erdem Tuna ",0x04
               04       MSG_Welcome
                                DCB              "Place the shipafter border  is
  visible.",0x04
-   58 0000025E         
-   59 0000025E         ;----------------------------------
-   60 0000025E         ; Screen functions
+   60 0000025E         
    61 0000025E         ;----------------------------------
-   62 0000025E                 EXTERN           Nokia_Init
-   63 0000025E                 EXTERN           OutImgNokia
-   64 0000025E                 EXTERN           SetCoordinate
-   65 0000025E                 EXTERN           TxByte
-   66 0000025E                 EXTERN           OutStrNokia
-   67 0000025E                 EXTERN           ClearNokia
-   68 0000025E         ;----------------------------------
-   69 0000025E         ; ADC functions
+   62 0000025E         ; Screen functions
+   63 0000025E         ;----------------------------------
+   64 0000025E                 EXTERN           Nokia_Init
+   65 0000025E                 EXTERN           OutImgNokia
+   66 0000025E                 EXTERN           SetCoordinate
+   67 0000025E                 EXTERN           TxByte
+   68 0000025E                 EXTERN           OutStrNokia
+   69 0000025E                 EXTERN           ClearNokia
    70 0000025E         ;----------------------------------
-   71 0000025E                 EXTERN           ADC_1_Read_Y
-   72 0000025E                 EXTERN           ADC_0_Read_X
-   73 0000025E                 EXTERN           Find_Pixel_Coordinate
-   74 0000025E                 EXTERN           ADC_Init
-   75 0000025E         ;----------------------------------
-   76 0000025E         ; PORT-F Button functions
+   71 0000025E         ; ADC functions
+   72 0000025E         ;----------------------------------
+   73 0000025E                 EXTERN           ADC_1_Read_Y
+   74 0000025E                 EXTERN           ADC_0_Read_X
+   75 0000025E                 EXTERN           Find_Pixel_Coordinate
+   76 0000025E                 EXTERN           ADC_Init
    77 0000025E         ;----------------------------------
-   78 0000025E                 EXTERN           PortF_Button_Init
-   79 0000025E         
-   80 0000025E                 EXPORT           Start
-   81 0000025E         
-   82 0000025E         Start
-   83 0000025E F7FF FFFE       BL               Nokia_Init  ; initialize LCD
-   84 00000262 F7FF FFFE       BL               ADC_Init    ; initialize ADC
-   85 00000266 F7FF FFFE       BL               PortF_Button_Init ; initialize 
+   78 0000025E         ; PORT-F Button functions
+   79 0000025E         ;----------------------------------
+   80 0000025E                 EXTERN           PortF_Button_Init
+   81 0000025E                 EXTERN           Check_Interrupt_Status
+   82 0000025E                 EXTERN           Clear_Interrupt_Status
+   83 0000025E         
+   84 0000025E                 EXPORT           Start
+   85 0000025E         
+   86 0000025E         Start
+   87 0000025E F7FF FFFE       BL               Nokia_Init  ; initialize LCD
+   88 00000262 F7FF FFFE       BL               ADC_Init    ; initialize ADC
+   89 00000266 F7FF FFFE       BL               PortF_Button_Init ; initialize 
                                                             buttons
-   86 0000026A         loadRam
-   87 0000026A         
-   88 0000026A         ; output initial first run messages
-   89 0000026A         Initial_Messages
-   90 0000026A F04F 0000       MOV              R0, #0
-   91 0000026E F04F 0101       MOV              R1, #1
-   92 00000272 F7FF FFFE       BL               SetCoordinate
-   93 00000276 4D37            LDR              R5,=MSG_InitialRun
-   94 00000278 F7FF FFFE       BL               OutStrNokia
-   95 0000027C         ;BL delay
-   96 0000027C F7FF FFFE       BL               ClearNokia
-   97 00000280 F04F 0000       MOV              R0, #0
+   90 0000026A E7FF            B                Clear_Ship_Memories ; clear shi
+                                                            p memories
+   91 0000026C         
+   92 0000026C         Clear_Ship_Memories
 
 
 
 ARM Macro Assembler    Page 7 
 
 
-   98 00000284 F04F 0101       MOV              R1, #1
-   99 00000288 F7FF FFFE       BL               SetCoordinate
-  100 0000028C 4D32            LDR              R5,=MSG_Welcome
-  101 0000028E F7FF FFFE       BL               OutStrNokia
-  102 00000292         ;BL delay
-  103 00000292         
-  104 00000292         ; load game border
-  105 00000292         Load_GameBorder
-  106 00000292 4D32            LDR              R5,=gameplayBorder
-  107 00000294 F7FF FFFE       BL               OutImgNokia
-  108 00000298 F04F 0A63       MOV              R10, #99    ; old x coordinate
-  109 0000029C F04F 0B63       MOV              R11, #99    ; old y coordinate 
+   93 0000026C F04F 0204       MOV              R2, #4      ; counter to clear 
+                                                            16 bytes
+   94 00000270 4B5E            LDR              R3, = Memory_Battleship ; battl
+                                                            eship memory addres
+                                                            s
+   95 00000272         Clear_Battleship_Memory
+   96 00000272 F04F 0400       MOV              R4, #0x00000000
+   97 00000276 F843 4B04       STR              R4, [R3], #4
+   98 0000027A 3A01            SUBS             R2, #1
+   99 0000027C D1F9            BNE              Clear_Battleship_Memory
+  100 0000027E         
+  101 0000027E F04F 0204       MOV              R2, #4      ; counter to clear 
+                                                            16 bytes
+  102 00000282 4B5B            LDR              R3, = Memory_Civilianship ; bat
+                                                            tleship memory addr
+                                                            ess
+  103 00000284         Clear_Civilianship_Memory
+  104 00000284 F04F 0400       MOV              R4, #0x00000000
+  105 00000288 F843 4B04       STR              R4, [R3], #4
+  106 0000028C 3A01            SUBS             R2, #1
+  107 0000028E D1F9            BNE              Clear_Civilianship_Memory
+  108 00000290         
+  109 00000290         
+  110 00000290         loadRam
+  111 00000290         
+  112 00000290         ; output initial first run messages
+  113 00000290         Initial_Messages
+  114 00000290 F04F 0000       MOV              R0, #0
+  115 00000294 F04F 0101       MOV              R1, #1
+  116 00000298 F7FF FFFE       BL               SetCoordinate
+  117 0000029C 4D55            LDR              R5,=MSG_InitialRun
+  118 0000029E F7FF FFFE       BL               OutStrNokia
+  119 000002A2         ;BL delay
+  120 000002A2 F7FF FFFE       BL               ClearNokia
+  121 000002A6 F04F 0000       MOV              R0, #0
+  122 000002AA F04F 0101       MOV              R1, #1
+  123 000002AE F7FF FFFE       BL               SetCoordinate
+  124 000002B2 4D51            LDR              R5,=MSG_Welcome
+  125 000002B4 F7FF FFFE       BL               OutStrNokia
+  126 000002B8         ;BL delay
+  127 000002B8         
+  128 000002B8         ; load game border
+  129 000002B8         Load_GameBorder
+  130 000002B8 4D50            LDR              R5,=gameplayBorder
+  131 000002BA F7FF FFFE       BL               OutImgNokia
+  132 000002BE F04F 0A63       MOV              R10, #99    ; old x coordinate
+  133 000002C2 F04F 0B63       MOV              R11, #99    ; old y coordinate 
                                                             
-  110 000002A0 F04F 0200       MOV              R2, #0      ; difference counte
+  134 000002C6 F04F 0200       MOV              R2, #0      ; difference counte
                                                             r
-  111 000002A4         
-  112 000002A4         Set_Coordinates
-  113 000002A4 F04F 0000       MOV              R0, #0      ; clear x-coordinat
+  135 000002CA         
+  136 000002CA         Set_Coordinates
+  137 000002CA F000 F855       BL               Placement_Battleship_Output
+  138 000002CE F7FF FFFE       BL               Clear_Interrupt_Status
+  139 000002D2 F04F 0000       MOV              R0, #0      ; clear x-coordinat
                                                             e
-  114 000002A8 F04F 0100       MOV              R1, #0      ; clear y-coordinat
+  140 000002D6 F04F 0100       MOV              R1, #0      ; clear y-coordinat
                                                             e
-  115 000002AC F7FF FFFE       BL               ADC_0_Read_X
-  116 000002B0 F04F 0338       MOV              R3, #56
-  117 000002B4 F7FF FFFE       BL               Find_Pixel_Coordinate 
-                                                            ; x-coordinae
-  118 000002B8 F7FF FFFE       BL               ADC_1_Read_Y
-  119 000002BC F240 3339       MOV              R3, #825
-  120 000002C0 F7FF FFFE       BL               Find_Pixel_Coordinate
-  121 000002C4 F100 0006       ADD              R0, R0, #6  ; add x axis offset
-                                                            
-  122 000002C8 F101 0101       ADD              R1, R1, #1  ; add y axis offset
-                                                            
-  123 000002CC 4550            CMP              R0, R10     ; check if x coordi
-                                                            nate has changed
-  124 000002CE BF18 3201       ADDNE            R2, #1
-  125 000002D2 4559            CMP              R1, R11     ; check if y coordi
-                                                            nate has changed
-  126 000002D4 BF18 3201       ADDNE            R2, #1
-  127 000002D8 2A00            CMP              R2, #0      ; if R2 == 0, then 
-                                                            coordinates remaine
-                                                            d same, check again
-                                                            
-  128 000002DA         ; if R2 != 0, then at least one of the coordinates
-  129 000002DA         ; have changed
-  130 000002DA D0E3            BEQ              Set_Coordinates
-  131 000002DC F04F 0200       MOV              R2, #0      ; reset counter
-  132 000002E0         
-  133 000002E0         Clear_Old_Cursor
-  134 000002E0 B407            PUSH{R0-R2}                  ; save new coordina
-                                                            tes
-  135 000002E2 4650            MOV              R0, R10     ; old x coordinate
-  136 000002E4 4659            MOV              R1, R11     ; old y coordinate
-  137 000002E6 F7FF FFFE       BL               SetCoordinate
-  138 000002EA 4D1D            LDR              R5,=MSG_Clear_Cursor
-  139 000002EC F7FF FFFE       BL               OutStrNokia
-  140 000002F0 BC07            POP{R0-R2}                   ; pop new coordinat
-                                                            es
-  141 000002F2 4682            MOV              R10, R0     ; save change
-  142 000002F4 468B            MOV              R11, R1     ; save change
+  141 000002DA F04F 0200       MOV              R2, #0      ; reset counter
 
 
 
 ARM Macro Assembler    Page 8 
 
 
-  143 000002F6 F7FF FFFE       BL               SetCoordinate
-  144 000002FA E7FF            B                Move_Cursor
-  145 000002FC         Move_Cursor
-  146 000002FC 4D19            LDR              R5,=MSG_Cursor
-  147 000002FE F7FF FFFE       BL               OutStrNokia
-  148 00000302 F000 F81D       BL               delayTrans
-  149 00000306 E7CD            B                Set_Coordinates
-  150 00000308 E7FE    donethis
-                               B                donethis
-  151 0000030A         
-  152 0000030A         ;   BL  delay    ; leave image for a few s
-  153 0000030A         
-  154 0000030A         ;   MOV       ; reset XY position to 0,0
-  155 0000030A         ;   MOV       ; using setXY routine
-  156 0000030A         ; BL  SetCoordinate   ; DC is left high ready to send da
-                       ta
-  157 0000030A         ; transition to CSU           
-  158 0000030A         ; MOV  R0,#504    ; 504 bytes in full image
-  159 0000030A         ; LDR  R1,=imgCSU   ; put img address in R1
-  160 0000030A         sendNxtCSUByte
-  161 0000030A         ;   LDRB     ; load R5 with byte, post inc addr
-  162 0000030A F7FF FFFE       BL               TxByte      ; use byte routine
-  163 0000030E F000 F817       BL               delayTrans  ; slow down loading
-                                                             of next byte
-  164 00000312 3801            SUBS             R0,#1
-  165 00000314 D1F9            BNE              sendNxtCSUByte
-  166 00000316         
-  167 00000316 F000 F80A       BL               delay       ; leave image for a
-                                                             few s
-  168 0000031A         
-  169 0000031A         ;clear screen using ClearNokia routine
-  170 0000031A F7FF FFFE       BL               ClearNokia
-  171 0000031E         
-  172 0000031E         
-  173 0000031E         ;   MOV       ; X pos (0-83)
-  174 0000031E         ;   MOV       ; Y pos (0-5)
-  175 0000031E F7FF FFFE       BL               SetCoordinate ; set XY position
+  142 000002DE F7FF FFFE       BL               ADC_0_Read_X
+  143 000002E2 F04F 0338       MOV              R3, #56
+  144 000002E6 F7FF FFFE       BL               Find_Pixel_Coordinate 
+                                                            ; x-coordinae
+  145 000002EA F7FF FFFE       BL               ADC_1_Read_Y
+  146 000002EE F240 3339       MOV              R3, #825
+  147 000002F2 F7FF FFFE       BL               Find_Pixel_Coordinate
+  148 000002F6 F100 0006       ADD              R0, R0, #6  ; add x axis offset
                                                             
-  176 00000322 4D10            LDR              R5,=MSG_Cursor
-  177 00000324 F7FF FFFE       BL               OutStrNokia
-  178 00000328         
-  179 00000328 F000 F801       BL               delay       ; leave text up
-  180 0000032C         
-  181 0000032C E79D    done    B                loadRam     ; loop   
-  182 0000032E         
-  183 0000032E         
-  184 0000032E         delay
-  185 0000032E B401            PUSH             {R0}
-  186 00000330 F248 5055       MOV              R0,#0x8555
-  187 00000334 F2C0 1040       MOVT             R0,#0x0140
-  188 00000338         del
-  189 00000338 3801            SUBS             R0,#1
-  190 0000033A D1FD            BNE              del
-  191 0000033C BC01            POP              {R0}
-  192 0000033E 4770            BX               LR
-  193 00000340         
-  194 00000340 B401    delayTrans
-                               PUSH             {R0}
-  195 00000342 F643 0055       MOV              R0,#0x3855  ;~250ms, 0x5855
+  149 000002FA F101 0101       ADD              R1, R1, #1  ; add y axis offset
+                                                            
+  150 000002FE 4550            CMP              R0, R10     ; check if x coordi
+                                                            nate has changed
+  151 00000300 BF18 3201       ADDNE            R2, #1
+  152 00000304 4559            CMP              R1, R11     ; check if y coordi
+                                                            nate has changed
+  153 00000306 BF18 3201       ADDNE            R2, #1
+  154 0000030A 2A00            CMP              R2, #0      ; if R2 == 0, then 
+                                                            coordinates remaine
+                                                            d same, check again
+                                                            
+  155 0000030C         ; if R2 != 0, then at least one of the coordinates
+  156 0000030C         ; have changed
+  157 0000030C D000            BEQ              Go_Check_Ship_Placement ; !!!!!
+                                                            !!!!!!!!!!!!!!!!!!!
+                                                            !!!!!!!
+  158 0000030E E002            B                Clear_Old_Cursor
+  159 00000310         Go_Check_Ship_Placement
+  160 00000310 F000 F814       BL               Check_Ship_Placement
+  161 00000314 E7D9            B                Set_Coordinates
+  162 00000316         ;-------------------------------------------
+  163 00000316         ; Clears the position of old cursor by writing
+  164 00000316         ; 0 pixels on top of it.
+  165 00000316         ; Saves the new cursor coordinates
+  166 00000316         ;-------------------------------------------
+  167 00000316         Clear_Old_Cursor
+  168 00000316 B407            PUSH{R0-R2}                  ; save new coordina
+                                                            tes
+  169 00000318 4650            MOV              R0, R10     ; old x coordinate
+  170 0000031A 4659            MOV              R1, R11     ; old y coordinate
+  171 0000031C F7FF FFFE       BL               SetCoordinate
+  172 00000320 4D37            LDR              R5,=MSG_Clear_Cursor
+  173 00000322 F7FF FFFE       BL               OutStrNokia
+  174 00000326 BC07            POP{R0-R2}                   ; pop new coordinat
+                                                            es
+  175 00000328 4682            MOV              R10, R0     ; save change
+  176 0000032A 468B            MOV              R11, R1     ; save change
+  177 0000032C F7FF FFFE       BL               SetCoordinate
+  178 00000330 E7FF            B                Move_Cursor
+  179 00000332         Move_Cursor
+  180 00000332 4D34            LDR              R5,=MSG_Cursor
+  181 00000334 F7FF FFFE       BL               OutStrNokia
+  182 00000338         ; BL delayTrans
+  183 00000338 E7C7            B                Set_Coordinates
+  184 0000033A E7FE    donethis
+                               B                donethis
+  185 0000033C         
+  186 0000033C         ;-------------------------------------------
+  187 0000033C         ; Checks if a ship is to be placed
 
 
 
 ARM Macro Assembler    Page 9 
 
 
-  196 00000346 F2C0 0014       MOVT             R0,#0x0014
-  197 0000034A         dt
-  198 0000034A 3801            SUBS             R0,#1
-  199 0000034C D1FD            BNE              dt
-  200 0000034E BC01            POP              {R0}
-  201 00000350 4770            BX               LR
-  202 00000352         
-  203 00000352         
-  204 00000352 00 00           ALIGN
-  205 00000354                 END
+  188 0000033C         ; if yes, then saves the ship to memory
+  189 0000033C         ; if not, returns back
+  190 0000033C         ;-------------------------------------------
+  191 0000033C         Check_Ship_Placement
+  192 0000033C B500            PUSH{LR}
+  193 0000033E F7FF FFFE       BL               Check_Interrupt_Status ; R9 has
+                                                             interrupt status
+  194 00000342 F1B9 0F00       CMP              R9, #0x00   ; if R9 == 0x00, th
+                                                            ere is no ship plac
+                                                            ement
+  195 00000346 D102            BNE              Determine_Ship_Type
+  196 00000348 F85D EB04       POP{LR}
+  197 0000034C 4770            BX               LR
+  198 0000034E         Determine_Ship_Type
+  199 0000034E F1B9 0F10       CMP              R9, #0x10   ; if R9 == 0x10, pl
+                                                            ace a batlleship
+  200 00000352         ; if R9 < 0x10, place a civilianship
+  201 00000352         ; if R9 > 0x10, ship placement is done
+  202 00000352 D0FF            BEQ              Placement_Battleship_Save
+  203 00000354         ; BLO Placement_Civilianship_Save
+  204 00000354         ; B Placement_Done
+  205 00000354         
+  206 00000354         Placement_Battleship_Save
+  207 00000354 E92D 1FFF       PUSH{R0-R12}
+  208 00000358 4B24            LDR              R3, = Memory_Battleship
+  209 0000035A         Find_Battleship_Zero_Memory
+  210 0000035A F813 4B02       LDRB             R4, [R3], #2
+  211 0000035E 2C00            CMP              R4, #0
+  212 00000360 D1FB            BNE              Find_Battleship_Zero_Memory
+  213 00000362 F1A3 0302       SUB              R3, R3, #2
+  214 00000366 F803 0B01       STRB             R0, [R3], #1 ; store x coordina
+                                                            te of the ship
+  215 0000036A F803 1B01       STRB             R1, [R3], #1 ; store y coordina
+                                                            te of the ship
+  216 0000036E E8BD 1FFF       POP{R0-R12}
+  217 00000372 F85D EB04       POP{LR}
+  218 00000376 4770            BX               LR          ; return to last ca
+                                                            ll of Check_Ship_Pl
+                                                            acement
+  219 00000378         
+  220 00000378         ;-------------------------------------------
+  221 00000378         ; Outputs all battleships
+  222 00000378         ; Returns nothing
+  223 00000378         ; If there is no ships, doesn't output at all.
+  224 00000378         ;-------------------------------------------
+  225 00000378         Placement_Battleship_Output
+  226 00000378 E92D 1FFF       PUSH{R0-R12}
+  227 0000037C B500            PUSH{LR}
+  228 0000037E 4B1B            LDR              R3, = Memory_Battleship ; battl
+                                                            eship memory addres
+                                                            s
+  229 00000380         Output_Battleship
+  230 00000380 F813 0B01       LDRB             R0, [R3], #1 ; load x coordinat
+                                                            e of the ship
+  231 00000384 2800            CMP              R0, #0
+  232 00000386 D007            BEQ              Placement_Battleship_Output_Ret
+urn 
+                                                            ; if R0 == 0, then 
+                                                            it is end of battle
+
+
+
+ARM Macro Assembler    Page 10 
+
+
+                                                            ships
+  233 00000388         ; return 
+  234 00000388 F813 1B01       LDRB             R1, [R3], #1 ; load y coordinat
+                                                            e of the ship
+  235 0000038C F7FF FFFE       BL               SetCoordinate
+  236 00000390 4D1D            LDR              R5, = MSG_Battleship
+  237 00000392 F7FF FFFE       BL               OutStrNokia
+  238 00000396         ;BL delayTrans
+  239 00000396 E7F3            B                Output_Battleship ; loop throug
+                                                            h all battleships
+  240 00000398         
+  241 00000398         Placement_Battleship_Output_Return
+  242 00000398 F85D EB04       POP{LR}
+  243 0000039C E8BD 1FFF       POP{R0-R12}
+  244 000003A0 4770            BX               LR
+  245 000003A2         
+  246 000003A2         
+  247 000003A2         ;   BL  delay    ; leave image for a few s
+  248 000003A2         
+  249 000003A2         ;   MOV       ; reset XY position to 0,0
+  250 000003A2         ;   MOV       ; using setXY routine
+  251 000003A2         ; BL  SetCoordinate   ; DC is left high ready to send da
+                       ta
+  252 000003A2         ; transition to CSU           
+  253 000003A2         ; MOV  R0,#504    ; 504 bytes in full image
+  254 000003A2         ; LDR  R1,=imgCSU   ; put img address in R1
+  255 000003A2         sendNxtCSUByte
+  256 000003A2         ;   LDRB     ; load R5 with byte, post inc addr
+  257 000003A2 F7FF FFFE       BL               TxByte      ; use byte routine
+  258 000003A6 F000 F817       BL               delayTrans  ; slow down loading
+                                                             of next byte
+  259 000003AA 3801            SUBS             R0,#1
+  260 000003AC D1F9            BNE              sendNxtCSUByte
+  261 000003AE         
+  262 000003AE F000 F80A       BL               delay       ; leave image for a
+                                                             few s
+  263 000003B2         
+  264 000003B2         ;clear screen using ClearNokia routine
+  265 000003B2 F7FF FFFE       BL               ClearNokia
+  266 000003B6         
+  267 000003B6         
+  268 000003B6         ;   MOV       ; X pos (0-83)
+  269 000003B6         ;   MOV       ; Y pos (0-5)
+  270 000003B6 F7FF FFFE       BL               SetCoordinate ; set XY position
+                                                            
+  271 000003BA 4D12            LDR              R5,=MSG_Cursor
+  272 000003BC F7FF FFFE       BL               OutStrNokia
+  273 000003C0         
+  274 000003C0 F000 F801       BL               delay       ; leave text up
+  275 000003C4         
+  276 000003C4 E764    done    B                loadRam     ; loop   
+  277 000003C6         
+  278 000003C6         
+  279 000003C6         delay
+  280 000003C6 B401            PUSH             {R0}
+  281 000003C8 F248 5055       MOV              R0,#0x8555
+  282 000003CC F2C0 1040       MOVT             R0,#0x0140
+  283 000003D0         del
+  284 000003D0 3801            SUBS             R0,#1
+
+
+
+ARM Macro Assembler    Page 11 
+
+
+  285 000003D2 D1FD            BNE              del
+  286 000003D4 BC01            POP              {R0}
+  287 000003D6 4770            BX               LR
+  288 000003D8         
+  289 000003D8 B401    delayTrans
+                               PUSH             {R0}
+  290 000003DA F640 0055       MOV              R0,#0x855   ;~250ms, 0x5855
+  291 000003DE F2C0 0014       MOVT             R0,#0x0014
+  292 000003E2         dt
+  293 000003E2 3801            SUBS             R0,#1
+  294 000003E4 D1FD            BNE              dt
+  295 000003E6 BC01            POP              {R0}
+  296 000003E8 4770            BX               LR
+  297 000003EA         
+  298 000003EA         
+  299 000003EA 00 00           ALIGN
+  300 000003EC                 END
+              20000700 
+              20000800 
+              00000000 
               00000000 
               00000000 
               00000000 
@@ -554,61 +694,61 @@ Relocatable symbols
 
 Symbol: .text
    Definitions
-      At line 5 in file main.s
+      At line 7 in file main.s
    Uses
       None
 Comment: .text unused
-Clear_Old_Cursor 000002E0
+Check_Ship_Placement 0000033C
+
+Symbol: Check_Ship_Placement
+   Definitions
+      At line 191 in file main.s
+   Uses
+      At line 160 in file main.s
+Comment: Check_Ship_Placement used once
+Clear_Battleship_Memory 00000272
+
+Symbol: Clear_Battleship_Memory
+   Definitions
+      At line 95 in file main.s
+   Uses
+      At line 99 in file main.s
+Comment: Clear_Battleship_Memory used once
+Clear_Civilianship_Memory 00000284
+
+Symbol: Clear_Civilianship_Memory
+   Definitions
+      At line 103 in file main.s
+   Uses
+      At line 107 in file main.s
+Comment: Clear_Civilianship_Memory used once
+Clear_Old_Cursor 00000316
 
 Symbol: Clear_Old_Cursor
    Definitions
-      At line 133 in file main.s
+      At line 167 in file main.s
    Uses
-      None
-Comment: Clear_Old_Cursor unused
-Initial_Messages 0000026A
+      At line 158 in file main.s
+Comment: Clear_Old_Cursor used once
+Clear_Ship_Memories 0000026C
 
-Symbol: Initial_Messages
+Symbol: Clear_Ship_Memories
    Definitions
-      At line 89 in file main.s
+      At line 92 in file main.s
    Uses
-      None
-Comment: Initial_Messages unused
-Load_GameBorder 00000292
+      At line 90 in file main.s
+Comment: Clear_Ship_Memories used once
+Determine_Ship_Type 0000034E
 
-Symbol: Load_GameBorder
+Symbol: Determine_Ship_Type
    Definitions
-      At line 105 in file main.s
+      At line 198 in file main.s
    Uses
-      None
-Comment: Load_GameBorder unused
-MSG_Battle 000001FA
+      At line 195 in file main.s
+Comment: Determine_Ship_Type used once
+Find_Battleship_Zero_Memory 0000035A
 
-Symbol: MSG_Battle
-   Definitions
-      At line 53 in file main.s
-   Uses
-      None
-Comment: MSG_Battle unused
-MSG_Civilian 000001FC
-
-Symbol: MSG_Civilian
-   Definitions
-      At line 54 in file main.s
-   Uses
-      None
-Comment: MSG_Civilian unused
-MSG_Clear_Cursor 000001FE
-
-Symbol: MSG_Clear_Cursor
-   Definitions
-      At line 55 in file main.s
-   Uses
-      At line 138 in file main.s
-Comment: MSG_Clear_Cursor used once
-MSG_Cursor 000001F8
-
-Symbol: MSG_Cursor
+Symbol: Find_Battleship_Zero_Memory
 
 
 
@@ -616,139 +756,257 @@ ARM Macro Assembler    Page 2 Alphabetic symbol ordering
 Relocatable symbols
 
    Definitions
-      At line 52 in file main.s
+      At line 209 in file main.s
    Uses
-      At line 146 in file main.s
-      At line 176 in file main.s
+      At line 212 in file main.s
+Comment: Find_Battleship_Zero_Memory used once
+Go_Check_Ship_Placement 00000310
 
-MSG_InitialRun 00000200
+Symbol: Go_Check_Ship_Placement
+   Definitions
+      At line 159 in file main.s
+   Uses
+      At line 157 in file main.s
+Comment: Go_Check_Ship_Placement used once
+Initial_Messages 00000290
 
-Symbol: MSG_InitialRun
+Symbol: Initial_Messages
+   Definitions
+      At line 113 in file main.s
+   Uses
+      None
+Comment: Initial_Messages unused
+Load_GameBorder 000002B8
+
+Symbol: Load_GameBorder
+   Definitions
+      At line 129 in file main.s
+   Uses
+      None
+Comment: Load_GameBorder unused
+MSG_Battleship 000001FA
+
+Symbol: MSG_Battleship
+   Definitions
+      At line 55 in file main.s
+   Uses
+      At line 236 in file main.s
+Comment: MSG_Battleship used once
+MSG_Civilianship 000001FC
+
+Symbol: MSG_Civilianship
    Definitions
       At line 56 in file main.s
    Uses
-      At line 93 in file main.s
-Comment: MSG_InitialRun used once
-MSG_Welcome 00000236
+      None
+Comment: MSG_Civilianship unused
+MSG_Clear_Cursor 000001FE
 
-Symbol: MSG_Welcome
+Symbol: MSG_Clear_Cursor
    Definitions
       At line 57 in file main.s
    Uses
-      At line 100 in file main.s
-Comment: MSG_Welcome used once
-Move_Cursor 000002FC
+      At line 172 in file main.s
+Comment: MSG_Clear_Cursor used once
+MSG_Cursor 000001F8
 
-Symbol: Move_Cursor
+Symbol: MSG_Cursor
    Definitions
-      At line 145 in file main.s
+      At line 54 in file main.s
    Uses
-      At line 144 in file main.s
-Comment: Move_Cursor used once
-Set_Coordinates 000002A4
-
-Symbol: Set_Coordinates
-   Definitions
-      At line 112 in file main.s
-   Uses
-      At line 130 in file main.s
-      At line 149 in file main.s
-
-Start 0000025E
-
-Symbol: Start
-   Definitions
-      At line 82 in file main.s
-   Uses
-      At line 80 in file main.s
-Comment: Start used once
-del 00000338
-
-Symbol: del
-   Definitions
-      At line 188 in file main.s
-   Uses
-      At line 190 in file main.s
-Comment: del used once
-delay 0000032E
-
-Symbol: delay
-   Definitions
 
 
 
 ARM Macro Assembler    Page 3 Alphabetic symbol ordering
 Relocatable symbols
 
-      At line 184 in file main.s
+      At line 180 in file main.s
+      At line 271 in file main.s
+
+MSG_InitialRun 00000200
+
+Symbol: MSG_InitialRun
+   Definitions
+      At line 58 in file main.s
    Uses
-      At line 167 in file main.s
+      At line 117 in file main.s
+Comment: MSG_InitialRun used once
+MSG_Welcome 00000236
+
+Symbol: MSG_Welcome
+   Definitions
+      At line 59 in file main.s
+   Uses
+      At line 124 in file main.s
+Comment: MSG_Welcome used once
+Move_Cursor 00000332
+
+Symbol: Move_Cursor
+   Definitions
       At line 179 in file main.s
-
-delayTrans 00000340
-
-Symbol: delayTrans
-   Definitions
-      At line 194 in file main.s
    Uses
-      At line 148 in file main.s
-      At line 163 in file main.s
+      At line 178 in file main.s
+Comment: Move_Cursor used once
+Output_Battleship 00000380
 
-done 0000032C
-
-Symbol: done
+Symbol: Output_Battleship
    Definitions
-      At line 181 in file main.s
+      At line 229 in file main.s
    Uses
-      None
-Comment: done unused
-donethis 00000308
+      At line 239 in file main.s
+Comment: Output_Battleship used once
+Placement_Battleship_Output 00000378
 
-Symbol: donethis
+Symbol: Placement_Battleship_Output
    Definitions
-      At line 150 in file main.s
+      At line 225 in file main.s
    Uses
-      At line 150 in file main.s
-Comment: donethis used once
-dt 0000034A
+      At line 137 in file main.s
+Comment: Placement_Battleship_Output used once
+Placement_Battleship_Output_Return 00000398
 
-Symbol: dt
+Symbol: Placement_Battleship_Output_Return
    Definitions
-      At line 197 in file main.s
+      At line 241 in file main.s
    Uses
-      At line 199 in file main.s
-Comment: dt used once
-gameplayBorder 00000000
+      At line 232 in file main.s
+Comment: Placement_Battleship_Output_Return used once
+Placement_Battleship_Save 00000354
 
-Symbol: gameplayBorder
+Symbol: Placement_Battleship_Save
    Definitions
-      At line 8 in file main.s
+      At line 206 in file main.s
    Uses
-      At line 106 in file main.s
-Comment: gameplayBorder used once
-loadRam 0000026A
-
-Symbol: loadRam
-   Definitions
-      At line 86 in file main.s
-   Uses
-      At line 181 in file main.s
-Comment: loadRam used once
-sendNxtCSUByte 0000030A
-
-Symbol: sendNxtCSUByte
-   Definitions
-      At line 160 in file main.s
+      At line 202 in file main.s
+Comment: Placement_Battleship_Save used once
 
 
 
 ARM Macro Assembler    Page 4 Alphabetic symbol ordering
 Relocatable symbols
 
+Set_Coordinates 000002CA
+
+Symbol: Set_Coordinates
+   Definitions
+      At line 136 in file main.s
    Uses
-      At line 165 in file main.s
+      At line 161 in file main.s
+      At line 183 in file main.s
+
+Start 0000025E
+
+Symbol: Start
+   Definitions
+      At line 86 in file main.s
+   Uses
+      At line 84 in file main.s
+Comment: Start used once
+del 000003D0
+
+Symbol: del
+   Definitions
+      At line 283 in file main.s
+   Uses
+      At line 285 in file main.s
+Comment: del used once
+delay 000003C6
+
+Symbol: delay
+   Definitions
+      At line 279 in file main.s
+   Uses
+      At line 262 in file main.s
+      At line 274 in file main.s
+
+delayTrans 000003D8
+
+Symbol: delayTrans
+   Definitions
+      At line 289 in file main.s
+   Uses
+      At line 258 in file main.s
+Comment: delayTrans used once
+done 000003C4
+
+Symbol: done
+   Definitions
+      At line 276 in file main.s
+   Uses
+      None
+Comment: done unused
+donethis 0000033A
+
+Symbol: donethis
+   Definitions
+      At line 184 in file main.s
+   Uses
+      At line 184 in file main.s
+Comment: donethis used once
+dt 000003E2
+
+
+
+ARM Macro Assembler    Page 5 Alphabetic symbol ordering
+Relocatable symbols
+
+
+Symbol: dt
+   Definitions
+      At line 292 in file main.s
+   Uses
+      At line 294 in file main.s
+Comment: dt used once
+gameplayBorder 00000000
+
+Symbol: gameplayBorder
+   Definitions
+      At line 10 in file main.s
+   Uses
+      At line 130 in file main.s
+Comment: gameplayBorder used once
+loadRam 00000290
+
+Symbol: loadRam
+   Definitions
+      At line 110 in file main.s
+   Uses
+      At line 276 in file main.s
+Comment: loadRam used once
+sendNxtCSUByte 000003A2
+
+Symbol: sendNxtCSUByte
+   Definitions
+      At line 255 in file main.s
+   Uses
+      At line 260 in file main.s
 Comment: sendNxtCSUByte used once
-22 symbols
+33 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+Memory_Battleship 20000700
+
+Symbol: Memory_Battleship
+   Definitions
+      At line 4 in file main.s
+   Uses
+      At line 94 in file main.s
+      At line 208 in file main.s
+      At line 228 in file main.s
+
+Memory_Civilianship 20000800
+
+Symbol: Memory_Civilianship
+   Definitions
+      At line 5 in file main.s
+   Uses
+      At line 102 in file main.s
+Comment: Memory_Civilianship used once
+2 symbols
 
 
 
@@ -759,61 +1017,61 @@ ADC_0_Read_X 00000000
 
 Symbol: ADC_0_Read_X
    Definitions
-      At line 72 in file main.s
+      At line 74 in file main.s
    Uses
-      At line 115 in file main.s
+      At line 142 in file main.s
 Comment: ADC_0_Read_X used once
 ADC_1_Read_Y 00000000
 
 Symbol: ADC_1_Read_Y
    Definitions
-      At line 71 in file main.s
+      At line 73 in file main.s
    Uses
-      At line 118 in file main.s
+      At line 145 in file main.s
 Comment: ADC_1_Read_Y used once
 ADC_Init 00000000
 
 Symbol: ADC_Init
    Definitions
-      At line 74 in file main.s
+      At line 76 in file main.s
    Uses
-      At line 84 in file main.s
+      At line 88 in file main.s
 Comment: ADC_Init used once
+Check_Interrupt_Status 00000000
+
+Symbol: Check_Interrupt_Status
+   Definitions
+      At line 81 in file main.s
+   Uses
+      At line 193 in file main.s
+Comment: Check_Interrupt_Status used once
 ClearNokia 00000000
 
 Symbol: ClearNokia
    Definitions
-      At line 67 in file main.s
+      At line 69 in file main.s
    Uses
-      At line 96 in file main.s
-      At line 170 in file main.s
+      At line 120 in file main.s
+      At line 265 in file main.s
 
+Clear_Interrupt_Status 00000000
+
+Symbol: Clear_Interrupt_Status
+   Definitions
+      At line 82 in file main.s
+   Uses
+      At line 138 in file main.s
+Comment: Clear_Interrupt_Status used once
 Find_Pixel_Coordinate 00000000
 
 Symbol: Find_Pixel_Coordinate
    Definitions
-      At line 73 in file main.s
+      At line 75 in file main.s
    Uses
-      At line 117 in file main.s
-      At line 120 in file main.s
+      At line 144 in file main.s
+      At line 147 in file main.s
 
 Nokia_Init 00000000
-
-Symbol: Nokia_Init
-   Definitions
-      At line 62 in file main.s
-   Uses
-      At line 83 in file main.s
-Comment: Nokia_Init used once
-OutImgNokia 00000000
-
-Symbol: OutImgNokia
-   Definitions
-      At line 63 in file main.s
-   Uses
-      At line 107 in file main.s
-Comment: OutImgNokia used once
-OutStrNokia 00000000
 
 
 
@@ -821,43 +1079,61 @@ ARM Macro Assembler    Page 2 Alphabetic symbol ordering
 External symbols
 
 
+Symbol: Nokia_Init
+   Definitions
+      At line 64 in file main.s
+   Uses
+      At line 87 in file main.s
+Comment: Nokia_Init used once
+OutImgNokia 00000000
+
+Symbol: OutImgNokia
+   Definitions
+      At line 65 in file main.s
+   Uses
+      At line 131 in file main.s
+Comment: OutImgNokia used once
+OutStrNokia 00000000
+
 Symbol: OutStrNokia
    Definitions
-      At line 66 in file main.s
+      At line 68 in file main.s
    Uses
-      At line 94 in file main.s
-      At line 101 in file main.s
-      At line 139 in file main.s
-      At line 147 in file main.s
-      At line 177 in file main.s
+      At line 118 in file main.s
+      At line 125 in file main.s
+      At line 173 in file main.s
+      At line 181 in file main.s
+      At line 237 in file main.s
+      At line 272 in file main.s
 
 PortF_Button_Init 00000000
 
 Symbol: PortF_Button_Init
    Definitions
-      At line 78 in file main.s
+      At line 80 in file main.s
    Uses
-      At line 85 in file main.s
+      At line 89 in file main.s
 Comment: PortF_Button_Init used once
 SetCoordinate 00000000
 
 Symbol: SetCoordinate
    Definitions
-      At line 64 in file main.s
+      At line 66 in file main.s
    Uses
-      At line 92 in file main.s
-      At line 99 in file main.s
-      At line 137 in file main.s
-      At line 143 in file main.s
-      At line 175 in file main.s
+      At line 116 in file main.s
+      At line 123 in file main.s
+      At line 171 in file main.s
+      At line 177 in file main.s
+      At line 235 in file main.s
+      At line 270 in file main.s
 
 TxByte 00000000
 
 Symbol: TxByte
    Definitions
-      At line 65 in file main.s
+      At line 67 in file main.s
    Uses
-      At line 162 in file main.s
+      At line 257 in file main.s
 Comment: TxByte used once
-11 symbols
-369 symbols in table
+13 symbols
+384 symbols in table

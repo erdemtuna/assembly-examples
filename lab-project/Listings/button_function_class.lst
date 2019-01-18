@@ -89,44 +89,44 @@ ARM Macro Assembler    Page 2
    35 00000000         Check_Interrupt_Status
    36 00000000 E92D 1DFF       PUSH{R0-R8,R10-R12}
    37 00000004 B500            PUSH{LR}
-   38 00000006 4929            LDR              R1, = GPIO_PORTF_RIS_R
-   39 00000008 6808            LDR              R0, [R1]
-   40 0000000A F010 0011       ANDS             R0, #0x11
-   41 0000000E F85D EB04       POP{LR}
-   42 00000012 E8BD 1DFF       POP{R0-R8,R10-R12}
-   43 00000016 4770            BX               LR
-   44 00000018         
-   45 00000018         ;-------------------------------------------
-   46 00000018         ; Clear PF4-PF0 Interrupt Status
-   47 00000018         ; No Return
-   48 00000018         ;-------------------------------------------
-   49 00000018         Clear_Interrupt_Status
-   50 00000018 E92D 1FFF       PUSH{R0-R12}
-   51 0000001C B500            PUSH{LR}
-   52 0000001E 4924            LDR              R1, =GPIO_PORTF_ICR_R ; enable 
+   38 00000006 492A            LDR              R1, = GPIO_PORTF_RIS_R
+   39 00000008 F8D1 9000       LDR              R9, [R1]
+   40 0000000C F019 0911       ANDS             R9, #0x11
+   41 00000010 F85D EB04       POP{LR}
+   42 00000014 E8BD 1DFF       POP{R0-R8,R10-R12}
+   43 00000018 4770            BX               LR
+   44 0000001A         
+   45 0000001A         ;-------------------------------------------
+   46 0000001A         ; Clear PF4-PF0 Interrupt Status
+   47 0000001A         ; No Return
+   48 0000001A         ;-------------------------------------------
+   49 0000001A         Clear_Interrupt_Status
+   50 0000001A E92D 1FFF       PUSH{R0-R12}
+   51 0000001E B500            PUSH{LR}
+   52 00000020 4924            LDR              R1, =GPIO_PORTF_ICR_R ; enable 
                                                             commit for Port F
-   53 00000020 F04F 00FF       MOV              R0, #0xFF   ; 1 means allow acc
+   53 00000022 F04F 00FF       MOV              R0, #0xFF   ; 1 means allow acc
                                                             ess
-   54 00000024 6008            STR              R0, [R1]
-   55 00000026 F85D EB04       POP{LR}
-   56 0000002A E8BD 1FFF       POP{R0-R12}
-   57 0000002E 4770            BX               LR
-   58 00000030         
-   59 00000030         ;------------delay------------
-   60 00000030         ; Delay function for testing, which delays about 3*count
+   54 00000026 6008            STR              R0, [R1]
+   55 00000028 F85D EB04       POP{LR}
+   56 0000002C E8BD 1FFF       POP{R0-R12}
+   57 00000030 4770            BX               LR
+   58 00000032         
+   59 00000032         ;------------delay------------
+   60 00000032         ; Delay function for testing, which delays about 3*count
                         cycles.
-   61 00000030         ; Input: R1  count
-   62 00000030         ; Output: none
-   63 00000030         
-   64 00000030         ;delay
-   65 00000030         ;SUBS R1, R1, #1                 ; R1 = R1 - 1 (count = 
+   61 00000032         ; Input: R1  count
+   62 00000032         ; Output: none
+   63 00000032         
+   64 00000032         ;delay
+   65 00000032         ;SUBS R1, R1, #1                 ; R1 = R1 - 1 (count = 
                        count - 1)
-   66 00000030         ;BNE delay                       ; if count (R1) != 0, s
+   66 00000032         ;BNE delay                       ; if count (R1) != 0, s
                        kip to 'delay'
-   67 00000030         ;BX  LR                          ; return
-   68 00000030         
-   69 00000030         ;------------PortF_Button_Init------------
-   70 00000030         ; Initialize GPIO Port F for negative logic switches on 
+   67 00000032         ;BX  LR                          ; return
+   68 00000032         
+   69 00000032         ;------------PortF_Button_Init------------
+   70 00000032         ; Initialize GPIO Port F for negative logic switches on 
                        PF0 and
 
 
@@ -134,64 +134,64 @@ ARM Macro Assembler    Page 2
 ARM Macro Assembler    Page 3 
 
 
-   71 00000030         ; PF4 as the Launchpad is wired.  Weak internal pull-up
-   72 00000030         ; resistors are enabled, and the NMI functionality on PF
+   71 00000032         ; PF4 as the Launchpad is wired.  Weak internal pull-up
+   72 00000032         ; resistors are enabled, and the NMI functionality on PF
                        0 is
-   73 00000030         ; disabled.  Make the RGB LED's pins outputs.
-   74 00000030         ; Modifies: R0, R1, R2'
-   75 00000030         ;------------PortF_Button_Init------------
-   76 00000030         PortF_Button_Init
-   77 00000030 E92D 1FFF       PUSH{R0-R12}
-   78 00000034 B500            PUSH{LR}
-   79 00000036 491F            LDR              R1, =SYSCTL_RCGCGPIO_R ; 1) act
+   73 00000032         ; disabled.  Make the RGB LED's pins outputs.
+   74 00000032         ; Modifies: R0, R1, R2'
+   75 00000032         ;------------PortF_Button_Init------------
+   76 00000032         PortF_Button_Init
+   77 00000032 E92D 1FFF       PUSH{R0-R12}
+   78 00000036 B500            PUSH{LR}
+   79 00000038 491F            LDR              R1, =SYSCTL_RCGCGPIO_R ; 1) act
                                                             ivate clock for Por
                                                             t F
-   80 00000038 6808            LDR              R0, [R1]
-   81 0000003A F040 0020       ORR              R0, R0, #0x20 ; set bit 5 to tu
+   80 0000003A 6808            LDR              R0, [R1]
+   81 0000003C F040 0020       ORR              R0, R0, #0x20 ; set bit 5 to tu
                                                             rn on clock
-   82 0000003E 6008            STR              R0, [R1]
-   83 00000040 BF00            NOP
-   84 00000042 BF00            NOP
-   85 00000044 491C            LDR              R1, =GPIO_PORTF_LOCK_R
-   86 00000046 481D            LDR              R0, =0x4C4F434B ; unlock GPIO P
+   82 00000040 6008            STR              R0, [R1]
+   83 00000042 BF00            NOP
+   84 00000044 BF00            NOP
+   85 00000046 491D            LDR              R1, =GPIO_PORTF_LOCK_R
+   86 00000048 481D            LDR              R0, =0x4C4F434B ; unlock GPIO P
                                                             ort F Commit Regist
                                                             er
-   87 00000048 6008            STR              R0, [R1]
-   88 0000004A 491D            LDR              R1, =GPIO_PORTF_CR_R ; enable c
+   87 0000004A 6008            STR              R0, [R1]
+   88 0000004C 491D            LDR              R1, =GPIO_PORTF_CR_R ; enable c
                                                             ommit for Port F
-   89 0000004C F04F 00FF       MOV              R0, #0xFF   ; 1 means allow acc
+   89 0000004E F04F 00FF       MOV              R0, #0xFF   ; 1 means allow acc
                                                             ess
-   90 00000050 6008            STR              R0, [R1]
-   91 00000052 491C            LDR              R1, =GPIO_PORTF_AMSEL_R ; 3) di
+   90 00000052 6008            STR              R0, [R1]
+   91 00000054 491C            LDR              R1, =GPIO_PORTF_AMSEL_R ; 3) di
                                                             sable analog functi
                                                             onality
-   92 00000054 F04F 0000       MOV              R0, #0      ; 0 means analog is
+   92 00000056 F04F 0000       MOV              R0, #0      ; 0 means analog is
                                                              off
-   93 00000058 6008            STR              R0, [R1]
-   94 0000005A 491B            LDR              R1, =GPIO_PORTF_PCTL_R ; 4) con
+   93 0000005A 6008            STR              R0, [R1]
+   94 0000005C 491B            LDR              R1, =GPIO_PORTF_PCTL_R ; 4) con
                                                             figure as GPIO
-   95 0000005C F04F 0000       MOV              R0, #0x00000000 ; 0 means confi
+   95 0000005E F04F 0000       MOV              R0, #0x00000000 ; 0 means confi
                                                             gure Port F as GPIO
                                                             
-   96 00000060 6008            STR              R0, [R1]
-   97 00000062 491A            LDR              R1, =GPIO_PORTF_DIR_R ; 5) set 
+   96 00000062 6008            STR              R0, [R1]
+   97 00000064 491A            LDR              R1, =GPIO_PORTF_DIR_R ; 5) set 
                                                             direction register
-   98 00000064 F04F 000E       MOV              R0,#0x0E    ; PF0 and PF7-4 inp
+   98 00000066 F04F 000E       MOV              R0,#0x0E    ; PF0 and PF7-4 inp
                                                             ut, PF3-1 output
-   99 00000068 6008            STR              R0, [R1]
-  100 0000006A 4919            LDR              R1, =GPIO_PORTF_AFSEL_R ; 6) re
+   99 0000006A 6008            STR              R0, [R1]
+  100 0000006C 4919            LDR              R1, =GPIO_PORTF_AFSEL_R ; 6) re
                                                             gular port function
                                                             
-  101 0000006C F04F 0000       MOV              R0, #0      ; 0 means disable a
+  101 0000006E F04F 0000       MOV              R0, #0      ; 0 means disable a
                                                             lternate function 
-  102 00000070 6008            STR              R0, [R1]
-  103 00000072 4918            LDR              R1, =GPIO_PORTF_PUR_R ; pull-up
+  102 00000072 6008            STR              R0, [R1]
+  103 00000074 4918            LDR              R1, =GPIO_PORTF_PUR_R ; pull-up
                                                              resistors for PF4,
                                                             PF0
-  104 00000074 F04F 0011       MOV              R0, #0x11   ; enable weak pull-
+  104 00000076 F04F 0011       MOV              R0, #0x11   ; enable weak pull-
                                                             up on PF0 and PF4
-  105 00000078 6008            STR              R0, [R1]
-  106 0000007A 4917            LDR              R1, =GPIO_PORTF_DEN_R ; 7) enab
+  105 0000007A 6008            STR              R0, [R1]
+  106 0000007C 4917            LDR              R1, =GPIO_PORTF_DEN_R ; 7) enab
                                                             le Port F digital p
 
 
@@ -200,59 +200,59 @@ ARM Macro Assembler    Page 4
 
 
                                                             ort
-  107 0000007C F04F 00FF       MOV              R0, #0xFF   ; 1 means enable di
+  107 0000007E F04F 00FF       MOV              R0, #0xFF   ; 1 means enable di
                                                             gital I/O
-  108 00000080 6008            STR              R0, [R1]
-  109 00000082         
-  110 00000082 4916            LDR              R1, =GPIO_PORTF_IS_R ; 7) enabl
+  108 00000082 6008            STR              R0, [R1]
+  109 00000084         
+  110 00000084 4916            LDR              R1, =GPIO_PORTF_IS_R ; 7) enabl
                                                             e Port F digital po
                                                             rt
-  111 00000084 F04F 0000       MOV              R0, #0x00   ; 1 means enable di
+  111 00000086 F04F 0000       MOV              R0, #0x00   ; 1 means enable di
                                                             gital I/O
-  112 00000088 6008            STR              R0, [R1]
-  113 0000008A         
-  114 0000008A 4915            LDR              R1, =GPIO_PORTF_BE_R ; 7) enabl
+  112 0000008A 6008            STR              R0, [R1]
+  113 0000008C         
+  114 0000008C 4915            LDR              R1, =GPIO_PORTF_BE_R ; 7) enabl
                                                             e Port F digital po
                                                             rt
-  115 0000008C F04F 0000       MOV              R0, #0x00   ; 1 means enable di
+  115 0000008E F04F 0000       MOV              R0, #0x00   ; 1 means enable di
                                                             gital I/O
-  116 00000090 6008            STR              R0, [R1]
-  117 00000092         
-  118 00000092 4914            LDR              R1, =GPIO_PORTF_IEV_R ; 7) enab
+  116 00000092 6008            STR              R0, [R1]
+  117 00000094         
+  118 00000094 4914            LDR              R1, =GPIO_PORTF_IEV_R ; 7) enab
                                                             le Port F digital p
                                                             ort
-  119 00000094 F04F 0000       MOV              R0, #0x00   ; 1 means enable di
+  119 00000096 F04F 0000       MOV              R0, #0x00   ; 1 means enable di
                                                             gital I/O
-  120 00000098 6008            STR              R0, [R1]
-  121 0000009A         
-  122 0000009A 4913            LDR              R1, =GPIO_PORTF_IM_R ; 7) enabl
+  120 0000009A 6008            STR              R0, [R1]
+  121 0000009C         
+  122 0000009C 4913            LDR              R1, =GPIO_PORTF_IM_R ; 7) enabl
                                                             e Port F digital po
                                                             rt
-  123 0000009C F04F 0011       MOV              R0, #0x11   ; 1 means enable di
+  123 0000009E F04F 0011       MOV              R0, #0x11   ; 1 means enable di
                                                             gital I/O
-  124 000000A0 6008            STR              R0, [R1]
-  125 000000A2         
-  126 000000A2         ;LDR R1, =NVIC_PRI4
-  127 000000A2         ;LDR R0, [R1]
-  128 000000A2         ;AND R0, R0, #0xFF00FFFF ; clear interrupt 19 priority
-  129 000000A2         ;ORR R0, R0, #0x00400000 ; set interrupt 19 priority to 
+  124 000000A2 6008            STR              R0, [R1]
+  125 000000A4         
+  126 000000A4         ;LDR R1, =NVIC_PRI4
+  127 000000A4         ;LDR R0, [R1]
+  128 000000A4         ;AND R0, R0, #0xFF00FFFF ; clear interrupt 19 priority
+  129 000000A4         ;ORR R0, R0, #0x00400000 ; set interrupt 19 priority to 
                        2
-  130 000000A2         ;STR R0, [R1]
-  131 000000A2         ; NVIC has to be enabled
-  132 000000A2         ; Interrupts 64-95 are handled by NVIC register EN2
-  133 000000A2         ; Interrupt 94 is controlled by bit 30
-  134 000000A2         ;LDR R1, =NVIC_EN0
-  135 000000A2         ; LDR R0, [R1] 
-  136 000000A2         ;ORR R0, R0, #0x40000000; set bit 30 to enable interrupt
+  130 000000A4         ;STR R0, [R1]
+  131 000000A4         ; NVIC has to be enabled
+  132 000000A4         ; Interrupts 64-95 are handled by NVIC register EN2
+  133 000000A4         ; Interrupt 94 is controlled by bit 30
+  134 000000A4         ;LDR R1, =NVIC_EN0
+  135 000000A4         ; LDR R0, [R1] 
+  136 000000A4         ;ORR R0, R0, #0x40000000; set bit 30 to enable interrupt
                         94
-  137 000000A2         ;STR R0, [R1]
-  138 000000A2 F85D EB04       POP{LR}
-  139 000000A6 E8BD 1FFF       POP{R0-R12}
-  140 000000AA 4770            BX               LR
-  141 000000AC                 ALIGN                        ; make sure the end
+  137 000000A4         ;STR R0, [R1]
+  138 000000A4 F85D EB04       POP{LR}
+  139 000000A8 E8BD 1FFF       POP{R0-R12}
+  140 000000AC 4770            BX               LR
+  141 000000AE 00 00           ALIGN                        ; make sure the end
                                                              of this section is
                                                              aligned
-  142 000000AC                 END                          ; end of file
+  142 000000B0                 END                          ; end of file
               40025414 
               4002541C 
               400FE608 
@@ -303,7 +303,7 @@ Symbol: Check_Interrupt_Status
    Uses
       At line 27 in file Button_Function_Class.s
 Comment: Check_Interrupt_Status used once
-Clear_Interrupt_Status 00000018
+Clear_Interrupt_Status 0000001A
 
 Symbol: Clear_Interrupt_Status
    Definitions
@@ -311,7 +311,7 @@ Symbol: Clear_Interrupt_Status
    Uses
       At line 28 in file Button_Function_Class.s
 Comment: Clear_Interrupt_Status used once
-PortF_Button_Init 00000030
+PortF_Button_Init 00000032
 
 Symbol: PortF_Button_Init
    Definitions

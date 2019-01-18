@@ -36,8 +36,8 @@ Check_Interrupt_Status
 	PUSH{R0-R8,R10-R12}
 	PUSH{LR}
 	LDR R1, = GPIO_PORTF_RIS_R
-	LDR R0, [R1]
-	ANDS R0, #0x11
+	LDR R9, [R1]
+	ANDS R9, #0x11
 	POP{LR}
 	POP{R0-R8,R10-R12}
 	BX LR
