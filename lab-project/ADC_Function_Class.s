@@ -51,69 +51,35 @@ DOT			DCB			0x2E
 ;LABEL		DIRECTIVE	VALUE			COMMENT
 		AREA 		main, READONLY, CODE
 		THUMB
-		EXTERN		PULSE_INIT
-		EXTERN		CONVRT
-		EXTERN		OutStr	; Reference external subroutine	
-		EXTERN		InChar	; Reference external subroutine	
+		EXPORT ADC_1_Read_Y
+		EXPORT ADC_0_Read_X
+		EXPORT Find_Pixel_Coordinate
+		EXPORT ADC_Init
 		EXPORT 		__main
 		ENTRY
 			
-__main 	
+__main
+
 	BL ADC_Init
-	; PD 3,2,1,0 for A/D (AIN4,5,6,7)
-	; PB 0,1,2,3 for display
-ADC_Sample_Constants
-	MOV R7, #3300
-	MOV	R8, #4096
-	LDR	R6, = 0x0000FFFF
-	
-Reset_Constants_0
-	MOV	R11, #1
-	MOV	R10, #52	
-	BL ADC_Sample_start_0
-Reset_Constants_1
-	MOV	R11, #1
-	MOV	R10, #413
-	BL ADC_Sample_start_1
-		
-ADC_Sample_start_0
-	; initialize addess registers
-	LDR	R2, =ADC_0_PSSI
-	LDR	R3, =ADC_0_RIS 
-	LDR	R4, =ADC_0_SSFIFO3
-
-	LDR	R0, [R2]
-	ORR R0, R0, #0x0F ; set bit 3 to enable seq 3
-	STR	R0, [R2]
-	NOP
-	NOP
-	NOP
-	
-	LDR	R0, [R3] ; check if sample is complete
-	ANDS R0, R0, #0x08
-	BNE	ADC_Sample_start_0
-	
-	LDR	R3, [R4] ; load results
-	MUL	R3, R3, R7 ; value = value * 330
-	UDIV R3, R3, R8 ; value = value / 4096
-
-FindInterval_0
-	MUL R9, R10, R11
-	CMP R3, R9
-	ADDGT R11, #1
-	BGT FindInterval_0
-	SUB R11, R11, #1
-	CMP R11, R6
-	BNE	Print
-	BX LR
-	
-	
-ADC_Sample_start_1
+loop
+	BL ADC_0_Read_X
+	MOV R3, #58
+	BL Find_Pixel_Coordinate
+	BL ADC_1_Read_Y
+	MOV R3, #825
+	BL Find_Pixel_Coordinate
+	B loop	
+;-------------------------------------------
+; Read ADC_1 value and map to 0-3.3 V range
+; Return in R1
+;-------------------------------------------
+ADC_1_Read_Y
+	PUSH{R0, R2-R12} ; push general purpose registers
+	PUSH{LR} ; push link register
 	; initialize addess registers
 	LDR	R2, =ADC_1_PSSI
 	LDR	R3, =ADC_1_RIS 
 	LDR	R4, =ADC_1_SSFIFO3
-
 	LDR	R0, [R2]
 	ORR R0, R0, #0x0F ; set bit 3 to enable seq 3
 	STR	R0, [R2]
@@ -123,40 +89,105 @@ ADC_Sample_start_1
 	
 	LDR	R0, [R3] ; check if sample is complete
 	ANDS R0, R0, #0x08
-	BNE	ADC_Sample_start_1
+	BNE	ADC_1_Read_Y
 	
-	LDR	R3, [R4] ; load results
-	MUL	R3, R3, R7 ; value = value * 330
-	UDIV R3, R3, R8 ; value = value / 4096
+	LDR	R1, [R4] ; load reading in R1
+	MOV R7, #3300 ; max voltage
+	MOV	R8, #4096 ; max HEX value
+	MUL	R1, R1, R7 ; R1 = R1 * 3300
+	UDIV R1, R1, R8 ; R1 = R1 / 4096
+	POP{LR} ; pop link register
+	POP{R0, R2-R12} ; push general purpose registers
+	BX LR
+;-------------------------------------------
 
-FindInterval_1
+;-------------------------------------------
+; Read ADC_0 value and map to 0-3.3 V range
+; Return in R0
+;-------------------------------------------
+ADC_0_Read_X
+	PUSH{R1, R2-R12} ; push general purpose registers
+	PUSH{LR} ; push link register
+	; initialize addess registers
+	LDR	R2, =ADC_0_PSSI
+	LDR	R3, =ADC_0_RIS 
+	LDR	R4, =ADC_0_SSFIFO3
+	LDR	R0, [R2]
+	ORR R0, R0, #0x0F ; set bit 3 to enable seq 3
+	STR	R0, [R2]
+	NOP
+	NOP
+	NOP
+	
+	LDR	R0, [R3] ; check if sample is complete
+	ANDS R0, R0, #0x08
+	BNE	ADC_0_Read_X
+	
+	LDR	R0, [R4] ; load reading in R0
+	MOV R7, #3300 ; max voltage
+	MOV	R8, #4096 ; max HEX value
+	MUL	R0, R0, R7 ; R0 = R0 * 3300
+	UDIV R0, R0, R8 ; R0 = R0 / 4096
+	POP{LR} ; pop link register
+	POP{R1, R2-R12} ; push general purpose registers
+	BX LR
+;-------------------------------------------
+
+;-------------------------------------------
+; Find the pixel coordinate corresponding to ADC reading
+; Pass divisor in R3 and readings in R0 or R1
+; Return R0 or R1
+;-------------------------------------------
+Find_Pixel_Coordinate
+	PUSH{R2-R12} ; push general purpose registers
+	PUSH {LR}
+	MOV	R11, #1 ; R11 = Local coordinate variable
+	MOV R10, R3 ; R10 = Local divisor variable
+	CMP R3, #57
+	BEQ Coordinate_X
+Coordinate_Y
+	MOV R3, R1
+	B Process
+Coordinate_X
+	MOV R3, R0
+	B Process
+Process
 	MUL R9, R10, R11
 	CMP R3, R9
 	ADDGT R11, #1
-	BGT FindInterval_1
+	BGT Process
 	SUB R11, R11, #1
-	CMP R11, R6
-	BNE	Print
-	B Reset_Constants_0
+	CMP R10, #57
+	BEQ Coordinate_X_Return
+Coordinate_Y_Return
+	MOV R1, R11
+	B Return_Coordinate
+Coordinate_X_Return
+	MOV R0, R11
+	B Return_Coordinate
+Return_Coordinate
+	POP {LR}
+	POP{R2-R12} ; push general purpose registers
+	BX LR
 
 		
-Print
-	LDR	R5,=Volt_Text
-	BL 	OutStr
-	
-	MOV R6, R11
-	MOV R3, R11
-	LDR	R5, = TARGET 
-	BL CONVRT
-	BL OutStr
-	;MOV	R11, #1
-	;MOV	R10, #52
-	CMP R10, #52
-	BEQ Reset_Constants_1
-	BNE Reset_Constants_0
-	;B ADC_Sample_start_0 ; Return from caller
+;Print
+;	LDR	R5,=Volt_Text
+;	BL 	OutStr
+;	
+;	MOV R6, R11
+;	MOV R3, R11
+;	LDR	R5, = TARGET 
+;	BL CONVRT
+;	BL OutStr
+;	;MOV	R11, #1
+;	;MOV	R10, #52
+;	;B Reset_Constants
+;	;B ADC_1_Read ; Return from caller_Y
 	
 ADC_Init
+	PUSH{R0-R12}
+	PUSH{LR}
 GPIO_Init
 	; Start clocks for features to be used
 
@@ -275,6 +306,8 @@ ADC_1_Init
 	ORR R0, R0, #0x08 ; set bit 3 to enable seq 3
 	STR	R0, [R1]
 
+	POP{LR}
+	POP{R0-R12}
 	BX	LR ; Return from caller
 	
 ;***************************************************************

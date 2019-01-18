@@ -411,7 +411,7 @@ waitCharDone
 	; Address of start of message passed via R5
 	; Ended using EOT character 0x04
 OutStrNokia		
-	PUSH	{R0-R5,LR}
+	PUSH	{R0-R12,LR}
 	MOV		R1,R5
 nextStrChar
 	LDRB	R5,[R1],#1
@@ -420,7 +420,7 @@ nextStrChar
 	BL		OutCharNokia
 	B		nextStrChar
 doneStrNokia
-	POP		{R0-R5,LR}
+	POP		{R0-R12,LR}
 	BX		LR
 ;*****************************************************************
 

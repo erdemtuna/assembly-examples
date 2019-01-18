@@ -790,59 +790,59 @@ ARM Macro Assembler    Page 13
   411 000003C2         ; Address of start of message passed via R5
   412 000003C2         ; Ended using EOT character 0x04
   413 000003C2         OutStrNokia
-  414 000003C2 B53F            PUSH             {R0-R5,LR}
-  415 000003C4 4629            MOV              R1,R5
-  416 000003C6         nextStrChar
-  417 000003C6 F811 5B01       LDRB             R5,[R1],#1
-  418 000003CA 2D04            CMP              R5,#0x04
-  419 000003CC D002            BEQ              doneStrNokia
-  420 000003CE F7FF FFFE       BL               OutCharNokia
-  421 000003D2 E7F8            B                nextStrChar
-  422 000003D4         doneStrNokia
-  423 000003D4 E8BD 403F       POP              {R0-R5,LR}
-  424 000003D8 4770            BX               LR
-  425 000003DA         ;*******************************************************
+  414 000003C2 E92D 5FFF       PUSH             {R0-R12,LR}
+  415 000003C6 4629            MOV              R1,R5
+  416 000003C8         nextStrChar
+  417 000003C8 F811 5B01       LDRB             R5,[R1],#1
+  418 000003CC 2D04            CMP              R5,#0x04
+  419 000003CE D002            BEQ              doneStrNokia
+  420 000003D0 F7FF FFFE       BL               OutCharNokia
+  421 000003D4 E7F8            B                nextStrChar
+  422 000003D6         doneStrNokia
+  423 000003D6 E8BD 5FFF       POP              {R0-R12,LR}
+  424 000003DA 4770            BX               LR
+  425 000003DC         ;*******************************************************
                        **********
-  426 000003DA         
-  427 000003DA         ;*******************************************************
+  426 000003DC         
+  427 000003DC         ;*******************************************************
                        **********
-  428 000003DA         ; clear LCD screen
-  429 000003DA         ClearNokia
-  430 000003DA B53F            PUSH             {R0-R5,LR}
-  431 000003DC 4921            LDR              R1,=GPIO_PORTA_DATA ; set PA6 l
+  428 000003DC         ; clear LCD screen
+  429 000003DC         ClearNokia
+  430 000003DC B53F            PUSH             {R0-R5,LR}
+  431 000003DE 4921            LDR              R1,=GPIO_PORTA_DATA ; set PA6 l
                                                             ow for Command
-  432 000003DE 6808            LDR              R0,[R1]
-  433 000003E0 F020 0040       BIC              R0,#0x40
-  434 000003E4 6008            STR              R0,[R1]
-  435 000003E6 F04F 0520       MOV              R5,#0x20    ; ensure H=0
-  436 000003EA F7FF FFFE       BL               TxByte
-  437 000003EE F04F 0540       MOV              R5,#0x40    ; set Y address to 
+  432 000003E0 6808            LDR              R0,[R1]
+  433 000003E2 F020 0040       BIC              R0,#0x40
+  434 000003E6 6008            STR              R0,[R1]
+  435 000003E8 F04F 0520       MOV              R5,#0x20    ; ensure H=0
+  436 000003EC F7FF FFFE       BL               TxByte
+  437 000003F0 F04F 0540       MOV              R5,#0x40    ; set Y address to 
                                                             0
-  438 000003F2 F7FF FFFE       BL               TxByte
-  439 000003F6 F04F 0580       MOV              R5,#0x80    ; set X address to 
+  438 000003F4 F7FF FFFE       BL               TxByte
+  439 000003F8 F04F 0580       MOV              R5,#0x80    ; set X address to 
                                                             0
-  440 000003FA F7FF FFFE       BL               TxByte
-  441 000003FE         waitClrReady
-  442 000003FE 491A            LDR              R1,=SSI0_SR ; wait until SSI is
+  440 000003FC F7FF FFFE       BL               TxByte
+  441 00000400         waitClrReady
+  442 00000400 4919            LDR              R1,=SSI0_SR ; wait until SSI is
                                                              done
-  443 00000400 6808            LDR              R0,[R1]
-  444 00000402 F010 0010       ANDS             R0,R0,#0x10
-  445 00000406 D1FA            BNE              waitClrReady
-  446 00000408 4916            LDR              R1,=GPIO_PORTA_DATA ; set PA6 h
+  443 00000402 6808            LDR              R0,[R1]
+  444 00000404 F010 0010       ANDS             R0,R0,#0x10
+  445 00000408 D1FA            BNE              waitClrReady
+  446 0000040A 4916            LDR              R1,=GPIO_PORTA_DATA ; set PA6 h
                                                             igh for Data
-  447 0000040A 6808            LDR              R0,[R1]
-  448 0000040C F040 0040       ORR              R0,#0x40
-  449 00000410 6008            STR              R0,[R1]
-  450 00000412 F44F 70FC       MOV              R0,#504     ; 504 bytes in full
+  447 0000040C 6808            LDR              R0,[R1]
+  448 0000040E F040 0040       ORR              R0,#0x40
+  449 00000412 6008            STR              R0,[R1]
+  450 00000414 F44F 70FC       MOV              R0,#504     ; 504 bytes in full
                                                              image
-  451 00000416 F04F 0500       MOV              R5,#0x00    ; load zeros to sen
+  451 00000418 F04F 0500       MOV              R5,#0x00    ; load zeros to sen
                                                             d
-  452 0000041A         clrNxtNokia
-  453 0000041A F7FF FFFE       BL               TxByte
-  454 0000041E 3801            SUBS             R0,#1
-  455 00000420 D1FB            BNE              clrNxtNokia
-  456 00000422         waitClrDone
-  457 00000422 4911            LDR              R1,=SSI0_SR ; wait until SSI is
+  452 0000041C         clrNxtNokia
+  453 0000041C F7FF FFFE       BL               TxByte
+  454 00000420 3801            SUBS             R0,#1
+  455 00000422 D1FB            BNE              clrNxtNokia
+  456 00000424         waitClrDone
+  457 00000424 4910            LDR              R1,=SSI0_SR ; wait until SSI is
 
 
 
@@ -850,14 +850,14 @@ ARM Macro Assembler    Page 14
 
 
                                                              done
-  458 00000424 6808            LDR              R0,[R1]
-  459 00000426 F010 0010       ANDS             R0,R0,#0x10
-  460 0000042A D1FA            BNE              waitClrDone
-  461 0000042C E8BD 403F       POP              {R0-R5,LR}
-  462 00000430 4770            BX               LR
-  463 00000432         ;*******************************************************
+  458 00000426 6808            LDR              R0,[R1]
+  459 00000428 F010 0010       ANDS             R0,R0,#0x10
+  460 0000042C D1FA            BNE              waitClrDone
+  461 0000042E E8BD 403F       POP              {R0-R5,LR}
+  462 00000432 4770            BX               LR
+  463 00000434         ;*******************************************************
                        **********  
-  464 00000432 00 00           ALIGN
+  464 00000434                 ALIGN
   465 00000434                 END
               400FE608 
               40004400 
@@ -895,7 +895,7 @@ Symbol: ASCII
    Uses
       At line 384 in file LCD_Function_Class.s
 Comment: ASCII used once
-ClearNokia 000003DA
+ClearNokia 000003DC
 
 Symbol: ClearNokia
    Definitions
@@ -978,7 +978,7 @@ Symbol: TxByte
       At line 440 in file LCD_Function_Class.s
       At line 453 in file LCD_Function_Class.s
 
-clrNxtNokia 0000041A
+clrNxtNokia 0000041C
 
 Symbol: clrNxtNokia
    Definitions
@@ -994,7 +994,7 @@ Symbol: delReset
    Uses
       At line 233 in file LCD_Function_Class.s
 Comment: delReset used once
-doneStrNokia 000003D4
+doneStrNokia 000003D6
 
 Symbol: doneStrNokia
    Definitions
@@ -1002,7 +1002,7 @@ Symbol: doneStrNokia
    Uses
       At line 419 in file LCD_Function_Class.s
 Comment: doneStrNokia used once
-nextStrChar 000003C6
+nextStrChar 000003C8
 
 Symbol: nextStrChar
    Definitions
@@ -1056,7 +1056,7 @@ Symbol: waitCharDone
    Uses
       At line 403 in file LCD_Function_Class.s
 Comment: waitCharDone used once
-waitClrDone 00000422
+waitClrDone 00000424
 
 Symbol: waitClrDone
    Definitions
@@ -1064,7 +1064,7 @@ Symbol: waitClrDone
    Uses
       At line 460 in file LCD_Function_Class.s
 Comment: waitClrDone used once
-waitClrReady 000003FE
+waitClrReady 00000400
 
 Symbol: waitClrReady
    Definitions

@@ -478,6 +478,11 @@
                 </FileArmAds>
               </FileOption>
             </File>
+            <File>
+              <FileName>ADC_Function_Class.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\ADC_Function_Class.s</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

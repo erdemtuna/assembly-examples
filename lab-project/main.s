@@ -49,51 +49,99 @@ gameplayBorder
 	DCB		0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01 ; 0:[56,69]
 	DCB		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 ; 0:[70,83]
 
-MSG_Test DCB "+",0x04
+MSG_Cursor DCB "+",0x04
+MSG_Clear_Cursor DCB " ",0x04
 MSG_InitialRun DCB	"EE447         Lab Project   Burkay Unsal  Erdem Tuna	",0x04
 MSG_Welcome DCB	"Place the shipafter border  is visible.",0x04
-		
+	
+;----------------------------------
+; Screen functions
+;----------------------------------
 	EXTERN	Nokia_Init			
 	EXTERN	OutImgNokia
 	EXTERN	SetCoordinate
 	EXTERN	TxByte
 	EXTERN	OutStrNokia
 	EXTERN	ClearNokia
-
+;----------------------------------
+; ADC functions
+;----------------------------------
+	EXTERN ADC_1_Read_Y
+	EXTERN ADC_0_Read_X
+	EXTERN Find_Pixel_Coordinate
+	EXTERN ADC_Init
+			
 	EXPORT  Start
 				
-Start		BL		Nokia_Init			; initialize LCD
+Start		
+	BL Nokia_Init ; initialize LCD
+	BL ADC_Init 
 loadRam
 
 Initial_Messages	
-	MOV		R0, #0
-	MOV		R1, #1
-	BL		SetCoordinate	
-	LDR		R5,=MSG_InitialRun
-	BL		OutStrNokia
-	BL		delay
-	BL		ClearNokia
-	MOV		R0, #0
-	MOV		R1, #1
-	BL		SetCoordinate	
-	LDR		R5,=MSG_Welcome
-	BL		OutStrNokia
-	BL		delay
+	MOV	R0, #0
+	MOV	R1, #1
+	BL	SetCoordinate	
+	LDR	R5,=MSG_InitialRun
+	BL	OutStrNokia
+	;BL	delay
+	BL	ClearNokia
+	MOV	R0, #0
+	MOV	R1, #1
+	BL SetCoordinate	
+	LDR	R5,=MSG_Welcome
+	BL OutStrNokia
+	;BL delay
 	
 Load_GameBorder
-	LDR		R5,=gameplayBorder			; load img address of Ram
-	BL		OutImgNokia			; use img routine
+	LDR	R5,=gameplayBorder	; load img address of Ram
+	BL	OutImgNokia			; use img routine
+	MOV R10, #99 ; old x coordinate
+	MOV R11, #99 ; old y coordinate 
+	MOV R2, #0 ; difference counter
+	
+	
+Set_Coordinates
+	MOV R0, #0
+	MOV R1, #0
+	BL ADC_0_Read_X
+	MOV R3, #57
+	BL Find_Pixel_Coordinate
+	BL ADC_1_Read_Y
+	MOV R3, #825
+	BL Find_Pixel_Coordinate
+	ADD R0, R0, #6
+	ADD R1, R1, #1
+	CMP R0, R10
+	ADDNE R2, #1
+	CMP R1, R11
+	ADDNE R2, #1
+	CMP R2, #0 ; if R2 == 0, then coordinates remained same
+		       ; if R2 != 0, then at least one of the coordinates
+			   ; have changed
+	BEQ Set_Coordinates
+	MOV R2, #0 ; reset counter
 
-	MOV		R2, #6
-	MOV		R1, #1
-cursor		
-	MOV		R0, R2
-	BL		SetCoordinate			; DC is left high ready to send data
-	LDR		R5,=MSG_Test
-	BL		OutStrNokia
-	ADD		R2, R2, #8
-	CMP		R2, #75
-	BLE		cursor
+Clear_Old_Cursor
+	PUSH{R0-R2} ; save new coordinates
+	MOV R0, R10 ; old x coordinate
+	MOV R1, R11 ; old y coordinate
+	BL SetCoordinate
+	LDR	R5,=MSG_Clear_Cursor
+	BL	OutStrNokia
+	POP{R0-R2} ; pop new coordinates
+
+	MOV R10, R0 ; save change
+	MOV R11, R1 ; save change
+	BL SetCoordinate
+	
+Move_Cursor		
+;	MOV	R0, #6
+	;MOV	R1, #1
+	LDR	R5,=MSG_Cursor
+	BL	OutStrNokia
+	BL delayTrans
+	B	Set_Coordinates
 donethis	B		donethis
 			
 ;			BL		delay				; leave image for a few s
@@ -120,7 +168,7 @@ sendNxtCSUByte
 	;			MOV							; X pos (0-83)
 	;			MOV							; Y pos (0-5)
 	BL		SetCoordinate			; set XY position
-	LDR		R5,=MSG_Test
+	LDR		R5,=MSG_Cursor
 	BL		OutStrNokia
 
 	BL		delay				; leave text up
@@ -139,7 +187,7 @@ del
 	BX		LR
 
 delayTrans	PUSH	{R0}
-	MOV		R0,#0x5855			;~250ms
+	MOV		R0,#0x3855			;~250ms, 0x5855
 	MOVT	R0,#0x0014
 dt			
 	SUBS	R0,#1
