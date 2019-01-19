@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\EE447_Project_Output.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\EE447_Project_Output.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sat Jan 19 22:23:28 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sun Jan 20 01:04:14 2019
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -75,7 +75,7 @@ Function Pointers
  <LI><a href="#[c]">GPIOPortC_Handler</a> from startupnokia.o(RESET) referenced from startupnokia.o(RESET)
  <LI><a href="#[d]">GPIOPortD_Handler</a> from startupnokia.o(RESET) referenced from startupnokia.o(RESET)
  <LI><a href="#[e]">GPIOPortE_Handler</a> from startupnokia.o(RESET) referenced from startupnokia.o(RESET)
- <LI><a href="#[26]">GPIOPortF_Handler</a> from startupnokia.o(RESET) referenced from startupnokia.o(RESET)
+ <LI><a href="#[26]">GPIOPortF_Handler</a> from button_function_class.o(.text) referenced from startupnokia.o(RESET)
  <LI><a href="#[27]">GPIOPortG_Handler</a> from startupnokia.o(RESET) referenced from startupnokia.o(RESET)
  <LI><a href="#[28]">GPIOPortH_Handler</a> from startupnokia.o(RESET) referenced from startupnokia.o(RESET)
  <LI><a href="#[3e]">GPIOPortJ_Handler</a> from startupnokia.o(RESET) referenced from startupnokia.o(RESET)
@@ -315,9 +315,6 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startupnokia.o(RESET)
 </UL>
 <P><STRONG><a name="[e]"></a>GPIOPortE_Handler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startupnokia.o(RESET))
-<BR>[Address Reference Count : 1]<UL><LI> startupnokia.o(RESET)
-</UL>
-<P><STRONG><a name="[26]"></a>GPIOPortF_Handler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startupnokia.o(RESET))
 <BR>[Address Reference Count : 1]<UL><LI> startupnokia.o(RESET)
 </UL>
 <P><STRONG><a name="[27]"></a>GPIOPortG_Handler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startupnokia.o(RESET))
@@ -604,6 +601,9 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Set_Coordinates_Mine
 </UL>
 
+<P><STRONG><a name="[26]"></a>GPIOPortF_Handler</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, button_function_class.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> startupnokia.o(RESET)
+</UL>
 <P><STRONG><a name="[8b]"></a>PortF_Button_Init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, button_function_class.o(.text), UNUSED)
 
 <P><STRONG><a name="[7b]"></a>ADC_1_Read_Y</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, adc_function_class.o(main), UNUSED, KEPT)

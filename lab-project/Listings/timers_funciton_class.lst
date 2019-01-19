@@ -16,9 +16,9 @@ ARM Macro Assembler    Page 1
                        NVIC_EN0
                                EQU              0xE000E108  ; IRQ 0 to 31 Set E
                                                             nable Register
-    9 00000000 E000E41C 
+    9 00000000 E000E45C 
                        NVIC_PRI4
-                               EQU              0xE000E41C  ; IRQ 92 to 95 Prio
+                               EQU              0xE000E45C  ; IRQ 92 to 95 Prio
                                                             rity Register
    10 00000000         
    11 00000000         ; 32/64 Timer Registers
@@ -931,7 +931,7 @@ ARM Macro Assembler    Page 15
               40036038 
               40036028 
               0007A120 
-              E000E41C 
+              E000E45C 
               E000E108 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\objects\timers_funciton_class.d -o.\objects\timers_funciton_c
@@ -1513,7 +1513,7 @@ Symbol: NVIC_EN0
    Uses
       At line 422 in file Timers_Funciton_Class.s
 Comment: NVIC_EN0 used once
-NVIC_PRI4 E000E41C
+NVIC_PRI4 E000E45C
 
 Symbol: NVIC_PRI4
    Definitions

@@ -19,13 +19,14 @@ GPIO_LOCK_KEY      EQU 0x4C4F434B  ; Unlocks the GPIO_CR register
 SYSCTL_RCGCGPIO_R  EQU 0x400FE608
 
 NVIC_EN0			EQU 0xE000E100 ; IRQ 0 to 31 Set Enable Register
-NVIC_PRI4			EQU 0xE000E45C ; IRQ 92 to 95 Priority Register
+NVIC_PRI4			EQU 0xE000E41C ; IRQ 92 to 95 Priority Register
 
         AREA    |.text|, CODE, READONLY, ALIGN=2
         THUMB
 		EXPORT PortF_Button_Init
 		EXPORT Check_Interrupt_Status
 		EXPORT Clear_Interrupt_Status
+		EXPORT GPIOPortF_Handler
 		
 ;-------------------------------------------
 ; Read PF4-PF0 Interrupt Status
@@ -55,6 +56,14 @@ Clear_Interrupt_Status
 	POP{LR}
 	POP{R0-R12}
 	BX LR
+	
+GPIOPortF_Handler PROC
+	PUSH{R5-R11,LR} ; R0,R1,R2,R3,R12 are pushed to stack
+					; when interrupt occurs
+
+	POP{R5-R11,LR}
+	BX LR
+	ENDP
 
 ;------------delay------------
 ; Delay function for testing, which delays about 3*count cycles.
@@ -123,18 +132,25 @@ PortF_Button_Init
     MOV R0, #0x11                  ; 1 means enable digital I/O
     STR R0, [R1] 
 		
-	;LDR R1, =NVIC_PRI4
-	;LDR R0, [R1]
-	;AND R0, R0, #0xFF00FFFF ; clear interrupt 19 priority
-	;ORR R0, R0, #0x00400000 ; set interrupt 19 priority to 2
-	;STR R0, [R1]
+	; - - - - - - - - - -- - - - - - -
+; Configure interrupt priorities
+; Timer0A is interrupt #94.
+; Interrupts 92-95 are handled by NVIC register PRI23.
+; set NVIC interrupt 94-95 to priority 2
+	LDR R1, =NVIC_PRI4
+	LDR R0, [R1]
+	MOV32 R2, #0x0000FFFF
+	AND R0, R0, R2 ; clear interrupt
+	MOV32 R2,  #0x40400000
+	ORR R0, R0, R2 ; set interrupt
+	STR R0, [R1]
 ; NVIC has to be enabled
 ; Interrupts 64-95 are handled by NVIC register EN2
-; Interrupt 94 is controlled by bit 30
-	;LDR R1, =NVIC_EN0
-;	LDR R0, [R1] 
-	;ORR R0, R0, #0x40000000; set bit 30 to enable interrupt 94
-	;STR R0, [R1]
+; Interrupt 94 is controlled by bit 30-31
+	LDR R1, =NVIC_EN0
+	LDR R0, [R1] 
+	ORR R0, R0, #0xC0000000; set bit 30-31 to enable interrupt 94-95
+	STR R0, [R1]
     POP{LR}
     POP{R0-R12}
     BX  LR      

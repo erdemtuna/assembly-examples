@@ -6,7 +6,7 @@
 ;Nested Vector Interrupt Controller registers
 ;NVIC_EN0_INT94		EQU 0x00080000 ; Interrupt 94 enable
 NVIC_EN0			EQU 0xE000E108 ; IRQ 0 to 31 Set Enable Register
-NVIC_PRI4			EQU 0xE000E41C ; IRQ 92 to 95 Priority Register
+NVIC_PRI4			EQU 0xE000E45C ; IRQ 92 to 95 Priority Register
 	
 ; 32/64 Timer Registers
 TIMER0_CFG			EQU 0x40036000
