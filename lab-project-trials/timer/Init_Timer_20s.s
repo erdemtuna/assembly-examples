@@ -11,12 +11,15 @@ NVIC_PRI4			EQU 0xE000E41C ; IRQ 92 to 95 Priority Register
 ; 32/64 Timer Registers
 TIMER0_CFG			EQU 0x40036000
 TIMER0_TAMR			EQU 0x40036004
+TIMER0_TAMR_B		EQU 0x40036008
 TIMER0_CTL			EQU 0x4003600C
 TIMER0_IMR			EQU 0x40036018
 TIMER0_RIS			EQU 0x4003601C ; Timer Interrupt Status
 TIMER0_ICR			EQU 0x40036024 ; Timer Interrupt Clear
 TIMER0_TAILR		EQU 0x40036028 ; Timer interval
+TIMER0_TAILR_B		EQU 0x4003602C ; Timer interval
 TIMER0_TAPR			EQU 0x40036038
+TIMER0_TAPR_B		EQU 0x4003603C
 TIMER0_TAR			EQU	0x40036048 ; Timer register
 TIMER0_TAV			EQU	0x40036050 ; Timer register
 TIMER0_TAMATCHR		EQU	0x40036030 ; Timer register
@@ -38,11 +41,13 @@ SYSCTL_RCGCTIMER 	EQU 0x400FE65C ; GPTM Gate Control
 ;---------------------------------------------------
 MAX	EQU	0x1312D00 ; 20e6 useconds
 DECREASE EQU 0xF4240
+MAX_TIMERB EQU 0x7A120
 ;---------------------------------------------------
 					
 	AREA 	routines, CODE, READONLY
 	THUMB
 	EXPORT	WideTimer0A_Handler
+	EXPORT	WideTimer0B_Handler
 	EXPORT	Init_Timer_20s
 					
 ;---------------------------------------------------					
@@ -86,6 +91,11 @@ End_Of_Mine_Placement
 	BX 	LR 
 	ENDP
 ;---------------------------------------------------
+WideTimer0B_Handler PROC
+	PUSH{LR}
+	POP{LR}
+	BX 	LR 
+	ENDP
 
 Init_Timer_20s PROC
 	PUSH{R0-R1}
@@ -125,7 +135,8 @@ Init_Timer_20s PROC
 	NOP
 	LDR R1, =TIMER0_CTL ; disable timer during setup LDR R2, [R1]
 	LDR R0, [R1]
-	BIC R0, R0, #0x01
+	MOV R2, #0x101 
+	BIC R0, R0, R2; clear A and B
 	STR R0, [R1]
 	LDR R1, =TIMER0_CFG ; set 32 bit mode
 	MOV R0, #0x04
@@ -148,28 +159,42 @@ Init_Timer_20s PROC
 ;	MOV R0, #15 ; divide clock by 16 to
 ;	STR R0, [R1] ; get 1us clocks
 	LDR R1, =TIMER0_IMR ; enable timeout interrupt
-	MOV R0, #0x11
+	MOV R0, #0x911 ; A and B interrupt enable
 	STR R0, [R1]
+	; - - - - - - - - - -- - - - - - -
+	LDR R1, =TIMER0_TAMR_B
+	MOV R0, #0x61 ; set to one shot, count down, wait trigger enabled
+	STR R0, [R1]
+	LDR R1, =TIMER0_TAILR_B ; initialize match clocks
+	LDR R0, =MAX_TIMERB
+	STR R0, [R1]
+	LDR R1, =TIMER0_TAPR_B
+	MOV R0, #15 ; divide clock by 16 to
+	STR R0, [R1] ; get 1us clocks
+	; - - - - - - - - - -- - - - - - -
 ; Configure interrupt priorities
 ; Timer0A is interrupt #94.
 ; Interrupts 92-95 are handled by NVIC register PRI23.
 ; set NVIC interrupt 94 to priority 2
 	LDR R1, =NVIC_PRI4
 	LDR R0, [R1]
-	AND R0, R0, #0xFF00FFFF ; clear interrupt 19 priority
-	ORR R0, R0, #0x00400000 ; set interrupt 19 priority to 2
+	MOV32 R2, #0x0000FFFF
+	AND R0, R0, R2 ; clear interrupt 19 priority
+	MOV32 R2,  #0x40400000
+	ORR R0, R0, R2 ; set interrupt 19 priority to 2
 	STR R0, [R1]
 ; NVIC has to be enabled
 ; Interrupts 64-95 are handled by NVIC register EN2
 ; Interrupt 94 is controlled by bit 30
 	LDR R1, =NVIC_EN0
 	LDR R0, [R1] 
-	ORR R0, R0, #0x40000000; set bit 30 to enable interrupt 94
+	ORR R0, R0, #0xC0000000; set bit 30 to enable interrupt 94-95
 	STR R0, [R1]
 ; Enable timer
 	LDR R1, =TIMER0_CTL
 	LDR R0, [R1]
-	ORR R0, R0, #0x03 ; set bit0 to enable
+	MOV R2, #0x303
+	ORR R0, R0, R2; set bit0 to enable A and B
 	STR R0, [R1] ; and bit 1 to stall on debug
 	POP{R0-R1}
 	BX LR ; return

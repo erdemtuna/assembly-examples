@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\lab2.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\lab2.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sun Jan 06 17:48:14 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sat Jan 19 13:10:43 2019
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -145,7 +145,7 @@ Function Pointers
  <LI><a href="#[5]">UsageFault_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[1c]">WDT_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[50]">WideTimer0A_Handler</a> from init_timer_20s.o(routines) referenced from startup.o(RESET)
- <LI><a href="#[51]">WideTimer0B_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
+ <LI><a href="#[51]">WideTimer0B_Handler</a> from init_timer_20s.o(routines) referenced from startup.o(RESET)
  <LI><a href="#[52]">WideTimer1A_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[53]">WideTimer1B_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[54]">WideTimer2A_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
@@ -534,9 +534,6 @@ Global Symbols
 <P><STRONG><a name="[1c]"></a>WDT_Handler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup.o(RESET))
 <BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
 </UL>
-<P><STRONG><a name="[51]"></a>WideTimer0B_Handler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup.o(RESET))
-<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
-</UL>
 <P><STRONG><a name="[52]"></a>WideTimer1A_Handler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup.o(RESET))
 <BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
 </UL>
@@ -588,7 +585,10 @@ Global Symbols
 <P><STRONG><a name="[50]"></a>WideTimer0A_Handler</STRONG> (Thumb, 50 bytes, Stack size 0 bytes, init_timer_20s.o(routines))
 <BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
 </UL>
-<P><STRONG><a name="[7e]"></a>Init_Timer_20s</STRONG> (Thumb, 180 bytes, Stack size 0 bytes, init_timer_20s.o(routines))
+<P><STRONG><a name="[51]"></a>WideTimer0B_Handler</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, init_timer_20s.o(routines))
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
+<P><STRONG><a name="[7e]"></a>Init_Timer_20s</STRONG> (Thumb, 226 bytes, Stack size 0 bytes, init_timer_20s.o(routines))
 <BR><BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
 </UL>
 <P>
