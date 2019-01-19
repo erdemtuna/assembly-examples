@@ -25,324 +25,349 @@ ARM Macro Assembler    Page 1
    12 00000000 40036000 
                        TIMER0_CFG
                                EQU              0x40036000
-   13 00000000 40036004 
+   13 00000000         
+   14 00000000 40036004 
                        TIMER0_TAMR
                                EQU              0x40036004
-   14 00000000 40036008 
+   15 00000000 40036008 
                        TIMER0_TAMR_B
                                EQU              0x40036008
-   15 00000000 4003600C 
+   16 00000000         
+   17 00000000 4003600C 
                        TIMER0_CTL
                                EQU              0x4003600C
-   16 00000000 40036018 
+   18 00000000 40036018 
                        TIMER0_IMR
                                EQU              0x40036018
-   17 00000000 4003601C 
+   19 00000000 4003601C 
                        TIMER0_RIS
                                EQU              0x4003601C  ; Timer Interrupt S
                                                             tatus
-   18 00000000 40036024 
+   20 00000000 40036024 
                        TIMER0_ICR
                                EQU              0x40036024  ; Timer Interrupt C
                                                             lear
-   19 00000000 40036028 
+   21 00000000         
+   22 00000000 40036028 
                        TIMER0_TAILR
                                EQU              0x40036028  ; Timer interval
-   20 00000000 4003602C 
+   23 00000000 4003602C 
                        TIMER0_TAILR_B
                                EQU              0x4003602C  ; Timer interval
-   21 00000000 40036038 
+   24 00000000         
+   25 00000000 40036038 
                        TIMER0_TAPR
                                EQU              0x40036038
-   22 00000000 4003603C 
+   26 00000000 4003603C 
                        TIMER0_TAPR_B
                                EQU              0x4003603C
-   23 00000000 40036048 
-                       TIMER0_TAR
-                               EQU              0x40036048  ; Timer register
-   24 00000000 40036050 
-                       TIMER0_TAV
-                               EQU              0x40036050  ; Timer register
+   27 00000000         
+   28 00000000 4003604C 
 
 
 
 ARM Macro Assembler    Page 2 
 
 
-   25 00000000 40036030 
+                       TIMER0_TAR_B
+                               EQU              0x4003604C  ; Timer register
+   29 00000000 40036050 
+                       TIMER0_TAV
+                               EQU              0x40036050  ; Timer register
+   30 00000000         
+   31 00000000 40036030 
                        TIMER0_TAMATCHR
                                EQU              0x40036030  ; Timer register
-   26 00000000 40036040 
+   32 00000000 40036034 
+                       TIMER0_TAMATCHR_B
+                               EQU              0x40036034  ; Timer register
+   33 00000000         
+   34 00000000 40036040 
                        TIMER0_TAPMR
                                EQU              0x40036040  ; Timer register
-   27 00000000         
-   28 00000000         ;GPIO Registers
-   29 00000000 40025010 
+   35 00000000 40036044 
+                       TIMER0_TAPMR_B
+                               EQU              0x40036044  ; Timer register
+   36 00000000         
+   37 00000000         ;GPIO Registers
+   38 00000000 40025010 
                        GPIO_PORTF_DATA
                                EQU              0x40025010  ; Access BIT2
-   30 00000000 40025400 
+   39 00000000 40025400 
                        GPIO_PORTF_DIR
                                EQU              0x40025400  ; Port Direction
-   31 00000000 40025420 
+   40 00000000 40025420 
                        GPIO_PORTF_AFSEL
                                EQU              0x40025420  ; Alt Function enab
                                                             le
-   32 00000000 4002551C 
+   41 00000000 4002551C 
                        GPIO_PORTF_DEN
                                EQU              0x4002551C  ; Digital Enable
-   33 00000000 40025528 
+   42 00000000 40025528 
                        GPIO_PORTF_AMSEL
                                EQU              0x40025528  ; Analog enable
-   34 00000000 4002552C 
+   43 00000000 4002552C 
                        GPIO_PORTF_PCTL
                                EQU              0x4002552C  ; Alternate Functio
                                                             ns
-   35 00000000         
-   36 00000000         ;System Registers
-   37 00000000 400FE608 
+   44 00000000         
+   45 00000000         ;System Registers
+   46 00000000 400FE608 
                        SYSCTL_RCGCGPIO
                                EQU              0x400FE608  ; GPIO Gate Control
                                                             
-   38 00000000 400FE65C 
+   47 00000000 400FE65C 
                        SYSCTL_RCGCTIMER
                                EQU              0x400FE65C  ; GPTM Gate Control
                                                             
-   39 00000000         ; 32/64-bit Timer 0
-   40 00000000         
-   41 00000000         ;---------------------------------------------------
-   42 00000000 01312D00 
+   48 00000000         ; 32/64-bit Timer 0
+   49 00000000         
+   50 00000000         ;---------------------------------------------------
+   51 00000000 01312D00 
                        MAX     EQU              0x1312D00   ; 20e6 useconds
-   43 00000000 000F4240 
+   52 00000000 000F4240 
                        DECREASE
                                EQU              0xF4240
-   44 00000000 0007A120 
-                       MAX_TIMERB
-                               EQU              0x7A120
-   45 00000000         ;---------------------------------------------------
-   46 00000000         
-   47 00000000                 AREA             routines, CODE, READONLY
-   48 00000000                 THUMB
-   49 00000000                 EXPORT           WideTimer0A_Handler
-   50 00000000                 EXPORT           WideTimer0B_Handler
-   51 00000000                 EXPORT           Init_Timer_20s
-   52 00000000         
-   53 00000000         ;---------------------------------------------------    
-                        
 
 
 
 ARM Macro Assembler    Page 3 
 
 
-   54 00000000         WideTimer0A_Handler
+   53 00000000 0007A120 
+                       MAX_TIMERB
+                               EQU              0x7A120
+   54 00000000         ;---------------------------------------------------
+   55 00000000         
+   56 00000000                 AREA             routines, CODE, READONLY
+   57 00000000                 THUMB
+   58 00000000                 EXPORT           WideTimer0A_Handler
+   59 00000000                 EXPORT           WideTimer0B_Handler
+   60 00000000                 EXPORT           Init_Timer_20s
+   61 00000000         
+   62 00000000         ;---------------------------------------------------    
+                        
+   63 00000000         WideTimer0A_Handler
                                PROC
-   55 00000000 B500            PUSH{LR}
-   56 00000002         ; clear interrupt flag
-   57 00000002 4946            LDR              R1, =TIMER0_ICR
-   58 00000004 F04F 0011       MOV              R0, #0x11   ; clear the interru
+   64 00000000 B500            PUSH{LR}
+   65 00000002 4949            LDR              R1, =TIMER0_ICR
+   66 00000004 F04F 000F       MOV              R0, #0xF
+   67 00000008 6008            STR              R0, [R1]
+   68 0000000A         End_Of_Mine_Placement
+   69 0000000A         
+   70 0000000A F85D EB04       POP{LR}
+   71 0000000E 4770            BX               LR
+   72 00000010                 ENDP
+   73 00000010         ;---------------------------------------------------
+   74 00000010         WideTimer0B_Handler
+                               PROC
+   75 00000010 B500            PUSH{LR}
+   76 00000012         ; clear interrupt flag
+   77 00000012 4945            LDR              R1, =TIMER0_ICR
+   78 00000014 F640 1211       MOV              R2, #0x911
+   79 00000018 4610            MOV              R0, R2      ; clear the interru
                                                             pts that are
-   59 00000008         ; due to MATCH and TIME-OUT
-   60 00000008 6008            STR              R0, [R1]
-   61 0000000A         
-   62 0000000A 4945            LDR              R1, =TIMER0_TAR
-   63 0000000C 6808            LDR              R0, [R1]
-   64 0000000E 4945            LDR              R1, = MAX
-   65 00000010 4288            CMP              R0, R1      ; check if the time
+   80 0000001A         ; due to MATCH and TIME-OUT
+   81 0000001A 6008            STR              R0, [R1]
+   82 0000001C         
+   83 0000001C 4943            LDR              R1, =TIMER0_TAR_B
+   84 0000001E 6808            LDR              R0, [R1]
+   85 00000020 4943            LDR              R1, = MAX
+   86 00000022 4288            CMP              R0, R1      ; check if the time
                                                             r is reset
-   66 00000012         ; meaning 20s have passed
-   67 00000012 D00B            BEQ              End_Of_Mine_Placement
-   68 00000014         
-   69 00000014         
-   70 00000014 4A42            LDR              R2, =TIMER0_TAR
-   71 00000016 6811            LDR              R1, [R2]
-   72 00000018 4843            LDR              R0, =DECREASE
-   73 0000001A EBA1 0000       SUB              R0, R1, R0  ; set the next MATC
+   87 00000024         ; meaning 20s have passed
+   88 00000024 D0F1            BEQ              End_Of_Mine_Placement
+   89 00000026         
+   90 00000026         
+   91 00000026 4A41            LDR              R2, =TIMER0_TAR_B
+   92 00000028 6811            LDR              R1, [R2]
+   93 0000002A 4842            LDR              R0, =DECREASE
+   94 0000002C EBA1 0000       SUB              R0, R1, R0  ; set the next MATC
                                                             H interrupt
-   74 0000001E 4943            LDR              R1, =TIMER0_TAMATCHR
-   75 00000020 6008            STR              R0, [R1]    ; store it
-   76 00000022         
-   77 00000022         ; Toggle PortF Data, just for demonstration
-   78 00000022 4943            LDR              R1, = GPIO_PORTF_DATA
-   79 00000024 6808            LDR              R0,[R1]
-   80 00000026 F080 0004       EOR              R0,R0,#0x04
-   81 0000002A 6008            STR              R0, [R1]
-   82 0000002C         
-   83 0000002C         ; change the interrupt interval
-   84 0000002C         ;LDR R1, =TIMER0_TAILR 
-   85 0000002C         ;LDR R0 , [R1]
-   86 0000002C         ;EOR R0, R0, #0x0A  ; 30usec <--> 20usec
-   87 0000002C         ;STR R0, [R1]
-   88 0000002C         End_Of_Mine_Placement
-   89 0000002C         
-   90 0000002C F85D EB04       POP{LR}
-   91 00000030 4770            BX               LR
-   92 00000032                 ENDP
-   93 00000032         ;---------------------------------------------------
-   94 00000032         WideTimer0B_Handler
-                               PROC
-   95 00000032 B500            PUSH{LR}
-   96 00000034 F85D EB04       POP{LR}
-   97 00000038 4770            BX               LR
-   98 0000003A                 ENDP
-   99 0000003A         
-  100 0000003A         Init_Timer_20s
-                               PROC
-  101 0000003A B403            PUSH{R0-R1}
-  102 0000003C 493D            LDR              R1, =SYSCTL_RCGCGPIO 
-                                                            ; start GPIO clock
-  103 0000003E 6808            LDR              R0, [R1]
-  104 00000040 F040 0020       ORR              R0, R0, #0x20 ; set bit 5 for p
-                                                            ort F
+   95 00000030 4941            LDR              R1, =TIMER0_TAMATCHR_B
+   96 00000032 6008            STR              R0, [R1]    ; store it
+   97 00000034         
+   98 00000034         ; Toggle PortF Data, just for demonstration
+   99 00000034 4941            LDR              R1, = GPIO_PORTF_DATA
+  100 00000036 6808            LDR              R0,[R1]
+  101 00000038 F080 0004       EOR              R0,R0,#0x04
+  102 0000003C 6008            STR              R0, [R1]
+  103 0000003E         
 
 
 
 ARM Macro Assembler    Page 4 
 
 
-  105 00000044 6008            STR              R0, [R1]
-  106 00000046 BF00            NOP                          ; allow clock to se
+  104 0000003E         ; change the interrupt interval
+  105 0000003E         ;LDR R1, =TIMER0_TAILR 
+  106 0000003E         ;LDR R0 , [R1]
+  107 0000003E         ;EOR R0, R0, #0x0A  ; 30usec <--> 20usec
+  108 0000003E         ;STR R0, [R1]
+  109 0000003E F85D EB04       POP{LR}
+  110 00000042 4770            BX               LR
+  111 00000044                 ENDP
+  112 00000044         
+  113 00000044         Init_Timer_20s
+                               PROC
+  114 00000044 B403            PUSH{R0-R1}
+  115 00000046 493E            LDR              R1, =SYSCTL_RCGCGPIO 
+                                                            ; start GPIO clock
+  116 00000048 6808            LDR              R0, [R1]
+  117 0000004A F040 0020       ORR              R0, R0, #0x20 ; set bit 5 for p
+                                                            ort F
+  118 0000004E 6008            STR              R0, [R1]
+  119 00000050 BF00            NOP                          ; allow clock to se
                                                             ttle
-  107 00000048 BF00            NOP
-  108 0000004A BF00            NOP
-  109 0000004C 493A            LDR              R1, =GPIO_PORTF_DIR ; set direc
+  120 00000052 BF00            NOP
+  121 00000054 BF00            NOP
+  122 00000056 493B            LDR              R1, =GPIO_PORTF_DIR ; set direc
                                                             tion of PF2
-  110 0000004E 6808            LDR              R0, [R1]
-  111 00000050 F040 0004       ORR              R0, R0, #0x04 ; set bit2 for ou
+  123 00000058 6808            LDR              R0, [R1]
+  124 0000005A F040 0004       ORR              R0, R0, #0x04 ; set bit2 for ou
                                                             tput
-  112 00000054 6008            STR              R0, [R1]
-  113 00000056 4939            LDR              R1, =GPIO_PORTF_AFSEL ; regular
+  125 0000005E 6008            STR              R0, [R1]
+  126 00000060 4939            LDR              R1, =GPIO_PORTF_AFSEL ; regular
                                                              port function
-  114 00000058 6808            LDR              R0, [R1]
-  115 0000005A F020 0004       BIC              R0, R0, #0x04
-  116 0000005E 6008            STR              R0, [R1]
-  117 00000060 4937            LDR              R1, =GPIO_PORTF_PCTL ; no alter
+  127 00000062 6808            LDR              R0, [R1]
+  128 00000064 F020 0004       BIC              R0, R0, #0x04
+  129 00000068 6008            STR              R0, [R1]
+  130 0000006A 4938            LDR              R1, =GPIO_PORTF_PCTL ; no alter
                                                             nate function
-  118 00000062 6808            LDR              R0, [R1]
-  119 00000064 F420 6070       BIC              R0, R0, #0x00000F00
-  120 00000068 6008            STR              R0, [R1]
-  121 0000006A 4936            LDR              R1, =GPIO_PORTF_AMSEL 
+  131 0000006C 6808            LDR              R0, [R1]
+  132 0000006E F420 6070       BIC              R0, R0, #0x00000F00
+  133 00000072 6008            STR              R0, [R1]
+  134 00000074 4936            LDR              R1, =GPIO_PORTF_AMSEL 
                                                             ; disable analog
-  122 0000006C F04F 0000       MOV              R0, #0
-  123 00000070 6008            STR              R0, [R1]
-  124 00000072 4935            LDR              R1, =GPIO_PORTF_DEN ; enable po
+  135 00000076 F04F 0000       MOV              R0, #0
+  136 0000007A 6008            STR              R0, [R1]
+  137 0000007C 4935            LDR              R1, =GPIO_PORTF_DEN ; enable po
                                                             rt digital
-  125 00000074 6808            LDR              R0, [R1]
-  126 00000076 F040 0004       ORR              R0, R0, #0x04
-  127 0000007A 6008            STR              R0, [R1]
-  128 0000007C         
-  129 0000007C 4933            LDR              R1, =SYSCTL_RCGCTIMER ; Start 3
+  138 0000007E 6808            LDR              R0, [R1]
+  139 00000080 F040 0004       ORR              R0, R0, #0x04
+  140 00000084 6008            STR              R0, [R1]
+  141 00000086         
+  142 00000086 4934            LDR              R1, =SYSCTL_RCGCTIMER ; Start 3
                                                             2/64-bit Timer 0
-  130 0000007E 6808            LDR              R0, [R1]
-  131 00000080 F040 0001       ORR              R0, R0, #0x01
-  132 00000084 6008            STR              R0, [R1]
-  133 00000086 BF00            NOP                          ; allow clock to se
+  143 00000088 6808            LDR              R0, [R1]
+  144 0000008A F040 0001       ORR              R0, R0, #0x01
+  145 0000008E 6008            STR              R0, [R1]
+  146 00000090 BF00            NOP                          ; allow clock to se
                                                             ttle
-  134 00000088 BF00            NOP
-  135 0000008A BF00            NOP
-  136 0000008C 4930            LDR              R1, =TIMER0_CTL ; disable timer
+  147 00000092 BF00            NOP
+  148 00000094 BF00            NOP
+  149 00000096 4931            LDR              R1, =TIMER0_CTL ; disable timer
                                                              during setup LDR R
-                                                            2, [R1]
-  137 0000008E 6808            LDR              R0, [R1]
-  138 00000090 F240 1201       MOV              R2, #0x101
-  139 00000094 EA20 0002       BIC              R0, R0, R2  ; clear A and B
-  140 00000098 6008            STR              R0, [R1]
-  141 0000009A 492E            LDR              R1, =TIMER0_CFG 
-                                                            ; set 32 bit mode
-  142 0000009C F04F 0004       MOV              R0, #0x04
-  143 000000A0 6008            STR              R0, [R1]
-  144 000000A2 492D            LDR              R1, =TIMER0_TAMR
-  145 000000A4 F04F 0021       MOV              R0, #0x21   ; set to one shot, 
-                                                            count down
-  146 000000A8 6008            STR              R0, [R1]
-  147 000000AA 491E            LDR              R1, =MAX
-  148 000000AC 481E            LDR              R0, =DECREASE
-  149 000000AE EBA1 0000       SUB              R0, R1, R0
-  150 000000B2 491E            LDR              R1, =TIMER0_TAMATCHR
 
 
 
 ARM Macro Assembler    Page 5 
 
 
-  151 000000B4 6008            STR              R0, [R1]
-  152 000000B6 4929            LDR              R1, =TIMER0_TAILR ; initialize 
-                                                            match clocks
-  153 000000B8 481A            LDR              R0, =MAX
-  154 000000BA 6008            STR              R0, [R1]
-  155 000000BC 4928            LDR              R1, =TIMER0_TAPR
-  156 000000BE F04F 000F       MOV              R0, #15     ; divide clock by 1
+                                                            2, [R1]
+  150 00000098 6808            LDR              R0, [R1]
+  151 0000009A F240 1201       MOV              R2, #0x101
+  152 0000009E EA20 0002       BIC              R0, R0, R2  ; clear A and B
+  153 000000A2 6008            STR              R0, [R1]
+  154 000000A4 492E            LDR              R1, =TIMER0_CFG 
+                                                            ; set 32 bit mode
+  155 000000A6 F04F 0004       MOV              R0, #0x04
+  156 000000AA 6008            STR              R0, [R1]
+  157 000000AC 492D            LDR              R1, =TIMER0_TAMR_B
+  158 000000AE F04F 0061       MOV              R0, #0x61   ; set to one shot, 
+                                                            count down
+  159 000000B2 6008            STR              R0, [R1]
+  160 000000B4         
+  161 000000B4         ;//////////////////////////////
+  162 000000B4 491E            LDR              R1, =MAX
+  163 000000B6 481F            LDR              R0, =DECREASE
+  164 000000B8 EBA1 0000       SUB              R0, R1, R0
+  165 000000BC 491E            LDR              R1, =TIMER0_TAMATCHR_B
+  166 000000BE 6008            STR              R0, [R1]
+  167 000000C0         ;//////////////////////////////
+  168 000000C0         
+  169 000000C0         ;//////////////////////////////
+  170 000000C0 4929            LDR              R1, =TIMER0_TAILR_B ; initializ
+                                                            e match clocks
+  171 000000C2 481B            LDR              R0, =MAX
+  172 000000C4 6008            STR              R0, [R1]
+  173 000000C6         ;//////////////////////////////
+  174 000000C6         
+  175 000000C6 4929            LDR              R1, =TIMER0_TAPR_B
+  176 000000C8 F04F 000F       MOV              R0, #15     ; divide clock by 1
                                                             6 to
-  157 000000C2 6008            STR              R0, [R1]    ; get 1us clocks
-  158 000000C4         ; LDR R1, =TIMER0_TAPMR
-  159 000000C4         ; MOV R0, #15 ; divide clock by 16 to
-  160 000000C4         ; STR R0, [R1] ; get 1us clocks
-  161 000000C4 4927            LDR              R1, =TIMER0_IMR ; enable timeou
+  177 000000CC 6008            STR              R0, [R1]    ; get 1us clocks
+  178 000000CE         ; LDR R1, =TIMER0_TAPMR_B
+  179 000000CE         ; MOV R0, #15 ; divide clock by 16 to
+  180 000000CE         ; STR R0, [R1] ; get 1us clocks
+  181 000000CE 4928            LDR              R1, =TIMER0_IMR ; enable timeou
                                                             t interrupt
-  162 000000C6 F640 1011       MOV              R0, #0x911  ; A and B interrupt
+  182 000000D0 F640 1001       MOV              R0, #0x901  ; A and B interrupt
                                                              enable
-  163 000000CA 6008            STR              R0, [R1]
-  164 000000CC         ; - - - - - - - - - -- - - - - - -
-  165 000000CC 4926            LDR              R1, =TIMER0_TAMR_B
-  166 000000CE F04F 0061       MOV              R0, #0x61   ; set to one shot, 
+  183 000000D4 6008            STR              R0, [R1]
+  184 000000D6         ; - - - - - - - - - -- - - - - - -
+  185 000000D6 4927            LDR              R1, =TIMER0_TAMR
+  186 000000D8 F04F 0001       MOV              R0, #0x01   ; set to one shot, 
                                                             count down, wait tr
                                                             igger enabled
-  167 000000D2 6008            STR              R0, [R1]
-  168 000000D4 4925            LDR              R1, =TIMER0_TAILR_B ; initializ
-                                                            e match clocks
-  169 000000D6 4826            LDR              R0, =MAX_TIMERB
-  170 000000D8 6008            STR              R0, [R1]
-  171 000000DA 4926            LDR              R1, =TIMER0_TAPR_B
-  172 000000DC F04F 000F       MOV              R0, #15     ; divide clock by 1
+  187 000000DC 6008            STR              R0, [R1]
+  188 000000DE 4926            LDR              R1, =TIMER0_TAPR
+  189 000000E0 F04F 000F       MOV              R0, #15     ; divide clock by 1
                                                             6 to
-  173 000000E0 6008            STR              R0, [R1]    ; get 1us clocks
-  174 000000E2         ; - - - - - - - - - -- - - - - - -
-  175 000000E2         ; Configure interrupt priorities
-  176 000000E2         ; Timer0A is interrupt #94.
-  177 000000E2         ; Interrupts 92-95 are handled by NVIC register PRI23.
-  178 000000E2         ; set NVIC interrupt 94 to priority 2
-  179 000000E2 4925            LDR              R1, =NVIC_PRI4
-  180 000000E4 6808            LDR              R0, [R1]
-  181 000000E6 F64F 72FF 
-              F2C0 0200        MOV32            R2, #0x0000FFFF
-  182 000000EE EA00 0002       AND              R0, R0, R2  ; clear interrupt 1
-                                                            9 priority
-  183 000000F2 F240 0200 
-              F2C4 0240        MOV32            R2,  #0x40400000
-  184 000000FA EA40 0002       ORR              R0, R0, R2  ; set interrupt 19 
-                                                            priority to 2
-  185 000000FE 6008            STR              R0, [R1]
-  186 00000100         ; NVIC has to be enabled
-  187 00000100         ; Interrupts 64-95 are handled by NVIC register EN2
-  188 00000100         ; Interrupt 94 is controlled by bit 30
-  189 00000100 491E            LDR              R1, =NVIC_EN0
-  190 00000102 6808            LDR              R0, [R1]
-  191 00000104 F040 4040       ORR              R0, R0, #0xC0000000 ; set bit 3
-                                                            0 to enable interru
-                                                            pt 94-95
-  192 00000108 6008            STR              R0, [R1]
-  193 0000010A         ; Enable timer
-  194 0000010A 4911            LDR              R1, =TIMER0_CTL
-  195 0000010C 6808            LDR              R0, [R1]
+  190 000000E4 6008            STR              R0, [R1]    ; get 1us clocks
+  191 000000E6 4925            LDR              R1, =TIMER0_TAILR ; initialize 
+                                                            match clocks
+  192 000000E8 4825            LDR              R0, =MAX_TIMERB
+  193 000000EA 6008            STR              R0, [R1]
+  194 000000EC         
+  195 000000EC         ; - - - - - - - - - -- - - - - - -
+  196 000000EC         ; Configure interrupt priorities
+  197 000000EC         ; Timer0A is interrupt #94.
 
 
 
 ARM Macro Assembler    Page 6 
 
 
-  196 0000010E F240 3203       MOV              R2, #0x303
-  197 00000112 EA40 0002       ORR              R0, R0, R2  ; set bit0 to enabl
+  198 000000EC         ; Interrupts 92-95 are handled by NVIC register PRI23.
+  199 000000EC         ; set NVIC interrupt 94 to priority 2
+  200 000000EC 4925            LDR              R1, =NVIC_PRI4
+  201 000000EE 6808            LDR              R0, [R1]
+  202 000000F0 F64F 72FF 
+              F2C0 0200        MOV32            R2, #0x0000FFFF
+  203 000000F8 EA00 0002       AND              R0, R0, R2  ; clear interrupt 1
+                                                            9 priority
+  204 000000FC F240 0200 
+              F2C4 0240        MOV32            R2,  #0x40400000
+  205 00000104 EA40 0002       ORR              R0, R0, R2  ; set interrupt 19 
+                                                            priority to 2
+  206 00000108 6008            STR              R0, [R1]
+  207 0000010A         ; NVIC has to be enabled
+  208 0000010A         ; Interrupts 64-95 are handled by NVIC register EN2
+  209 0000010A         ; Interrupt 94 is controlled by bit 30
+  210 0000010A 491F            LDR              R1, =NVIC_EN0
+  211 0000010C 6808            LDR              R0, [R1]
+  212 0000010E F040 4040       ORR              R0, R0, #0xC0000000 ; set bit 3
+                                                            0 to enable interru
+                                                            pt 94-95
+  213 00000112 6008            STR              R0, [R1]
+  214 00000114         ; Enable timer
+  215 00000114 4911            LDR              R1, =TIMER0_CTL
+  216 00000116 6808            LDR              R0, [R1]
+  217 00000118 F240 3203       MOV              R2, #0x303
+  218 0000011C EA40 0002       ORR              R0, R0, R2  ; set bit0 to enabl
                                                             e A and B
-  198 00000116 6008            STR              R0, [R1]    ; and bit 1 to stal
+  219 00000120 6008            STR              R0, [R1]    ; and bit 1 to stal
                                                             l on debug
-  199 00000118 BC03            POP{R0-R1}
-  200 0000011A 4770            BX               LR          ; return
-  201 0000011C                 ENDP
-  202 0000011C                 END
-              40036024 
-              40036048 
+  220 00000122 BC03            POP{R0-R1}
+  221 00000124 4770            BX               LR          ; return
+  222 00000126                 ENDP
+  223 00000126                 END
+              00 00 40036024 
+              4003604C 
               01312D00 
               000F4240 
-              40036030 
+              40036034 
               40025010 
               400FE608 
               40025400 
@@ -353,16 +378,22 @@ ARM Macro Assembler    Page 6
               400FE65C 
               4003600C 
               40036000 
-              40036004 
-              40036028 
-              40036038 
-              40036018 
               40036008 
               4003602C 
-              0007A120 
               4003603C 
+              40036018 
+              40036004 
+              40036038 
+              40036028 
+              0007A120 
               E000E41C 
               E000E108 
+
+
+
+ARM Macro Assembler    Page 7 
+
+
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\objects\init_timer_20s.d -o.\objects\init_timer_20s.o -I.\RTE
 \_q1 -ID:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -ID:\Keil
@@ -375,43 +406,43 @@ lst Init_Timer_20s.s
 ARM Macro Assembler    Page 1 Alphabetic symbol ordering
 Relocatable symbols
 
-End_Of_Mine_Placement 0000002C
+End_Of_Mine_Placement 0000000A
 
 Symbol: End_Of_Mine_Placement
    Definitions
-      At line 88 in file Init_Timer_20s.s
+      At line 68 in file Init_Timer_20s.s
    Uses
-      At line 67 in file Init_Timer_20s.s
+      At line 88 in file Init_Timer_20s.s
 Comment: End_Of_Mine_Placement used once
-Init_Timer_20s 0000003A
+Init_Timer_20s 00000044
 
 Symbol: Init_Timer_20s
    Definitions
-      At line 100 in file Init_Timer_20s.s
+      At line 113 in file Init_Timer_20s.s
    Uses
-      At line 51 in file Init_Timer_20s.s
+      At line 60 in file Init_Timer_20s.s
 Comment: Init_Timer_20s used once
 WideTimer0A_Handler 00000000
 
 Symbol: WideTimer0A_Handler
    Definitions
-      At line 54 in file Init_Timer_20s.s
+      At line 63 in file Init_Timer_20s.s
    Uses
-      At line 49 in file Init_Timer_20s.s
+      At line 58 in file Init_Timer_20s.s
 Comment: WideTimer0A_Handler used once
-WideTimer0B_Handler 00000032
+WideTimer0B_Handler 00000010
 
 Symbol: WideTimer0B_Handler
    Definitions
-      At line 94 in file Init_Timer_20s.s
+      At line 74 in file Init_Timer_20s.s
    Uses
-      At line 50 in file Init_Timer_20s.s
+      At line 59 in file Init_Timer_20s.s
 Comment: WideTimer0B_Handler used once
 routines 00000000
 
 Symbol: routines
    Definitions
-      At line 47 in file Init_Timer_20s.s
+      At line 56 in file Init_Timer_20s.s
    Uses
       None
 Comment: routines unused
@@ -426,58 +457,58 @@ DECREASE 000F4240
 
 Symbol: DECREASE
    Definitions
-      At line 43 in file Init_Timer_20s.s
+      At line 52 in file Init_Timer_20s.s
    Uses
-      At line 72 in file Init_Timer_20s.s
-      At line 148 in file Init_Timer_20s.s
+      At line 93 in file Init_Timer_20s.s
+      At line 163 in file Init_Timer_20s.s
 
 GPIO_PORTF_AFSEL 40025420
 
 Symbol: GPIO_PORTF_AFSEL
    Definitions
-      At line 31 in file Init_Timer_20s.s
+      At line 40 in file Init_Timer_20s.s
    Uses
-      At line 113 in file Init_Timer_20s.s
+      At line 126 in file Init_Timer_20s.s
 Comment: GPIO_PORTF_AFSEL used once
 GPIO_PORTF_AMSEL 40025528
 
 Symbol: GPIO_PORTF_AMSEL
    Definitions
-      At line 33 in file Init_Timer_20s.s
+      At line 42 in file Init_Timer_20s.s
    Uses
-      At line 121 in file Init_Timer_20s.s
+      At line 134 in file Init_Timer_20s.s
 Comment: GPIO_PORTF_AMSEL used once
 GPIO_PORTF_DATA 40025010
 
 Symbol: GPIO_PORTF_DATA
    Definitions
-      At line 29 in file Init_Timer_20s.s
+      At line 38 in file Init_Timer_20s.s
    Uses
-      At line 78 in file Init_Timer_20s.s
+      At line 99 in file Init_Timer_20s.s
 Comment: GPIO_PORTF_DATA used once
 GPIO_PORTF_DEN 4002551C
 
 Symbol: GPIO_PORTF_DEN
    Definitions
-      At line 32 in file Init_Timer_20s.s
+      At line 41 in file Init_Timer_20s.s
    Uses
-      At line 124 in file Init_Timer_20s.s
+      At line 137 in file Init_Timer_20s.s
 Comment: GPIO_PORTF_DEN used once
 GPIO_PORTF_DIR 40025400
 
 Symbol: GPIO_PORTF_DIR
    Definitions
-      At line 30 in file Init_Timer_20s.s
+      At line 39 in file Init_Timer_20s.s
    Uses
-      At line 109 in file Init_Timer_20s.s
+      At line 122 in file Init_Timer_20s.s
 Comment: GPIO_PORTF_DIR used once
 GPIO_PORTF_PCTL 4002552C
 
 Symbol: GPIO_PORTF_PCTL
    Definitions
-      At line 34 in file Init_Timer_20s.s
+      At line 43 in file Init_Timer_20s.s
    Uses
-      At line 117 in file Init_Timer_20s.s
+      At line 130 in file Init_Timer_20s.s
 Comment: GPIO_PORTF_PCTL used once
 MAX 01312D00
 
@@ -489,19 +520,19 @@ Absolute symbols
 
 Symbol: MAX
    Definitions
-      At line 42 in file Init_Timer_20s.s
+      At line 51 in file Init_Timer_20s.s
    Uses
-      At line 64 in file Init_Timer_20s.s
-      At line 147 in file Init_Timer_20s.s
-      At line 153 in file Init_Timer_20s.s
+      At line 85 in file Init_Timer_20s.s
+      At line 162 in file Init_Timer_20s.s
+      At line 171 in file Init_Timer_20s.s
 
 MAX_TIMERB 0007A120
 
 Symbol: MAX_TIMERB
    Definitions
-      At line 44 in file Init_Timer_20s.s
+      At line 53 in file Init_Timer_20s.s
    Uses
-      At line 169 in file Init_Timer_20s.s
+      At line 192 in file Init_Timer_20s.s
 Comment: MAX_TIMERB used once
 NVIC_EN0 E000E108
 
@@ -509,7 +540,7 @@ Symbol: NVIC_EN0
    Definitions
       At line 8 in file Init_Timer_20s.s
    Uses
-      At line 189 in file Init_Timer_20s.s
+      At line 210 in file Init_Timer_20s.s
 Comment: NVIC_EN0 used once
 NVIC_PRI4 E000E41C
 
@@ -517,23 +548,23 @@ Symbol: NVIC_PRI4
    Definitions
       At line 9 in file Init_Timer_20s.s
    Uses
-      At line 179 in file Init_Timer_20s.s
+      At line 200 in file Init_Timer_20s.s
 Comment: NVIC_PRI4 used once
 SYSCTL_RCGCGPIO 400FE608
 
 Symbol: SYSCTL_RCGCGPIO
    Definitions
-      At line 37 in file Init_Timer_20s.s
+      At line 46 in file Init_Timer_20s.s
    Uses
-      At line 102 in file Init_Timer_20s.s
+      At line 115 in file Init_Timer_20s.s
 Comment: SYSCTL_RCGCGPIO used once
 SYSCTL_RCGCTIMER 400FE65C
 
 Symbol: SYSCTL_RCGCTIMER
    Definitions
-      At line 38 in file Init_Timer_20s.s
+      At line 47 in file Init_Timer_20s.s
    Uses
-      At line 129 in file Init_Timer_20s.s
+      At line 142 in file Init_Timer_20s.s
 Comment: SYSCTL_RCGCTIMER used once
 TIMER0_CFG 40036000
 
@@ -541,7 +572,7 @@ Symbol: TIMER0_CFG
    Definitions
       At line 12 in file Init_Timer_20s.s
    Uses
-      At line 141 in file Init_Timer_20s.s
+      At line 154 in file Init_Timer_20s.s
 Comment: TIMER0_CFG used once
 TIMER0_CTL 4003600C
 
@@ -553,32 +584,33 @@ ARM Macro Assembler    Page 3 Alphabetic symbol ordering
 Absolute symbols
 
    Definitions
-      At line 15 in file Init_Timer_20s.s
+      At line 17 in file Init_Timer_20s.s
    Uses
-      At line 136 in file Init_Timer_20s.s
-      At line 194 in file Init_Timer_20s.s
+      At line 149 in file Init_Timer_20s.s
+      At line 215 in file Init_Timer_20s.s
 
 TIMER0_ICR 40036024
 
 Symbol: TIMER0_ICR
    Definitions
-      At line 18 in file Init_Timer_20s.s
+      At line 20 in file Init_Timer_20s.s
    Uses
-      At line 57 in file Init_Timer_20s.s
-Comment: TIMER0_ICR used once
+      At line 65 in file Init_Timer_20s.s
+      At line 77 in file Init_Timer_20s.s
+
 TIMER0_IMR 40036018
 
 Symbol: TIMER0_IMR
    Definitions
-      At line 16 in file Init_Timer_20s.s
+      At line 18 in file Init_Timer_20s.s
    Uses
-      At line 161 in file Init_Timer_20s.s
+      At line 181 in file Init_Timer_20s.s
 Comment: TIMER0_IMR used once
 TIMER0_RIS 4003601C
 
 Symbol: TIMER0_RIS
    Definitions
-      At line 17 in file Init_Timer_20s.s
+      At line 19 in file Init_Timer_20s.s
    Uses
       None
 Comment: TIMER0_RIS unused
@@ -586,30 +618,29 @@ TIMER0_TAILR 40036028
 
 Symbol: TIMER0_TAILR
    Definitions
-      At line 19 in file Init_Timer_20s.s
+      At line 22 in file Init_Timer_20s.s
    Uses
-      At line 152 in file Init_Timer_20s.s
+      At line 191 in file Init_Timer_20s.s
 Comment: TIMER0_TAILR used once
 TIMER0_TAILR_B 4003602C
 
 Symbol: TIMER0_TAILR_B
    Definitions
-      At line 20 in file Init_Timer_20s.s
+      At line 23 in file Init_Timer_20s.s
    Uses
-      At line 168 in file Init_Timer_20s.s
+      At line 170 in file Init_Timer_20s.s
 Comment: TIMER0_TAILR_B used once
 TIMER0_TAMATCHR 40036030
 
 Symbol: TIMER0_TAMATCHR
    Definitions
-      At line 25 in file Init_Timer_20s.s
+      At line 31 in file Init_Timer_20s.s
    Uses
-      At line 74 in file Init_Timer_20s.s
-      At line 150 in file Init_Timer_20s.s
+      None
+Comment: TIMER0_TAMATCHR unused
+TIMER0_TAMATCHR_B 40036034
 
-TIMER0_TAMR 40036004
-
-Symbol: TIMER0_TAMR
+Symbol: TIMER0_TAMATCHR_B
    Definitions
 
 
@@ -617,58 +648,81 @@ Symbol: TIMER0_TAMR
 ARM Macro Assembler    Page 4 Alphabetic symbol ordering
 Absolute symbols
 
-      At line 13 in file Init_Timer_20s.s
+      At line 32 in file Init_Timer_20s.s
    Uses
-      At line 144 in file Init_Timer_20s.s
+      At line 95 in file Init_Timer_20s.s
+      At line 165 in file Init_Timer_20s.s
+
+TIMER0_TAMR 40036004
+
+Symbol: TIMER0_TAMR
+   Definitions
+      At line 14 in file Init_Timer_20s.s
+   Uses
+      At line 185 in file Init_Timer_20s.s
 Comment: TIMER0_TAMR used once
 TIMER0_TAMR_B 40036008
 
 Symbol: TIMER0_TAMR_B
    Definitions
-      At line 14 in file Init_Timer_20s.s
+      At line 15 in file Init_Timer_20s.s
    Uses
-      At line 165 in file Init_Timer_20s.s
+      At line 157 in file Init_Timer_20s.s
 Comment: TIMER0_TAMR_B used once
 TIMER0_TAPMR 40036040
 
 Symbol: TIMER0_TAPMR
    Definitions
-      At line 26 in file Init_Timer_20s.s
+      At line 34 in file Init_Timer_20s.s
    Uses
       None
 Comment: TIMER0_TAPMR unused
+TIMER0_TAPMR_B 40036044
+
+Symbol: TIMER0_TAPMR_B
+   Definitions
+      At line 35 in file Init_Timer_20s.s
+   Uses
+      None
+Comment: TIMER0_TAPMR_B unused
 TIMER0_TAPR 40036038
 
 Symbol: TIMER0_TAPR
    Definitions
-      At line 21 in file Init_Timer_20s.s
+      At line 25 in file Init_Timer_20s.s
    Uses
-      At line 155 in file Init_Timer_20s.s
+      At line 188 in file Init_Timer_20s.s
 Comment: TIMER0_TAPR used once
 TIMER0_TAPR_B 4003603C
 
 Symbol: TIMER0_TAPR_B
    Definitions
-      At line 22 in file Init_Timer_20s.s
+      At line 26 in file Init_Timer_20s.s
    Uses
-      At line 171 in file Init_Timer_20s.s
+      At line 175 in file Init_Timer_20s.s
 Comment: TIMER0_TAPR_B used once
-TIMER0_TAR 40036048
+TIMER0_TAR_B 4003604C
 
-Symbol: TIMER0_TAR
+Symbol: TIMER0_TAR_B
    Definitions
-      At line 23 in file Init_Timer_20s.s
+      At line 28 in file Init_Timer_20s.s
    Uses
-      At line 62 in file Init_Timer_20s.s
-      At line 70 in file Init_Timer_20s.s
+
+
+
+ARM Macro Assembler    Page 5 Alphabetic symbol ordering
+Absolute symbols
+
+      At line 83 in file Init_Timer_20s.s
+      At line 91 in file Init_Timer_20s.s
 
 TIMER0_TAV 40036050
 
 Symbol: TIMER0_TAV
    Definitions
-      At line 24 in file Init_Timer_20s.s
+      At line 29 in file Init_Timer_20s.s
    Uses
       None
 Comment: TIMER0_TAV unused
-28 symbols
-369 symbols in table
+30 symbols
+371 symbols in table
