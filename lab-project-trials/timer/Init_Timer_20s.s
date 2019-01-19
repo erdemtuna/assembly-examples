@@ -10,29 +10,20 @@ NVIC_PRI4			EQU 0xE000E41C ; IRQ 92 to 95 Priority Register
 	
 ; 32/64 Timer Registers
 TIMER0_CFG			EQU 0x40036000
-
 TIMER0_TAMR			EQU 0x40036004
 TIMER0_TAMR_B		EQU 0x40036008
-
 TIMER0_CTL			EQU 0x4003600C
 TIMER0_IMR			EQU 0x40036018
 TIMER0_RIS			EQU 0x4003601C ; Timer Interrupt Status
 TIMER0_ICR			EQU 0x40036024 ; Timer Interrupt Clear
-
 TIMER0_TAILR		EQU 0x40036028 ; Timer interval
 TIMER0_TAILR_B		EQU 0x4003602C ; Timer interval
-
 TIMER0_TAPR			EQU 0x40036038
 TIMER0_TAPR_B		EQU 0x4003603C
-
-TIMER0_TAR_B		EQU	0x4003604C ; Timer register
+TIMER0_TAR			EQU	0x40036048 ; Timer register
 TIMER0_TAV			EQU	0x40036050 ; Timer register
-
 TIMER0_TAMATCHR		EQU	0x40036030 ; Timer register
-TIMER0_TAMATCHR_B	EQU	0x40036034 ; Timer register
-
 TIMER0_TAPMR		EQU	0x40036040 ; Timer register
-TIMER0_TAPMR_B		EQU	0x40036044 ; Timer register
 	
 ;GPIO Registers
 GPIO_PORTF_DATA		EQU 0x40025010 ; Access BIT2
@@ -62,25 +53,13 @@ MAX_TIMERB EQU 0x7A120
 ;---------------------------------------------------					
 WideTimer0A_Handler	PROC
 	PUSH{LR}
-	LDR R1, =TIMER0_ICR	
-	MOV R0, #0xF
-	STR R0, [R1]
-End_Of_Mine_Placement
-
-	POP{LR}
-	BX 	LR 
-	ENDP
-;---------------------------------------------------
-WideTimer0B_Handler PROC
-	PUSH{LR}
 	; clear interrupt flag
-	LDR R1, =TIMER0_ICR	
-	MOV R2, #0x911
-	MOV R0, R2 ; clear the interrupts that are
+	LDR R1, =TIMER0_ICR		
+	MOV R0, #0x11 ; clear the interrupts that are
 				  ; due to MATCH and TIME-OUT
 	STR R0, [R1]
 	
-	LDR R1, =TIMER0_TAR_B
+	LDR R1, =TIMER0_TAR
 	LDR R0, [R1]
 	LDR R1, = MAX
 	CMP R0, R1 ; check if the timer is reset
@@ -88,11 +67,11 @@ WideTimer0B_Handler PROC
 	BEQ End_Of_Mine_Placement
 	
 	
-	LDR R2, =TIMER0_TAR_B
+	LDR R2, =TIMER0_TAR
 	LDR R1, [R2]
 	LDR R0, =DECREASE
 	SUB R0, R1, R0 ; set the next MATCH interrupt
-	LDR R1, =TIMER0_TAMATCHR_B
+	LDR R1, =TIMER0_TAMATCHR
 	STR R0, [R1] ; store it
 
 	; Toggle PortF Data, just for demonstration
@@ -106,6 +85,14 @@ WideTimer0B_Handler PROC
 	;LDR R0 , [R1]
 	;EOR R0, R0, #0x0A  ; 30usec <--> 20usec
 	;STR R0, [R1]
+End_Of_Mine_Placement
+
+	POP{LR}
+	BX 	LR 
+	ENDP
+;---------------------------------------------------
+WideTimer0B_Handler PROC
+	PUSH{LR}
 	POP{LR}
 	BX 	LR 
 	ENDP
@@ -154,44 +141,36 @@ Init_Timer_20s PROC
 	LDR R1, =TIMER0_CFG ; set 32 bit mode
 	MOV R0, #0x04
 	STR R0, [R1]
-	LDR R1, =TIMER0_TAMR_B
-	MOV R0, #0x61 ; set to one shot, count down
+	LDR R1, =TIMER0_TAMR
+	MOV R0, #0x21 ; set to one shot, count down
 	STR R0, [R1]
-
-	;//////////////////////////////
 	LDR R1, =MAX
 	LDR R0, =DECREASE
 	SUB R0, R1, R0
-	LDR R1, =TIMER0_TAMATCHR_B
+	LDR R1, =TIMER0_TAMATCHR
 	STR R0, [R1]
-	;//////////////////////////////
-
-	;//////////////////////////////
-	LDR R1, =TIMER0_TAILR_B ; initialize match clocks
+	LDR R1, =TIMER0_TAILR ; initialize match clocks
 	LDR R0, =MAX
-	STR R0, [R1]
-	;//////////////////////////////
-
-	LDR R1, =TIMER0_TAPR_B
-	MOV R0, #15 ; divide clock by 16 to
-	STR R0, [R1] ; get 1us clocks
-;	LDR R1, =TIMER0_TAPMR_B
-;	MOV R0, #15 ; divide clock by 16 to
-;	STR R0, [R1] ; get 1us clocks
-	LDR R1, =TIMER0_IMR ; enable timeout interrupt
-	MOV R0, #0x901 ; A and B interrupt enable
-	STR R0, [R1]
-	; - - - - - - - - - -- - - - - - -
-	LDR R1, =TIMER0_TAMR
-	MOV R0, #0x01 ; set to one shot, count down, wait trigger enabled
 	STR R0, [R1]
 	LDR R1, =TIMER0_TAPR
 	MOV R0, #15 ; divide clock by 16 to
 	STR R0, [R1] ; get 1us clocks
-	LDR R1, =TIMER0_TAILR ; initialize match clocks
+;	LDR R1, =TIMER0_TAPMR
+;	MOV R0, #15 ; divide clock by 16 to
+;	STR R0, [R1] ; get 1us clocks
+	LDR R1, =TIMER0_IMR ; enable timeout interrupt
+	MOV R0, #0x911 ; A and B interrupt enable
+	STR R0, [R1]
+	; - - - - - - - - - -- - - - - - -
+	LDR R1, =TIMER0_TAMR_B
+	MOV R0, #0x61 ; set to one shot, count down, wait trigger enabled
+	STR R0, [R1]
+	LDR R1, =TIMER0_TAILR_B ; initialize match clocks
 	LDR R0, =MAX_TIMERB
 	STR R0, [R1]
-
+	LDR R1, =TIMER0_TAPR_B
+	MOV R0, #15 ; divide clock by 16 to
+	STR R0, [R1] ; get 1us clocks
 	; - - - - - - - - - -- - - - - - -
 ; Configure interrupt priorities
 ; Timer0A is interrupt #94.
