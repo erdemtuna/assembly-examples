@@ -57,6 +57,7 @@ MSG_Civilianship DCB "{",0x04
 MSG_Clear_Cursor DCB " ",0x04
 MSG_InitialRun DCB	"EE447         Lab Project   Burkay Unsal  Erdem Tuna	",0x04
 MSG_Welcome DCB	"Place the shipafter border  is visible.",0x04
+MSG_WaitUser2 DCB	"Waiting for      user2 to press both buttons.",0x04
 	
 ;----------------------------------
 ; Screen functions
@@ -132,11 +133,15 @@ Load_GameBorder
 	MOV R10, #99 ; old x coordinate
 	MOV R11, #99 ; old y coordinate 
 	MOV R2, #0 ; difference counter
+	MOV R6, #0 ; ship counter
 	
 Set_Coordinates
-	BL Placement_Battleship_Output
-	BL Placement_Civilianship_Output
-	BL Clear_Interrupt_Status
+	;BL delayTrans
+	BL Placement_Battleship_Output ; print battleships while deployment
+	BL Placement_Civilianship_Output ; print civilianships while deployment
+	BL Clear_Interrupt_Status ; clear button interrupts
+	CMP R6, #4
+	BEQ Placement_Done
 	MOV R0, #0 ; clear x-coordinate
 	MOV R1, #0 ; clear y-coordinate
 	MOV R2, #0 ; reset counter
@@ -160,6 +165,7 @@ Set_Coordinates
 Go_Check_Ship_Placement
 	BL Check_Ship_Placement
 	B Set_Coordinates
+
 ;-------------------------------------------
 ; Clears the position of old cursor by writing
 ; 0 pixels on top of it.
@@ -185,6 +191,22 @@ Move_Cursor
 donethis	B		donethis
 
 ;-------------------------------------------
+; Let's user to have an overview of the
+; deployed ships. No placement is allowed.
+; Press both buttons to handover the turn.
+; All preused registers can be reset from now on,
+; because the game phase is going to change
+;-------------------------------------------
+Placement_Done
+	BL Check_Interrupt_Status ; R9 has interrupt status
+	ANDS R9, #0x11 ; if R9 == 0x11, user wants handover to
+				   ; other player
+				   ; Otherwise wait for 0x11.
+	BEQ Placement_Done
+	BL Clear_Interrupt_Status ; clear button interrupts
+	B Wait_for_Second_Player
+
+;-------------------------------------------
 ; Checks if a ship is to be placed
 ; if yes, then saves the ship to memory
 ; if not, returns back
@@ -196,14 +218,22 @@ Check_Ship_Placement
 	BNE Determine_Ship_Type
 	POP{LR}
 	BX LR
+;-------------------------------------------
+; Checks which ship type is deployed.
+; Redirects to save subroutine of respective ship
+;-------------------------------------------
 Determine_Ship_Type
+	ADD R6, R6, #1 ; increase the ship count
 	CMP R9, #0x10 ; if R9 == 0x10, place a batlleship
 				  ; if R9 < 0x10, place a civilianship
 				  ; if R9 > 0x10, ship placement is done
 	BEQ Placement_Battleship_Save
 	BLO Placement_Civilianship_Save
 ;	B	Placement_Done
-			
+
+;-------------------------------------------
+; Saves the location of battleship
+;-------------------------------------------
 Placement_Battleship_Save
 	PUSH{R0-R12}
 	LDR R3, = Memory_Battleship
@@ -218,6 +248,9 @@ Find_Battleship_Zero_Memory
 	POP{LR}
 	BX LR ; return to last call of Check_Ship_Placement
 	
+;-------------------------------------------
+; Saves the location of civilianship
+;-------------------------------------------
 Placement_Civilianship_Save
 	PUSH{R0-R12}
 	LDR R3, = Memory_Civilianship
@@ -251,8 +284,7 @@ Output_Battleship
 	LDR	R5, = MSG_Battleship
 	BL	OutStrNokia
 	;BL delayTrans
-	B Output_Battleship ; loop through all battleships
-	
+	B Output_Battleship ; loop through all battleships	
 Placement_Battleship_Output_Return	
 	POP{LR}
 	POP{R0-R12}
@@ -278,12 +310,26 @@ Output_Civilianship
 	BL	OutStrNokia
 	;BL delayTrans
 	B Output_Civilianship ; loop through all battleships
-	
 Placement_Civilianship_Output_Return	
 	POP{LR}
 	POP{R0-R12}
 	BX LR
-	
+;************************ SECOND PLAYER PHASE ************************
+Wait_for_Second_Player
+	BL Clear_Interrupt_Status ; clear button interrupts
+	BL	ClearNokia
+	LDR	R5, = MSG_WaitUser2 ; output prompt message
+	BL	OutStrNokia
+Wait_for_Second_Player_Interrupt
+	BL Check_Interrupt_Status ; R9 has interrupt status
+	CMP R9, #0x11 ; if R9 == 0x11, user2 wants to start mine placement
+				   ; otherwise, wait for user2 to concentrate on.
+	BNE Wait_for_Second_Player_Interrupt
+	BL Clear_Interrupt_Status ; clear button interrupts
+	B Wait_for_Second_Player
+
+
+
 
 ;			BL		delay				; leave image for a few s
 
@@ -328,7 +374,7 @@ del
 	BX		LR
 
 delayTrans	PUSH	{R0}
-	MOV		R0,#0x855			;~250ms, 0x5855
+	MOV		R0,#0x355			;~250ms, 0x5855
 	MOVT	R0,#0x0014
 dt			
 	SUBS	R0,#1

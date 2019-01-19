@@ -395,7 +395,7 @@ sendCharByte
 	SUBS	R0,R0,#1
 	BNE		sendCharByte
 	MOV		R5,R2
-	BL		TxByte				; tack space on after char
+	;BL		TxByte				; tack space on after char
 waitCharDone		
 	LDR		R1,=SSI0_SR				; wait until SSI is done
 	LDR		R0,[R1]
