@@ -137,20 +137,20 @@ PortF_Button_Init
 ; Timer0A is interrupt #94.
 ; Interrupts 92-95 are handled by NVIC register PRI23.
 ; set NVIC interrupt 94-95 to priority 2
-	LDR R1, =NVIC_PRI4
-	LDR R0, [R1]
-	MOV32 R2, #0x0000FFFF
-	AND R0, R0, R2 ; clear interrupt
-	MOV32 R2,  #0x40400000
-	ORR R0, R0, R2 ; set interrupt
-	STR R0, [R1]
-; NVIC has to be enabled
-; Interrupts 64-95 are handled by NVIC register EN2
-; Interrupt 94 is controlled by bit 30-31
-	LDR R1, =NVIC_EN0
-	LDR R0, [R1] 
-	ORR R0, R0, #0xC0000000; set bit 30-31 to enable interrupt 94-95
-	STR R0, [R1]
+;	LDR R1, =NVIC_PRI4
+;	LDR R0, [R1]
+;	MOV32 R2, #0x0000FFFF
+;	AND R0, R0, R2 ; clear interrupt
+;	MOV32 R2,  #0x40400000
+;	ORR R0, R0, R2 ; set interrupt
+;	STR R0, [R1]
+;; NVIC has to be enabled
+;; Interrupts 64-95 are handled by NVIC register EN2
+;; Interrupt 94 is controlled by bit 30-31
+;	LDR R1, =NVIC_EN0
+;	LDR R0, [R1] 
+;	ORR R0, R0, #0xC0000000; set bit 30-31 to enable interrupt 94-95
+;	STR R0, [R1]
     POP{LR}
     POP{R0-R12}
     BX  LR      

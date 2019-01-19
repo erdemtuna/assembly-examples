@@ -4,6 +4,13 @@
 Memory_Battleship	EQU 0x20000700
 Memory_Civilianship	EQU 0x20000734
 Memory_Mine			EQU 0x20000768
+	
+Axis_X_Slice		EQU 56
+Axis_Y_Slice		EQU 825
+	
+Axis_X_Offset		EQU 6
+Axis_Y_Offset		EQU 1
+	
 ;LABEL		DIRECTIVE	VALUE			COMMENT
 	AREA    |.text|, READONLY, CODE
 	THUMB
@@ -154,10 +161,14 @@ Load_GameBorder
 	MOV R2, #0 ; difference counter
 	MOV R6, #0 ; ship counter
 	
-Set_Coordinates
+Deploy_Ships
 	;BL delayTrans
-	BL Placement_Battleship_Output ; print battleships while deployment
-	BL Placement_Civilianship_Output ; print civilianships while deployment
+	LDR R8, = Memory_Battleship
+	LDR R5, = MSG_Battleship
+	BL MineShip_Output_Display ; print battleships while deployment
+	LDR R8, = Memory_Civilianship
+	LDR R5, = MSG_Civilianship
+	BL MineShip_Output_Display ; print battleships while deployment
 	BL Clear_Interrupt_Status ; clear button interrupts
 	CMP R6, #4 ; check if all ships are deployed
 	BEQ Placement_Done
@@ -165,13 +176,13 @@ Set_Coordinates
 	MOV R1, #0 ; clear y-coordinate
 	MOV R2, #0 ; reset counter
 	BL ADC_0_Read_X
-	MOV R3, #56
+	LDR R3, = Axis_X_Slice
 	BL Find_Pixel_Coordinate ; x-coordinae
 	BL ADC_1_Read_Y
-	MOV R3, #825
+	LDR R3, = Axis_Y_Slice
 	BL Find_Pixel_Coordinate
-	ADD R0, R0, #6 ; add x axis offset
-	ADD R1, R1, #1 ; add y axis offset
+	ADD R0, R0, #Axis_X_Offset ; add x axis offset
+	ADD R1, R1, #Axis_Y_Offset ; add y axis offset
 	CMP R0, R10 ; check if x coordinate has changed
 	ADDNE R2, #1
 	CMP R1, R11 ; check if y coordinate has changed
@@ -180,23 +191,24 @@ Set_Coordinates
 		       ; if R2 != 0, then at least one of the coordinates
 			   ; have changed
 	BEQ Go_Check_Ship_Placement; !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	B Clear_Old_Cursor 
+	BL Update_Cursor 
 Go_Check_Ship_Placement
-	BL Check_Ship_Placement
-	B Set_Coordinates
+	;BL Check_Ship_Placement
+	B Deploy_Ships
 
 ;-------------------------------------------
-; Clears the position of old cursor by writing
-; 0 pixels on top of it.
-; Saves the new cursor coordinates
+; Updates the position of the cursor.
+; Pass old coordinates in R10(x) and R11(y);
+; Pass new coordinates in R0(x) and R1(y).
 ;-------------------------------------------
-Clear_Old_Cursor
+Update_Cursor
+	PUSH{R3-R9,LR}
 	PUSH{R0-R2} ; save new coordinates
 	MOV R0, R10 ; old x coordinate
 	MOV R1, R11 ; old y coordinate
 	BL SetCoordinate
 	LDR	R5,=MSG_Clear_Cursor
-	BL	OutStrNokia
+	BL OutStrNokia
 	POP{R0-R2} ; pop new coordinates
 	MOV R10, R0 ; save change
 	MOV R11, R1 ; save change
@@ -204,9 +216,11 @@ Clear_Old_Cursor
 	B Move_Cursor
 Move_Cursor		
 	LDR	R5,=MSG_Cursor
-	BL	OutStrNokia
+	BL OutStrNokia
 ;	BL delayTrans
-	B	Set_Coordinates
+	POP{R3-R9,LR}
+	BX LR
+	
 donethis	B		donethis
 
 ;-------------------------------------------
@@ -246,95 +260,54 @@ Determine_Ship_Type
 	CMP R9, #0x10 ; if R9 == 0x10, place a batlleship
 				  ; if R9 < 0x10, place a civilianship
 				  ; if R9 > 0x10, ship placement is done
-	BEQ Placement_Battleship_Save
-	BLO Placement_Civilianship_Save
+;	BEQ Placement_Battleship_Save
+;	BLO Placement_Civilianship_Save
 ;	B	Placement_Done
-
-;-------------------------------------------
-; Saves the location of battleship
-;-------------------------------------------
-Placement_Battleship_Save
-	PUSH{R0-R5,R7-R12}
-	ADD R6, R6, #1 ; increase the ship count
-	LDR R3, = Memory_Battleship
-Find_Battleship_Zero_Memory
-	LDRB R4, [R3], #2
-	CMP R4, #0
-	BNE Find_Battleship_Zero_Memory
-	SUB R3, R3, #2
-	STRB R0, [R3], #1 ; store x coordinate of the ship
-	STRB R1, [R3], #1 ; store y coordinate of the ship
-	POP{R0-R5,R7-R12}
-	POP{LR}
-	BX LR ; return to last call of Check_Ship_Placement
 	
 ;-------------------------------------------
-; Saves the location of civilianship
+; Outputs specified symbol, if saved to memory.
+; Pass Memory Location in R8.
 ;-------------------------------------------
-Placement_Civilianship_Save
-	PUSH{R0-R5,R7-R12}
-	ADD R6, R6, #1 ; increase the ship count
-	LDR R3, = Memory_Civilianship
-Find_Civilianship_Zero_Memory
-	LDRB R4, [R3], #2
-	CMP R4, #0
-	BNE Find_Civilianship_Zero_Memory
-	SUB R3, R3, #2
-	STRB R0, [R3], #1 ; store x coordinate of the ship
-	STRB R1, [R3], #1 ; store y coordinate of the ship
-	POP{R0-R5,R7-R12}
-	POP{LR}
-	BX LR ; return to last call of Check_Ship_Placement
-
-;-------------------------------------------
-; Outputs all battleships
-; Returns nothing
-; If there is no ships, doesn't output at all.
-;-------------------------------------------
-Placement_Battleship_Output	
-	PUSH{R0-R5,R7-R12}
-	PUSH{LR}
-	LDR R3, = Memory_Battleship ; battleship memory address
-Output_Battleship
-	LDRB R0, [R3], #1 ; load x coordinate of the ship
-	CMP R0, #0
-	BEQ Placement_Battleship_Output_Return ; if R0 == 0, then it is end of battleships
-										   ; return 
-	LDRB R1, [R3], #1 ; load y coordinate of the ship
-	BL SetCoordinate
-	LDR	R5, = MSG_Battleship
-	BL	OutStrNokia
-	;BL delayTrans
-	B Output_Battleship ; loop through all battleships	
-Placement_Battleship_Output_Return	
-	POP{LR}
-	POP{R0-R5,R7-R12}
-	BX LR
-	
-;-------------------------------------------
-; Outputs all battleships
-; Returns nothing
-; If there is no ships, doesn't output at all.
-;-------------------------------------------
-Placement_Civilianship_Output	
+MineShip_Coordinate_Save
 	PUSH{R0-R12}
 	PUSH{LR}
-	LDR R3, = Memory_Civilianship ; battleship memory address
-Output_Civilianship
-	LDRB R0, [R3], #1 ; load x coordinate of the ship
+	;ADD R6, R6, #1 ; increase the ship count
+	;LDR R8, = Memory_Battleship
+MineShip_Zero_Memory
+	LDRB R4, [R8], #2
+	CMP R4, #0
+	BNE MineShip_Zero_Memory
+	SUB R8, R8, #2
+	STRB R0, [R8], #1 ; store x coordinate of the ship
+	STRB R1, [R8], #1 ; store y coordinate of the ship
+	POP{LR}
+	POP{R0-R12}
+	BX LR ; return to last call of Check_Ship_Placement
+
+;-------------------------------------------
+; Outputs specified symbol, if saved to memory.
+; Pass Memory Location in R8, and message in R5.
+;-------------------------------------------
+MineShip_Output_Display	
+	PUSH{R0-R12}
+	PUSH{LR}
+	;LDR R8, = Memory_Battleship ; battleship memory address
+Output_Battleship
+	LDRB R0, [R8], #1 ; load x coordinate of the ship
 	CMP R0, #0
-	BEQ Placement_Civilianship_Output_Return ; if R0 == 0, then it is end of battleships
+	BEQ MineShip_Output_Display_Return ; if R0 == 0, then it is end of saved symbols
 										   ; return 
-	LDRB R1, [R3], #1 ; load y coordinate of the ship
+	LDRB R1, [R8], #1 ; load y coordinate of the ship
 	BL SetCoordinate
-	LDR	R5, = MSG_Civilianship
+	;LDR	R5, = MSG_Battleship
 	BL	OutStrNokia
 	;BL delayTrans
-	B Output_Civilianship ; loop through all battleships
-Placement_Civilianship_Output_Return	
+	B Output_Battleship ; loop through all saved symbols	
+MineShip_Output_Display_Return	
 	POP{LR}
 	POP{R0-R12}
 	BX LR
+	
 ;************************ SECOND PLAYER PHASE ************************
 Wait_for_Second_Player
 	BL Clear_Interrupt_Status ; clear button interrupts
@@ -368,8 +341,8 @@ Place_Mines_Init
 	BL	ClearNokia ; clear the screen
 	LDR	R5,=gameplayBorder 
 	BL	OutImgNokia ; output the border
-	BL Placement_Battleship_Output ; print battleships while deployment
-	BL Placement_Civilianship_Output ; print civilianships while deployment
+;	BL Placement_Battleship_Output ; print battleships while deployment
+;	BL Placement_Civilianship_Output ; print civilianships while deployment
 	MOV R4, #0
 	BL Clear_Interrupt_Status ; clear button interrupts
 Wait_Mine_Interrupt
@@ -386,10 +359,10 @@ Set_Coordinates_Mine
 	MOV R1, #0 ; clear y-coordinate
 	MOV R2, #0 ; reset counter
 	BL ADC_0_Read_X
-	MOV R3, #56
+	LDR R3, = Axis_X_Slice
 	BL Find_Pixel_Coordinate ; x-coordinae
 	BL ADC_1_Read_Y
-	MOV R3, #825
+	LDR R3, = Axis_Y_Slice
 	BL Find_Pixel_Coordinate
 	ADD R0, R0, #6 ; add x axis offset
 	ADD R1, R1, #1 ; add y axis offset
@@ -445,7 +418,7 @@ Mine_Placement
 Find_Mine_Zero_Memory
 	LDRB R4, [R3], #2
 	CMP R4, #0
-	BNE Find_Civilianship_Zero_Memory
+;	BNE Find_Civilianship_Zero_Memory
 	SUB R3, R3, #2
 	STRB R0, [R3], #1 ; store x coordinate of the mine
 	STRB R1, [R3], #1 ; store y coordinate of the mine
