@@ -45,6 +45,11 @@ MAX	EQU	0x1312D00 ; 20e6 useconds
 DECREASE EQU 0xF4240 ; 1e6 useconds
 MAX_TIMER_A EQU 0x7A120 ; 5e5 useconds
 Coordinate_Timer_X EQU 74
+Memory_Battleship	EQU 0x20000700
+Memory_Civilianship	EQU 0x20000734
+Memory_Mine			EQU 0x20000768
+Memory_ShipCount	EQU 0x2000079C
+Memory_GamePhase	EQU 0x200007D0
 ;---------------------------------------------------
 	AREA    |.text|, READONLY, CODE
 	THUMB
@@ -147,6 +152,10 @@ WideTimer0A_Handler	PROC
 	LDR R1, =TIMER0_ICR	
 	MOV R0, #0xF
 	STR R0, [R1]
+	LDR R6, = Memory_GamePhase
+	LDRB R9, [R6]
+	ADD R9, R9, #1
+	STRB R9, [R6]
 	BL	OutStrNokia	
 	BL	ClearNokia ; clear the screen
 	LDR	R5,=gameplayBorder 

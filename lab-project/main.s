@@ -4,6 +4,8 @@
 Memory_Battleship	EQU 0x20000700
 Memory_Civilianship	EQU 0x20000734
 Memory_Mine			EQU 0x20000768
+Memory_ShipCount	EQU 0x2000079C
+Memory_GamePhase	EQU 0x200007D0
 	
 Axis_X_Slice		EQU 56
 Axis_Y_Slice		EQU 825
@@ -98,10 +100,12 @@ MSG_WaitUser2 DCB	"Waiting for      player2 to press both buttons.",0x04
 	EXTERN	Timers_Init
 	EXTERN	Enable_Timers
 			
-	EXPORT Start
+	EXPORT EE447_Project_Start
 	EXPORT Set_Coordinates_Mine
+	EXPORT MineShip_Coordinate_Save
+	EXPORT MineShip_Output_Display
 				
-Start	
+EE447_Project_Start	
 	BL Nokia_Init ; initialize LCD
 	BL Timers_Init ; initialize LCD
 	BL ADC_Init ; initialize ADC
@@ -131,6 +135,20 @@ Clear_Mine_Memory
 	STR R4, [R3], #4
 	SUBS R2, #1
 	BNE Clear_Mine_Memory
+	MOV R2, #4 ; counter to clear 16 bytes
+	LDR R3, = Memory_ShipCount ; battleship memory address
+Clear_Memory_ShipCount
+	MOV R4, #0x00000000
+	STR R4, [R3], #4
+	SUBS R2, #1
+	BNE Clear_Memory_ShipCount
+	MOV R2, #4 ; counter to clear 16 bytes
+	LDR R3, = Memory_GamePhase ; battleship memory address
+Clear_Memory_GamePhase
+	MOV R4, #0x00000000
+	STR R4, [R3], #4
+	SUBS R2, #1
+	BNE Clear_Memory_GamePhase
 
 	
 	
@@ -159,22 +177,35 @@ Load_GameBorder
 	MOV R10, #99 ; old x coordinate
 	MOV R11, #99 ; old y coordinate 
 	MOV R2, #0 ; difference counter
-	MOV R6, #0 ; ship counter
+	MOV R7, #0 ; ship counter
+	MOV R9, #0 ; game phase indicator
+				; 0 means ship deployment
+				; 1 means ship deployment is done, wait handover
+				; 2 means handover done, wait player2
+				; 3 means mine deployment
 	
 Deploy_Ships
 	;BL delayTrans
+	LDR R6, = Memory_GamePhase
+	LDRB R9, [R6]
+	CMP R9, #0 ; check game phase
+				; 0 means ship deployment
+	BLO Deploy_Ships_Done
 	LDR R8, = Memory_Battleship
 	LDR R5, = MSG_Battleship
 	BL MineShip_Output_Display ; print battleships while deployment
+	
 	LDR R8, = Memory_Civilianship
 	LDR R5, = MSG_Civilianship
 	BL MineShip_Output_Display ; print battleships while deployment
+	
 	BL Clear_Interrupt_Status ; clear button interrupts
-	CMP R6, #4 ; check if all ships are deployed
-	BEQ Placement_Done
+	LDR R6, = Memory_ShipCount
+	LDRB R7, [R6]
+	CMP R7, #4 ; check if all ships are deployed
+	BEQ Deploy_Ships_Done_C
 	MOV R0, #0 ; clear x-coordinate
 	MOV R1, #0 ; clear y-coordinate
-	MOV R2, #0 ; reset counter
 	BL ADC_0_Read_X
 	LDR R3, = Axis_X_Slice
 	BL Find_Pixel_Coordinate ; x-coordinae
@@ -183,19 +214,70 @@ Deploy_Ships
 	BL Find_Pixel_Coordinate
 	ADD R0, R0, #Axis_X_Offset ; add x axis offset
 	ADD R1, R1, #Axis_Y_Offset ; add y axis offset
-	CMP R0, R10 ; check if x coordinate has changed
-	ADDNE R2, #1
-	CMP R1, R11 ; check if y coordinate has changed
-	ADDNE R2, #1
-	CMP R2, #0 ; if R2 == 0, then coordinates remained same, check again
-		       ; if R2 != 0, then at least one of the coordinates
-			   ; have changed
-	BEQ Go_Check_Ship_Placement; !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	BL Update_Cursor 
-Go_Check_Ship_Placement
-	;BL Check_Ship_Placement
 	B Deploy_Ships
+	
+Deploy_Ships_Done_C
+	BL Clear_Cursor
+	LDR R6, = Memory_GamePhase
+	LDRB R9, [R6]
+	ADD R9, R9, #1 ; change game phase to 1.
+	STRB R9, [R6]
+	LDR R8, = Memory_Battleship
+	LDR R5, = MSG_Battleship
+	BL MineShip_Output_Display ; print battleships while deployment
+	
+	LDR R8, = Memory_Civilianship
+	LDR R5, = MSG_Civilianship
+	BL MineShip_Output_Display ; print battleships while deployment
+Deploy_Ships_Done
+	LDR R6, = Memory_GamePhase
+	LDRB R9, [R6]
+	CMP R9, #1 ; check game phase
+				; 1 means ship deployment is done, wait handover
+	BLO Deploy_Ships
+	BHI Wait_Player2_Output
+	B Deploy_Ships_Done
+Wait_Player2
+	LDR R6, = Memory_GamePhase
+	LDRB R9, [R6]
+	CMP R9, #2 ; check game phase
+				; 2 means handover done, wait player2
+	BLO Deploy_Ships_Done
+	BHI Deploy_Mine
 
+	B Wait_Player2
+Wait_Player2_Output
+	BL	ClearNokia
+	MOV	R0, #0
+	MOV	R1, #1
+	BL	SetCoordinate	
+	LDR	R5,=MSG_WaitUser2
+	BL	OutStrNokia
+	B Wait_Player2
+	
+Deploy_Mine
+	LDR R6, = Memory_GamePhase
+	LDRB R9, [R6]
+	CMP R9, #3 ; check game phase
+				;3 means mine deployment
+	BLO Wait_Player2
+Deploy_Mine_Cursor
+	LDR R8, = Memory_Mine
+	LDR R5, = MSG_Mine
+	BL MineShip_Output_Display ; print battleships while deployment
+	MOV R0, #0 ; clear x-coordinate
+	MOV R1, #0 ; clear y-coordinate
+	BL ADC_0_Read_X
+	LDR R3, = Axis_X_Slice
+	BL Find_Pixel_Coordinate ; x-coordinae
+	BL ADC_1_Read_Y
+	LDR R3, = Axis_Y_Slice
+	BL Find_Pixel_Coordinate
+	ADD R0, R0, #Axis_X_Offset ; add x axis offset
+	ADD R1, R1, #Axis_Y_Offset ; add y axis offset
+	BL Update_Cursor 
+	B Deploy_Mine_Cursor
 ;-------------------------------------------
 ; Updates the position of the cursor.
 ; Pass old coordinates in R10(x) and R11(y);
@@ -212,12 +294,31 @@ Update_Cursor
 	POP{R0-R2} ; pop new coordinates
 	MOV R10, R0 ; save change
 	MOV R11, R1 ; save change
+	PUSH{R0-R2} ; save new coordinates
 	BL SetCoordinate
 	B Move_Cursor
 Move_Cursor		
 	LDR	R5,=MSG_Cursor
 	BL OutStrNokia
+	POP{R0-R2} ; pop new coordinates
 ;	BL delayTrans
+	POP{R3-R9,LR}
+	BX LR
+	
+;-------------------------------------------
+; Clears the position of the cursor. NO NEW OUTPUT
+; Pass old coordinates in R10(x) and R11(y);
+; Pass new coordinates in R0(x) and R1(y).
+;-------------------------------------------
+Clear_Cursor
+	PUSH{R3-R9,LR}
+	PUSH{R0-R2} ; save new coordinates
+	MOV R0, R10 ; old x coordinate
+	MOV R1, R11 ; old y coordinate
+	BL SetCoordinate
+	LDR	R5,=MSG_Clear_Cursor
+	BL OutStrNokia
+	POP{R0-R2} ; pop new coordinates
 	POP{R3-R9,LR}
 	BX LR
 	
@@ -271,7 +372,7 @@ Determine_Ship_Type
 MineShip_Coordinate_Save
 	PUSH{R0-R12}
 	PUSH{LR}
-	;ADD R6, R6, #1 ; increase the ship count
+	;ADD R7, R7, #1 ; increase the ship count
 	;LDR R8, = Memory_Battleship
 MineShip_Zero_Memory
 	LDRB R4, [R8], #2

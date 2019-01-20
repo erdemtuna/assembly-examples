@@ -273,8 +273,8 @@ Reset_Handler
         ; the .data section initializers from flash to SRAM and zero fill the
         ; .bss section.
         ;
-        IMPORT  Start
-        B       Start     ;call user assembly language program
+        IMPORT  EE447_Project_Start
+        B       EE447_Project_Start     ;call user assembly language program
 
 ;******************************************************************************
 ;
