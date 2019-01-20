@@ -6,7 +6,7 @@
 ;Nested Vector Interrupt Controller registers
 ;NVIC_EN0_INT94		EQU 0x00080000 ; Interrupt 94 enable
 NVIC_EN0			EQU 0xE000E108 ; IRQ 0 to 31 Set Enable Register
-NVIC_PRI4			EQU 0xE000E45C ; IRQ 92 to 95 Priority Register
+NVIC_PRI4			EQU 0xE000E41C ; IRQ 92 to 95 Priority Register
 	
 ; 32/64 Timer Registers
 TIMER0_CFG			EQU 0x40036000
@@ -45,11 +45,7 @@ MAX	EQU	0x1312D00 ; 20e6 useconds
 DECREASE EQU 0xF4240 ; 1e6 useconds
 MAX_TIMER_A EQU 0x7A120 ; 5e5 useconds
 Coordinate_Timer_X EQU 74
-Memory_Battleship	EQU 0x20000700
-Memory_Civilianship	EQU 0x20000734
-Memory_Mine			EQU 0x20000768
-Memory_ShipCount	EQU 0x2000079C
-Memory_GamePhase	EQU 0x200007D0
+Memory_TimerFinish	EQU 0x2000079C
 ;---------------------------------------------------
 	AREA    |.text|, READONLY, CODE
 	THUMB
@@ -152,10 +148,6 @@ WideTimer0A_Handler	PROC
 	LDR R1, =TIMER0_ICR	
 	MOV R0, #0xF
 	STR R0, [R1]
-	LDR R6, = Memory_GamePhase
-	LDRB R9, [R6]
-	ADD R9, R9, #1
-	STRB R9, [R6]
 	BL	OutStrNokia	
 	BL	ClearNokia ; clear the screen
 	LDR	R5,=gameplayBorder 
@@ -303,8 +295,12 @@ R1s
 	LDR R4, = MSG_1s ; save the string in R4
 	B Output_Remaning_Time
 R0s 
+	LDR R3, = Memory_TimerFinish
+	MOV R2, #0x1
+	STRB R2, [R3]
 	LDR R4, = MSG_0s ; save the string in R4
 	B Output_Remaning_Time
+
 
 
 

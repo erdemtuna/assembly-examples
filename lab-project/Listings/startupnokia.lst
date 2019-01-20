@@ -483,10 +483,9 @@ ARM Macro Assembler    Page 8
                        zero fill the
   274 0000026C         ; .bss section.
   275 0000026C         ;
-  276 0000026C                 IMPORT           EE447_Project_Start
-  277 0000026C F7FF BFFE       B                EE447_Project_Start ;call user 
-                                                            assembly language p
-                                                            rogram
+  276 0000026C                 IMPORT           Start
+  277 0000026C F7FF BFFE       B                Start       ;call user assembly
+                                                             language program
   278 00000270         
   279 00000270         ;*******************************************************
                        ***********************
@@ -518,13 +517,13 @@ ARM Macro Assembler    Page 8
   297 00000272         ;*******************************************************
                        ***********************
   299 00000272         HardFault_Handler
+                               PROC
 
 
 
 ARM Macro Assembler    Page 9 
 
 
-                               PROC
   300 00000272                 EXPORT           HardFault_Handler         [WEAK
 ]
   301 00000272 E7FE            B                .
@@ -583,13 +582,13 @@ ARM Macro Assembler    Page 9
 ]
   342 00000282                 EXPORT           GPIOPortD_Handler         [WEAK
 ]
+  343 00000282                 EXPORT           GPIOPortE_Handler         [WEAK
 
 
 
 ARM Macro Assembler    Page 10 
 
 
-  343 00000282                 EXPORT           GPIOPortE_Handler         [WEAK
 ]
   344 00000282                 EXPORT           UART0_Handler             [WEAK
 ]
@@ -648,13 +647,13 @@ ARM Macro Assembler    Page 10
   371 00000282                 EXPORT           GPIOPortH_Handler         [WEAK
 ]
   372 00000282                 EXPORT           UART2_Handler             [WEAK
+]
 
 
 
 ARM Macro Assembler    Page 11 
 
 
-]
   373 00000282                 EXPORT           SSI1_Handler              [WEAK
 ]
   374 00000282                 EXPORT           Timer3A_Handler           [WEAK
@@ -713,13 +712,13 @@ ARM Macro Assembler    Page 11
 ]
   401 00000282                 EXPORT           UART6_Handler             [WEAK
 ]
+  402 00000282                 EXPORT           UART7_Handler             [WEAK
 
 
 
 ARM Macro Assembler    Page 12 
 
 
-  402 00000282                 EXPORT           UART7_Handler             [WEAK
 ]
   403 00000282                 EXPORT           I2C2_Handler              [WEAK
 ]
@@ -778,13 +777,13 @@ ARM Macro Assembler    Page 12
   430 00000282                 EXPORT           GPIOPortP_Handler         [WEAK
 ]
   431 00000282                 EXPORT           GPIOPortP1_Handler        [WEAK
+]
 
 
 
 ARM Macro Assembler    Page 13 
 
 
-]
   432 00000282                 EXPORT           GPIOPortP2_Handler        [WEAK
 ]
   433 00000282                 EXPORT           GPIOPortP3_Handler        [WEAK
@@ -843,13 +842,13 @@ ARM Macro Assembler    Page 13
   466 00000282         PWM0Generator2_Handler
   467 00000282         Quadrature0_Handler
   468 00000282         ADC0Seq0_Handler
+  469 00000282         ADC0Seq1_Handler
 
 
 
 ARM Macro Assembler    Page 14 
 
 
-  469 00000282         ADC0Seq1_Handler
   470 00000282         ADC0Seq2_Handler
   471 00000282         ADC0Seq3_Handler
   472 00000282         WDT_Handler
@@ -908,13 +907,13 @@ ARM Macro Assembler    Page 14
   525 00000282         WideTimer0B_Handler
   526 00000282         WideTimer1A_Handler
   527 00000282         WideTimer1B_Handler
+  528 00000282         WideTimer2A_Handler
 
 
 
 ARM Macro Assembler    Page 15 
 
 
-  528 00000282         WideTimer2A_Handler
   529 00000282         WideTimer2B_Handler
   530 00000282         WideTimer3A_Handler
   531 00000282         WideTimer3B_Handler
@@ -973,13 +972,13 @@ ARM Macro Assembler    Page 15
   581 00000284         ;
   582 00000284         ; Some code in the normal code section for initializing 
                        the heap and stack.
+  583 00000284         ;
 
 
 
 ARM Macro Assembler    Page 16 
 
 
-  583 00000284         ;
   584 00000284         ;*******************************************************
                        ***********************
   585 00000284                 AREA             |.text|, CODE, READONLY
@@ -1038,13 +1037,13 @@ ARM Macro Assembler    Page 16
   633 00000016         ; inputs:  none
   634 00000016         ; outputs: none
   635 00000016         WaitForInterrupt
+  636 00000016 BF30            WFI
 
 
 
 ARM Macro Assembler    Page 17 
 
 
-  636 00000016 BF30            WFI
   637 00000018 4770            BX               LR
   638 0000001A         
   639 0000001A         
@@ -2488,13 +2487,13 @@ Symbol: Stack
 ARM Macro Assembler    Page 1 Alphabetic symbol ordering
 External symbols
 
-EE447_Project_Start 00000000
+Start 00000000
 
-Symbol: EE447_Project_Start
+Symbol: Start
    Definitions
       At line 276 in file StartupNokia.s
    Uses
       At line 277 in file StartupNokia.s
-Comment: EE447_Project_Start used once
+Comment: Start used once
 1 symbol
 477 symbols in table
